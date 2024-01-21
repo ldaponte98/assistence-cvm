@@ -1,0 +1,12 @@
+.white{
+    color: white;
+}
+.bg-primary{
+    background-color: #c13838 !important;
+}
+.center{
+    text-align: center;
+}
+.ui-autocomplete{
+    z-index: 9999999;
+}
