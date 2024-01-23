@@ -6,13 +6,29 @@ class PeopleType
     const PASTOR = "PASTOR";
     const SEGMENT_LEADER = "SEGMENT_LEADER";
     const LEADER = "LEADER";
-    const ASSISTANT = "ASSISTANT";
+    const MENTOR = "BELIEVER";
+    const FOLLOWER = "FOLLOWER";
+    const NEW_BELIEVER = "NEW_BELIEVER";
+
+    const LIST = [
+        ["code" => PeopleType::PASTOR, "text" => "Pastor"],
+        ["code" => PeopleType::SEGMENT_LEADER, "text" => "Lider de segmento"],
+        ["code" => PeopleType::LEADER, "text" => "Lider"],
+        ["code" => PeopleType::MENTOR, "text" => "Mentor"],
+        ["code" => PeopleType::FOLLOWER, "text" => "Discipulo"],
+        ["code" => PeopleType::NEW_BELIEVER, "text" => "Nuevo creyente"],
+    ];
+
+    public static function get($code)
+    {
+        foreach (PeopleType::LIST as $type) {
+            if($type["code"] == $code) return $type["text"];
+        }
+        return "Desconocido";
+    }
 
     public static function list()
     {
-        $profile = session('profile_id');
-        return [
-            [ "value" => SUPERADMIN, "text" => "Super administrador" ]
-        ];
+    
     }
 }

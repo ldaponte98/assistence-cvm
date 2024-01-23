@@ -23,4 +23,9 @@ class People extends Model
     {
         return $this->fullname . " " . $this->lastname;
     }
+
+    public function getAvatar()
+    {
+        return $this->gender == 'F' ? asset('images/women.png') : asset('images/men.png');
+    }
 }

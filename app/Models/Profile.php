@@ -22,7 +22,7 @@ class Profile extends Model
     {
         $fathers = [];
         $children = [];
-        foreach ($this->menus as $menu_profile) { 
+        foreach ($this->menus->sortBy('menu.orden') as $menu_profile) { 
             if($menu_profile->menu->father_id == null) {
                 $father = $menu_profile->menu;
                 $father->children = [];

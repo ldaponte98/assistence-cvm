@@ -10,7 +10,7 @@
                             <h3 class="mb-0  text-white">Usuarios</h3>
                         </div>
                         <div>
-                            <button class="btn btn-white" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Nuevo usuario</button>
+                            <button id="btn-user" class="btn btn-white" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Nuevo usuario</button>
                             <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
                                 <div class="offcanvas-header">
                                     <h4 id="offcanvasRightLabel"><b>Gestion de usuario</b></h4>
@@ -43,7 +43,7 @@
                             <tbody>
                                 @foreach ($users as $user)
                                     <tr>
-                                        <td><img alt="avatar" src="{{ $user->getAvatar() }}" class="rounded-circle" width="30" /> {{ $user->username }}</td>
+                                        <td><img alt="avatar" src="{{ $user->people->getAvatar() }}" class="rounded-circle" width="30" /> {{ $user->username }}</td>
                                         <td>{{ $user->profile->name }}</td>
                                         <td>{{ $user->people->names() . " (Tel: ".$user->people->phone.")" }}</td>
                                         <td class="center">
@@ -54,15 +54,15 @@
                                             @endif
                                         </td>
                                         <td class="center">
-                                            <button data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Editar usuario" type="button" class="btn btn-icon btn-white border border-2 rounded-circle btn-dashed ms-2">
+                                            <button onclick="openEdit('{{json_encode($user)}}')" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Editar usuario" type="button" class="btn btn-icon btn-white border border-2 rounded-circle btn-dashed ms-2">
                                                 <i data-feather="edit-2" class="nav-icon icon-xs"></i>
                                             </button>
                                             @if ($user->status == 1)
-                                                <button data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Inactivar usuario" type="button" class="btn btn-icon btn-white border border-2 rounded-circle btn-dashed ms-2">
+                                                <button onclick="changeStatus({{$user->id}}, 0)" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Inactivar usuario" type="button" class="btn btn-icon btn-white border border-2 rounded-circle btn-dashed ms-2">
                                                     <i data-feather="slash" class="nav-icon icon-xs"></i>
                                                 </button>
                                             @else
-                                                <button data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Activar usuario" type="button" class="btn btn-icon btn-white border border-2 rounded-circle btn-dashed ms-2">
+                                                <button onclick="changeStatus({{$user->id}}, 1)" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Activar usuario" type="button" class="btn btn-icon btn-white border border-2 rounded-circle btn-dashed ms-2">
                                                     <i data-feather="slash" class="nav-icon icon-xs"></i>
                                                 </button>
                                             @endif

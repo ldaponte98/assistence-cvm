@@ -4,8 +4,7 @@
 	<title>Asistencia | CVM</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" href="https://www.iglesiacvm.com/wp-content/uploads/2021/02/cropped-favicon-32x32.png"
-    sizes="32x32">
+	<link rel="icon" href="{{asset('images/logo.png')}}" sizes="32x32">
 	<link rel="stylesheet" type="text/css" href="{{ asset('template/login/vendor/bootstrap/css/bootstrap.min.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{ asset('template/login/fonts/font-awesome-4.7.0/css/font-awesome.min.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{ asset('template/login/fonts/iconic/css/material-design-iconic-font.min.css')}}">

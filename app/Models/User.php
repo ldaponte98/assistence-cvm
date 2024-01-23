@@ -9,8 +9,9 @@ class User extends Model
     protected $table      = 'user';
     protected $fillable = [
         'profile_id',
-        'tpeople_id',
+        'people_id',
         'username',
+        'password',
         'status',
     ];
     
@@ -22,10 +23,5 @@ class User extends Model
     public function profile()
     {
         return $this->belongsTo(Profile::class, 'profile_id');
-    }
-
-    public function getAvatar()
-    {
-        return $this->people->gender == 'F' ? asset('images/women.png') : asset('images/men.png');
     }
 }

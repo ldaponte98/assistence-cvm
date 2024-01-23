@@ -4,7 +4,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\People;
+use App\Shared\Log;
 use App\Shared\PeopleType;
+use Illuminate\Support\Facades\DB;
+use Exception;
 
 class UserController extends Controller
 {
@@ -47,51 +50,87 @@ class UserController extends Controller
     public function all()
     {
         $users = User::all();
-        return view('user.all.all', compact(['users']));
-        
+        return view('user.all.all', compact(['users'])); 
     }
 
-    public function get($id)
+    public function create(Request $request)
     {
-        $user = User::find($id);
-        $readonly = true;
-        if($user == null) { echo "Acceso denegado"; die; }
-        return view('user.form.form', compact(['user', 'readonly']));
-    }
-
-    public function form(Request $request, $id = null)
-    {
-        $readonly = false;
-        $post = $request->all();
-        $user = new User;
-        $user->status = 1;
-        $user->people = new People;
-        $original_password=null;
-        if($id != null){
-            $user = User::find($id);
-            if($user == null) { echo "Acceso denegado"; die; }
-            $original_password = $user->password;
-        }
-        if($post){
+        try {
+            $post = $request->all();        
+            if($post == null) throw new Exception("Error de información enviada");
             $post = (object) $post;
+            $validation = User::where('username', $post->username)->first();
+            if($validation != null){
+                throw new Exception("El nombre de usuario ya se encuentra registrado");
+            }
             $user = new User;
-            if($id != null) $user = User::find($id);
+            $user->status = 1;
+            $user->created_by_id = session("id");
+            
             $user->fill($request->all());
-            $people = $user->people;
-            if($people == null) $people = new People;
-            $people->fill($request->all());
-            $people->save();
-            $user->people_id = $people->id;
-            if($post->password != $original_password){
-                $password = md5($post->password);
-                $user->password = $password;
-            }
+            $user->password = md5($post->password);
+            $user->people_id = $this->getPeopleFromText($post->people);
             if(!$user->save()){
-                echo "Ocurrio el siguiente inconveniente: <br>";
-                dd($user->errors);
+                throw new Exception("Ocurrio un error interno al almacenar el usuario, comuniquese con el administrador del sistema");
             }
-            return redirect()->route('user/all');
+            Log::save("Registro un nuevo usuario [".$post->username."]");
+            return $this->responseApi(false, "Usuario registrado exitosamente");
+        } catch (Exception $e) {
+            return $this->responseApi(true, $e->getMessage());
         }
-        return view('user.form.form', compact(['user', 'readonly']));
+    }
+
+    public function changeStatus($id, $status)
+    {
+        try {
+            $user = User::find($id);    
+            if($user == null) throw new Exception("Usuario no valido");
+            $user->status = $status;
+            if(!$user->save()){
+                throw new Exception("Ocurrio un error interno al actualizar el usuario, comuniquese con el administrador del sistema");
+            }
+            Log::save("Cambio el estado del usuario a [".($status ? "ACTIVO" : "INACTIVO")."]");
+            return $this->responseApi(false, "Cambio de estado realizado exitosamente");
+        } catch (Exception $e) {
+            return $this->responseApi(true, $e->getMessage());
+        }
+    }
+
+    public function update(Request $request)
+    {
+        try {
+            $post = $request->all();        
+            if($post == null) throw new Exception("Error de información enviada");
+            $post = (object) $post;
+            $user = User::find($post->id);
+            if($user == null) throw new Exception("El usuario no existe");
+            $validation = User::where('username', $post->username)
+                              ->where('id', '<>', $post->id)
+                              ->first();
+            if($validation != null){
+                throw new Exception("El nombre de usuario ya se encuentra registrado");
+            }
+            $user->fill($request->all());
+            $user->people_id = $this->getPeopleFromText($post->people);
+            $user->password = md5($post->password);
+            if(!$user->save()){
+                throw new Exception("Ocurrio un error interno al actualizar el usuario, comuniquese con el administrador del sistema");
+            }
+            Log::save("Actualizo información de usuario [".$post->username."]");
+            return $this->responseApi(false, "Usuario actualizado exitosamente");
+        } catch (Exception $e) {
+            return $this->responseApi(true, $e->getMessage());
+        }
+    }
+
+    public function getPeopleFromText($text_people)
+    {
+        $array = explode("(Tel: ", $text_people);
+        if(count($array) != 2) throw new Exception("El registro de base de datos enviado no es valido");
+        $phone = explode(")", $array[1])[0];
+        if($phone == null || $phone == "") throw new Exception("El registro de base de datos enviado no cumple la estructura definida");
+        $people = People::where('phone', $phone)->first();
+        if($people == null) throw new Exception("El registro de base de datos enviado no es valido segun su numero de telefono");
+        return $people->id;
     }
 }
