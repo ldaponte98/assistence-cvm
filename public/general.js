@@ -123,3 +123,43 @@ function removeColumnTableToExcel(idTable, numColumn) {
       f.innerHTML = ""
   }
 }
+
+function isEmpty(value) {
+  return value == "" || value == null || value == undefined
+}
+
+function isMobile() {
+  return /Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+}
+
+$('body').on('click', 'button.fc-prev-button', function () {
+  if(jQuery.isFunction('callbackPrevCalendar')) callbackPrevCalendar();
+});
+$('body').on('click', 'button.fc-next-button', function () {
+  if(jQuery.isFunction('callbackNextCalendar')) callbackNextCalendar();
+});
+
+FullCalendar.globalLocales.push(function () {
+  'use strict';
+   var es = {
+       code: "es",
+       week: {
+           dow: 1,
+           doy: 4
+       },
+       buttonText: {
+           prev: "Ant",
+           next: "Sig",
+           today: "Hoy",
+           month: "Mes",
+           week: "Semana",
+           day: "Día",
+           list: "Agenda"
+       },
+       weekText: "Sm",
+       allDayText: "Todo el día",
+       moreLinkText: "más",
+       noEventsText: "No hay eventos para mostrar"
+   };
+   return es;
+}());

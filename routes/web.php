@@ -19,4 +19,10 @@ Route::group(['prefix' => 'user'], function () {
 Route::group(['prefix' => 'people'], function () {
 	Route::get('all', [PeopleController::class, 'all'])->name('people/all');
 	Route::get('find-by-characters/{characters}', [PeopleController::class, 'findByCharacters'])->name('people/find-by-characters');
+	Route::put('update', [PeopleController::class, 'update'])->name('people/update');
+	Route::post('create', [PeopleController::class, 'create'])->name('people/create');
+});
+
+Route::group(['prefix' => 'event'], function () {
+	Route::any('all', function () { return view('event.calendar.calendar'); })->name('event/all');
 });

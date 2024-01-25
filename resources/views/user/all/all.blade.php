@@ -10,11 +10,11 @@
                             <h3 class="mb-0  text-white">Usuarios</h3>
                         </div>
                         <div>
-                            <button id="btn-user" class="btn btn-white" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Nuevo usuario</button>
+                            <button id="btn-entity" class="btn btn-white" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">+ Nuevo</button>
                             <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
                                 <div class="offcanvas-header">
                                     <h4 id="offcanvasRightLabel"><b>Gestion de usuario</b></h4>
-                                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                                    <button onclick="clean()" type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                                 </div>
                                 <div class="offcanvas-body">
                                     {{ view("user.form.form") }}
@@ -28,7 +28,14 @@
         <div class="row mt-6">
             <div class="col-md-12 col-12">
                 <div class="card">
-                    <input id="filter-users" type="text" class="form-control" placeholder="Consulta cualquier campo aqui">
+                    <input id="filter-users" list="list-filter" type="text" class="form-control" placeholder="Consulta cualquier campo aqui">
+                    <datalist id="list-filter">
+                        @foreach (\App\Models\Profile::getProfiles() as $item)
+                            <option value="{{ $item->name }}">
+                        @endforeach
+                        <option value="Activo">
+                        <option value="Inactivo">
+                    </datalist>
                     <div class="table-responsive">
                         <table class="table text-nowrap mb-0" id="tb-users">
                             <thead class="table-light">
@@ -36,6 +43,7 @@
                                     <th class="center"><b>Usuario</b></th>
                                     <th class="center"><b>Perfil</b></th>
                                     <th class="center"><b>Registro</b></th>
+                                    <th class="center"><b>Creado por</b></th>
                                     <th class="center"><b>Estado</b></th>
                                     <th class="center"><b>Acciones</b></th>
                                 </tr>
@@ -46,6 +54,7 @@
                                         <td><img alt="avatar" src="{{ $user->people->getAvatar() }}" class="rounded-circle" width="30" /> {{ $user->username }}</td>
                                         <td>{{ $user->profile->name }}</td>
                                         <td>{{ $user->people->names() . " (Tel: ".$user->people->phone.")" }}</td>
+                                        <td>{{ $user->createdBy->username }}</td>
                                         <td class="center">
                                             @if ($user->status == 1)
                                                 <span class="badge bg-success">Activo</span>

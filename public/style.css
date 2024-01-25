@@ -25,3 +25,16 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm {
 .required{
     color: red;
 }
+.hide{
+    display: none;
+}
+
+.fc .fc-toolbar-title {
+    text-transform: uppercase;
+}
+
+@media only screen and (max-width: 600px) {
+    .fc .fc-toolbar{
+        display: block;
+    }
+}

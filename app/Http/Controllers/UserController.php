@@ -5,7 +5,6 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\People;
 use App\Shared\Log;
-use App\Shared\PeopleType;
 use Illuminate\Support\Facades\DB;
 use Exception;
 
@@ -49,7 +48,10 @@ class UserController extends Controller
 
     public function all()
     {
-        $users = User::all();
+        $profile_id = session('profile_id');
+        $users = [];
+        if($profile_id == 1) $users = User::all();
+        if($profile_id != 1) $users = User::all()->where('created_by_id', session('id'));
         return view('user.all.all', compact(['users'])); 
     }
 
@@ -59,18 +61,14 @@ class UserController extends Controller
             $post = $request->all();        
             if($post == null) throw new Exception("Error de información enviada");
             $post = (object) $post;
-            $validation = User::where('username', $post->username)->first();
-            if($validation != null){
-                throw new Exception("El nombre de usuario ya se encuentra registrado");
-            }
-            $user = new User;
-            $user->status = 1;
-            $user->created_by_id = session("id");
-            
-            $user->fill($request->all());
-            $user->password = md5($post->password);
-            $user->people_id = $this->getPeopleFromText($post->people);
-            if(!$user->save()){
+            $entity = new User;
+            $entity->status = 1;
+            $entity->created_by_id = session("id");
+            $entity->fill($request->all());
+            $entity->validate();
+            $entity->password = md5($post->password);
+            $entity->people_id = $this->getPeopleFromText($post->people);
+            if(!$entity->save()){
                 throw new Exception("Ocurrio un error interno al almacenar el usuario, comuniquese con el administrador del sistema");
             }
             Log::save("Registro un nuevo usuario [".$post->username."]");
@@ -102,18 +100,13 @@ class UserController extends Controller
             $post = $request->all();        
             if($post == null) throw new Exception("Error de información enviada");
             $post = (object) $post;
-            $user = User::find($post->id);
-            if($user == null) throw new Exception("El usuario no existe");
-            $validation = User::where('username', $post->username)
-                              ->where('id', '<>', $post->id)
-                              ->first();
-            if($validation != null){
-                throw new Exception("El nombre de usuario ya se encuentra registrado");
-            }
-            $user->fill($request->all());
-            $user->people_id = $this->getPeopleFromText($post->people);
-            $user->password = md5($post->password);
-            if(!$user->save()){
+            $entity = User::find($post->id);
+            if($entity == null) throw new Exception("El usuario no existe");
+            $entity->fill($request->all());
+            $entity->validate();
+            $entity->people_id = $this->getPeopleFromText($post->people);
+            $entity->password = md5($post->password);
+            if(!$entity->save()){
                 throw new Exception("Ocurrio un error interno al actualizar el usuario, comuniquese con el administrador del sistema");
             }
             Log::save("Actualizo información de usuario [".$post->username."]");

@@ -10,11 +10,12 @@
                             <h3 class="mb-0  text-white">Base de datos</h3>
                         </div>
                         <div>
-                            <button class="btn btn-white" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Nuevo</button>
+                            <button onclick="showNew()" class="btn btn-white" type="button">+ Nuevo</button>
+                            <button id="btn-entity" class="hide" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Nuevo</button>
                             <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
                                 <div class="offcanvas-header">
                                     <h4 id="offcanvasRightLabel"><b>Gestion de base de datos</b></h4>
-                                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                                    <button onclick="clean()" type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                                 </div>
                                 <div class="offcanvas-body">
                                     {{ view("people.form.form") }}
@@ -28,7 +29,15 @@
         <div class="row mt-6">
             <div class="col-md-12 col-12">
                 <div class="card">
-                    <input id="filter-people" type="text" class="form-control" placeholder="Consulta cualquier campo aqui">
+                    <input id="filter-people" list="list-filter" type="text" class="form-control" placeholder="Consulta cualquier campo aqui">
+                    <datalist id="list-filter">
+                        @foreach (\App\Shared\PeopleType::LIST as $item)
+                            <option value="{{ $item["text"] }}">
+                        @endforeach
+                        @foreach (\App\Shared\PeopleStatus::LIST as $item)
+                            <option value="{{ $item["text"] }}">
+                        @endforeach
+                    </datalist>
                     <div class="table-responsive">
                         <table class="table text-nowrap mb-0" id="tb-people">
                             <thead class="table-light">
@@ -48,9 +57,13 @@
                                         <td>{{ \App\Shared\PeopleType::get($people->type) }}</td>
                                         <td>{{ $people->phone }}</td>
                                         <td>{{ $people->email }}</td>
-                                        <td>{{ $people->status }}</td>
+                                        <td>
+                                            <span class="badge bg-{{ \App\Shared\PeopleStatus::getClass($people->status) }}">
+                                                {{ \App\Shared\PeopleStatus::get($people->status) }}
+                                            </span>
+                                        </td>
                                         <td class="center">
-                                            <button data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Gestionar información" type="button" class="btn btn-icon btn-white border border-2 rounded-circle btn-dashed ms-2">
+                                            <button onclick="openEdit('{{json_encode($people)}}')" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Gestionar información" type="button" class="btn btn-icon btn-white border border-2 rounded-circle btn-dashed ms-2">
                                                 <i data-feather="settings" class="nav-icon icon-xs"></i>
                                             </button>
                                         </td>
