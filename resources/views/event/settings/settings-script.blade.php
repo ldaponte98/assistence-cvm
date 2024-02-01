@@ -60,4 +60,17 @@
         $("#info-news").html(news)
         $("#assistants").html(render)
     }
+
+    function postSaveForm(responseApi) {
+        clean()
+        $(".btn-close").click()
+        let people = responseApi.data;
+        assistants.push({
+            id: people.id,
+            name: people.fullname + " " + people.lastname,
+            attended: true,
+            isNew: true
+        })
+        refreshAssistants()
+    }
 </script>

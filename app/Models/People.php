@@ -39,17 +39,22 @@ class People extends Model
         if($validation != null){
             throw new Exception("El teléfono ya se encuentra registrado.");
         }
-        $validation = People::where('document', $this->document);
-        if($this->id != null) $validation->where('id', '<>', $this->id);
-        $validation = $validation->first();
-        if($validation != null){
-            throw new Exception("El número de identificación ya se encuentra asociado a otro registro.");
+        if($this->document != null and $this->document != ""){
+            $validation = People::where('document', $this->document);
+            if($this->id != null) $validation->where('id', '<>', $this->id);
+            $validation = $validation->first();
+            if($validation != null){
+                throw new Exception("El número de identificación ya se encuentra asociado a otro registro.");
+            }
         }
-        $validation = People::where('email', $this->email);
-        if($this->id != null) $validation->where('id', '<>', $this->id);
-        $validation = $validation->first();
-        if($validation != null){
-            throw new Exception("El correo electrónico ya se encuentra asociado a otro registro.");
+
+        if($this->email != null and $this->email != ""){
+            $validation = People::where('email', $this->email);
+            if($this->id != null) $validation->where('id', '<>', $this->id);
+            $validation = $validation->first();
+            if($validation != null){
+                throw new Exception("El correo electrónico ya se encuentra asociado a otro registro.");
+            }
         }
     }
 

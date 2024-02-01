@@ -50,7 +50,7 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm {
         display: block !important;
     }
 
-    .block-mobile button{
-        width: 100%;
+    .mobile-w-100{
+        width: 100%;  
     }
 }

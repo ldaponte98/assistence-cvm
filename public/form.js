@@ -45,9 +45,18 @@ async function save() {
         }
         setLoading(false)
         if(validation.error) throw validation.message
-        showAlert("!Listo¡", validation.message, "success", () => {
-            location.reload()
-        })
+        let callback = true
+        try {
+            postSaveForm(validation)
+        } catch (error) {
+            console.log({error: error})
+            callback = false
+        }
+        if(!callback){
+            showAlert("!Listo¡", validation.message, "success", () => {
+                location.reload()
+            })
+        }
     } catch (error) {
         setLoading(false)
         showAlert("Error", error, "error")

@@ -59,7 +59,7 @@ class PeopleController extends Controller
                 throw new Exception("Ocurrio un error interno al almacenar el registro, comuniquese con el administrador del sistema");
             }
             Log::save("Registro una nueva persona en la base de datos [".$post->phone."]");
-            return $this->responseApi(false, "Registro almacenado exitosamente");
+            return $this->responseApi(false, "Registro almacenado exitosamente", $entity);
         } catch (Exception $e) {
             return $this->responseApi(true, $e->getMessage());
         }
