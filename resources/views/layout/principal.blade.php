@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="{{ asset('style.css') }}">
+    <link rel="stylesheet" href="{{ asset('datetimepicker/jquery.datetimepicker.min.css') }}">
     
     
     <title>Asistencia | CVM</title>
@@ -27,6 +28,8 @@
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
     <script src="{{ asset('blockUI.js') }}"></script>
     <script src="{{ asset('form.js') }}"></script>
+    <script src="{{ asset('mapper.js') }}"></script>
+    <script src="{{ asset('datetimepicker/jquery.datetimepicker.full.min.js') }}"></script>
 </head>
 @php
     $user = \App\Models\User::find(session('id'));

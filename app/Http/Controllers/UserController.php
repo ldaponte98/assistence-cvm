@@ -29,6 +29,7 @@ class UserController extends Controller
                         'id'              => $user->id,
                         'people_id'       => $user->people_id,
                         'profile_id'      => $user->profile_id,
+                        'red'             => $user->red,
                         'user_fullname'   => $user->fullname,
                     ]);
                     return redirect()->route('panel');
@@ -114,16 +115,5 @@ class UserController extends Controller
         } catch (Exception $e) {
             return $this->responseApi(true, $e->getMessage());
         }
-    }
-
-    public function getPeopleFromText($text_people)
-    {
-        $array = explode("(Tel: ", $text_people);
-        if(count($array) != 2) throw new Exception("El registro de base de datos enviado no es valido");
-        $phone = explode(")", $array[1])[0];
-        if($phone == null || $phone == "") throw new Exception("El registro de base de datos enviado no cumple la estructura definida");
-        $people = People::where('phone', $phone)->first();
-        if($people == null) throw new Exception("El registro de base de datos enviado no es valido segun su numero de telefono");
-        return $people->id;
     }
 }

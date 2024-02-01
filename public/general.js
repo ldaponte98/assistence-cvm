@@ -163,3 +163,55 @@ FullCalendar.globalLocales.push(function () {
    };
    return es;
 }());
+
+jQuery.datetimepicker.setLocale('es');
+
+jQuery('.datetimepicker').datetimepicker({
+ i18n:{
+  es:{
+   months:[
+    'Enero','Febrero','Marzo','Abril',
+    'Mayo','Junio','Julio','Agosto',
+    'Septiembre','Octubre','Noviembre','Diciembre',
+   ],
+   dayOfWeek:[
+    "Do", "Lu", "Ma", "Mi",
+    "Ju", "Vi", "Sa",
+   ]
+  }
+ },
+ timepicker: true,
+ format:'Y-m-d H:i'
+});
+
+function addZero(i) {
+  if (i < 10) {i = "0" + i}
+  return i;
+}
+
+function getHour(d) {
+  let h = addZero(d.getHours());
+  let m = addZero(d.getMinutes());
+  let s = addZero(d.getSeconds());
+  return h + ":" + m;
+}
+
+
+function parseDateEventShow(strDate) {
+  var currentdate = new Date(strDate); 
+  let year = currentdate.getFullYear()
+  let month = addZero(currentdate.getMonth() + 1)
+  let day	= 	addZero(currentdate.getDate())
+  let hour = 	addZero(currentdate.getHours())
+  let minute = addZero(currentdate.getMinutes())
+  let second = addZero(currentdate.getSeconds())
+  let res = `${year}-${month}-${day} ${hour}:${minute}`;  
+  currentdate = null; 
+  year = null;
+  month = null;
+  day = null;
+  hour = null;
+  minute = null;
+  second = null;
+  return res;
+}

@@ -16,9 +16,17 @@
 	<link rel="stylesheet" type="text/css" href="{{ asset('template/login/css/util.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{ asset('template/login/css/main.css')}}">
 </head>
+@php
+    $user = \App\Models\User::find(session('id'));
+    if($user != null){
+        $url = route("panel");
+        header("Location: $url");
+        die;
+    }
+@endphp
 <body>
 	<div class="limiter">
-		<div class="container-login100" style="background-image: url('template/login/images/bg-01.jpg');">
+		<div class="container-login100" style="background-color: #ccc;">
 			<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
                     <form class="login100-form validate-form" method="POST" action="user/login">
                     @csrf

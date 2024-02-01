@@ -10,15 +10,14 @@
                             <h3 class="mb-0  text-white">Eventos</h3>
                         </div>
                         <div>
-                            <button onclick="showNew()" class="btn btn-white" type="button">+ Nuevo</button>
-                            <button id="btn-entity" class="hide" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Nuevo</button>
+                            <button id="btn-entity" class="btn btn-white" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">+ Nuevo</button>
                             <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
                                 <div class="offcanvas-header">
-                                    <h4 id="offcanvasRightLabel"><b>Nuevo evento</b></h4>
+                                    <h4 id="offcanvasRightLabel"><b>Gestión de evento</b></h4>
                                     <button onclick="clean()" type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                                 </div>
                                 <div class="offcanvas-body">
-                                    
+                                    {{ view("event.form.form") }}
                                 </div>
                             </div>
                         </div>

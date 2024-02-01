@@ -13,6 +13,7 @@ class User extends Model
         'people_id',
         'username',
         'password',
+        'red',
         'status',
     ];
     

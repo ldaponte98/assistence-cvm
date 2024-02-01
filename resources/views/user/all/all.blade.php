@@ -43,6 +43,7 @@
                                     <th class="center"><b>Usuario</b></th>
                                     <th class="center"><b>Perfil</b></th>
                                     <th class="center"><b>Registro</b></th>
+                                    <th class="center"><b>Red</b></th>
                                     <th class="center"><b>Creado por</b></th>
                                     <th class="center"><b>Estado</b></th>
                                     <th class="center"><b>Acciones</b></th>
@@ -54,6 +55,7 @@
                                         <td><img alt="avatar" src="{{ $user->people->getAvatar() }}" class="rounded-circle" width="30" /> {{ $user->username }}</td>
                                         <td>{{ $user->profile->name }}</td>
                                         <td>{{ $user->people->names() . " (Tel: ".$user->people->phone.")" }}</td>
+                                        <td>{{ \App\Shared\RedType::get($user->red) }}</td>
                                         <td>{{ $user->createdBy->username }}</td>
                                         <td class="center">
                                             @if ($user->status == 1)

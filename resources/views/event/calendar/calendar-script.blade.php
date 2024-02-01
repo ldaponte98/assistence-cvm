@@ -1,11 +1,12 @@
 <script>
+    const urlFind = "{{env('APP_URL')}}/event/find"
+
     $(document).ready(() => {
         findEvents();
     })
 
     function InitializeCalendar(events = []) {
         let div = document.getElementById('calendar');
-        console.log({ev: events})
         let calendar = new FullCalendar.Calendar(div, {
                 initialView: isMobile() ? 'timeGridDay' : 'dayGridMonth',
                 locale: 'es',
@@ -24,38 +25,46 @@
         calendar.render();
     }
 
-    function findEvents() {
-        setLoadingFullScreen(true)
-        setTimeout(() => {
-            let events = [
-                { 
-                    title: 'Grupo de conexiones 21-24', 
-                    start: '2024-01-12 19:00:00', 
-                    end: '2024-01-12 21:00:00',
-                    id: 123 
-                },
-                { 
-                    title: 'Grupo de conexiones 18-20', 
-                    start: '2024-01-12 19:00:00', 
-                    end: '2024-01-12 21:00:00',
-                    id: 123 
-                }
-            ] 
+    async function findEvents() {
+        try {
+            setLoadingFullScreen(true)
+            let validation = await $.get(urlFind)
             setLoadingFullScreen(false)
-            InitializeCalendar(events)   
-        }, 2 * 1000);
+            if(validation.error) throw validation.message
+            InitializeCalendar(validation.data)   
+        } catch (error) {
+            setLoadingFullScreen(false)
+            showAlert("Error", error, "error")
+        }   
     }
 
     function selectedDate(info) {
-        console.log({info: info})
+        let current = new Date()
+        let hourStart = getHour(current)
+        current.setHours(current.getHours() + 1)
+        let hourEnd = getHour(current)
+        openEdit(JSON.stringify({ days: "all", start: info.dateStr + " " + hourStart, end: info.dateStr + " " + hourEnd }))
     }
 
     function selectedEvent(info) {
-        console.log({event: info.event.id})
+        let event = {
+            days: "all",
+            start: info.event.start,
+            end: info.event.end,
+            id: info.event.id,
+            title: info.event.title,
+            red: info.event.red
+        }
+        Object.assign(event, info.event.extendedProps);
+        openEdit(JSON.stringify(event))
     }
     
     function hoverEvent(info) {
-        $(info.el).tooltip({ title: info.event.title + " (Horario: )" });
+        let hourStart = getHour(info.event.start)
+        let hourEnd = getHour(info.event.end)
+        $(info.el).tooltip({ 
+            title: info.event.title + ` (Horario: ${hourStart} hasta ${hourEnd})` 
+        });
     }
     
 </script>

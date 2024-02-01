@@ -26,9 +26,4 @@ class PeopleType
         }
         return "Desconocido";
     }
-
-    public static function list()
-    {
-    
-    }
 }

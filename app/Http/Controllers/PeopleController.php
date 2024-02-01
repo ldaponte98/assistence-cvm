@@ -15,17 +15,31 @@ class PeopleController extends Controller
         return view('people.all.all', compact(['peoples'])); 
     }
 
-    public function findByCharacters($characters)
+    public function findByCharacters($characters, $type = null)
     {
         $result = [];
         $characters = strtoupper($characters);
+        $conditions = "";
+        if($type != null){
+            $array = explode(",", $type);
+            $in = "";
+            $cont = 0;
+            foreach ($array as $_type) {
+                if($cont != 0) $in .= ",";
+                $in .= "'$_type'";
+                $cont++;
+            }
+            $conditions = $type != null ? " AND type IN($in) " : "";
+        }
         if(strlen($characters) > 3){
             $sql = "SELECT CONCAT(fullname, ' ', lastname, ' (Tel: ', phone, ')') as info FROM people 
-            WHERE UPPER(document) LIKE '%$characters%'
+            WHERE 1 = 1 
+            $conditions
+            AND (UPPER(document) LIKE '%$characters%'
             OR UPPER(fullname) LIKE '%$characters%'
             OR UPPER(lastname) LIKE '%$characters%'
             OR UPPER(phone) LIKE '%$characters%'
-            OR UPPER(email) LIKE '%$characters%'";
+            OR UPPER(email) LIKE '%$characters%')";
             $result = DB::select($sql);
         }
         return response()->json($result);

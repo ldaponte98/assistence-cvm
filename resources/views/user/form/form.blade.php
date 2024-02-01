@@ -1,5 +1,14 @@
 <div class="row">
     <div class="col-md-12 col-sm-12">
+        <label for="validationCustom01" class="form-label"><b>Red<span class="required">*</span></b></label>
+        <select class="form-select property" id="red" name="red">
+            <option value=""></option>
+            @foreach (\App\Shared\RedType::LIST as $item)
+                <option value="{{ $item["code"] }}">{{ $item["text"] }}</option>
+            @endforeach
+        </select>
+    </div>
+    <div class="col-md-12 col-sm-12 mt-2">
         <label for="validationCustom01" class="form-label"><b>Usuario<span class="required">*</span></b></label>
         <input type="text" class="form-control property" id="username" name="username" autocomplete="off">
     </div>

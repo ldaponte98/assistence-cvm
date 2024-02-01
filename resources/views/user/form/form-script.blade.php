@@ -2,6 +2,7 @@
     const urlSave = "{{env('APP_URL')}}/user/create"
     const urlUpdate = "{{env('APP_URL')}}/user/update"
     const requiredFields = [
+        { property: "red", message: "Red es un campo obligatorio" },
         { property: "username", message: "Nombre de usuario es un campo obligatorio" },
         { property: "password", message: "Contraseña es un campo obligatorio" },
         { property: "profile_id", message: "Perfil es un campo obligatorio" },

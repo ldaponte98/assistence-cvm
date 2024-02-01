@@ -10,11 +10,15 @@ function clean() {
 function openEdit(json) {
     let entity = JSON.parse(json)
     clean()
-    this.id = entity.id
+    this.id = !isEmpty(entity.id) ? entity.id : null
     for (const property in entity) {
         $(`#${property}`).val(entity[property])
     }
-    if(jQuery.isFunction(posOpenEdit)) posOpenEdit(entity)
+    try {
+        posOpenEdit(entity)
+    } catch (error) {
+        console.log("No se ejecuta posEdit")
+    }
     $("#btn-entity").click()
 }
 

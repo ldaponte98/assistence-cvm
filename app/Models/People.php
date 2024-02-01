@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Shared\PeopleStatus;
 use Exception;
 
 class People extends Model
@@ -50,5 +51,12 @@ class People extends Model
         if($validation != null){
             throw new Exception("El correo electrónico ya se encuentra asociado a otro registro.");
         }
+    }
+
+    public function getActives($types)
+    {
+        return People::all()
+                    ->where('status', PeopleStatus::ACTIVE)
+                    ->whereIn('type', $types);
     }
 }
