@@ -27,15 +27,24 @@ jQuery.each( [ "put", "delete", "post" ], function( i, method ) {
   };
 });
 
-function showAlert(titulo = "Información", mensaje, tipo = "info", onSuccess = null, onClose = null) {
+function showAlert(
+  titulo = "Información", 
+  mensaje, 
+  tipo = "info", 
+  onSuccess = null, 
+  onClose = null,
+  textButtonSuccess = "Aceptar",
+  textButtonCancel = "Cancelar",
+  ) 
+  {
   Swal.fire({
     title: titulo,
     text: mensaje,
     icon: tipo,
     showCloseButton: true,
     showCancelButton: onClose != null,
-    cancelButtonText: 'Cancelar',
-    confirmButtonText: 'Aceptar',
+    cancelButtonText: textButtonCancel,
+    confirmButtonText: textButtonSuccess,
     allowOutsideClick: false
   }).then((result) => {
     /* Read more about isConfirmed, isDenied below */
@@ -57,13 +66,23 @@ function setFilter(id_input_filtro, id_tabla) {
     })
 }
 
-function setLoading(loading = true) {
+function setLoading(loading = true, idBtn = null, idSpinner = null) {
   if(loading){
-    $(".btn-loading").css('display', 'none')
-    $(".loading").css('display', 'block')
+    if(idBtn == null){
+      $(".btn-loading").css('display', 'none')
+      $(".loading").css('display', 'block')
+    }else{
+      $("#"+idBtn).css('display', 'none')
+      $("#"+idSpinner).css('display', 'block')
+    }
   }else{
-    $(".loading").css('display', 'none')
-    $(".btn-loading").css('display', 'block')
+    if(idBtn == null){
+      $(".loading").css('display', 'none')
+      $(".btn-loading").css('display', 'block')
+    }else{
+      $("#"+idSpinner).css('display', 'none')
+      $("#"+idBtn).css('display', 'block')
+    }
   }
 }
 

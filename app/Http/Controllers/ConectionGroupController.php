@@ -4,6 +4,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\People;
 use App\Models\ConectionGroup;
+use App\Models\ConectionGroupLeader;
 use App\Shared\PeopleType;
 use Illuminate\Support\Facades\DB;
 use App\Shared\Log;
@@ -82,5 +83,17 @@ class ConectionGroupController extends Controller
     public function findByRed($red)
     {
         return $this->responseApi(false, "OK", ConectionGroup::all()->where('red', $red)->where('status', 1));
+    }
+
+    public function meGroup()
+    {
+        $people_id = session("people_id");
+        $group = null;
+        $relation = ConectionGroupLeader::where('people_id', $people_id)
+                                         ->where('status', 1)
+                                         ->first();
+
+        if($relation != null) $group = $relation->conection_group;
+        return view('conection-group.me-group.me-group', compact(['group'])); 
     }
 }

@@ -46,9 +46,9 @@
         <button onclick="save()" class="btn btn-primary w-100 btn-loading">Guardar</button>
         <div class="text-center loading">
             <div class="spinner-border text-primary" role="status">
-              <span class="visually-hidden">Por favor espere...</span>
+                <span class="visually-hidden">Por favor espere...</span>
             </div>
-          </div>
+        </div>
     </div>
 </div>
 {{ view('people.form.form-script') }}

@@ -29,6 +29,12 @@
                             <h1 class="fw-bold">{{ date('H:i', strtotime($event->start)) }}</h1>
                             <p class="mb-0"> {{ $event->getInfo() }} </p>
                         </div>
+                        @if ($event->managed == 1)
+                            <span class="badge bg-success">Asistencia tomada</span>
+                        @else
+                            <span class="badge bg-warning">Sin asistencia registrada</span>
+                        @endif
+                        
                     </div>
                 </div>
             </div>

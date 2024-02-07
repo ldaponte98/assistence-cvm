@@ -23,6 +23,7 @@ Route::group(['prefix' => 'user'], function () {
 Route::group(['prefix' => 'people'], function () {
 	Route::get('all', [PeopleController::class, 'all'])->name('people/all');
 	Route::get('find-by-characters/{characters}/{type?}', [PeopleController::class, 'findByCharacters'])->name('people/find-by-characters');
+	Route::get('find-by-phone/{phone}', [PeopleController::class, 'findByPhone'])->name('people/find-by-phone');
 	Route::put('update', [PeopleController::class, 'update'])->name('people/update');
 	Route::post('create', [PeopleController::class, 'create'])->name('people/create');
 });
@@ -32,6 +33,8 @@ Route::group(['prefix' => 'conection-group'], function () {
 	Route::put('update', [ConectionGroupController::class, 'update'])->name('conection-group/update');
 	Route::post('create', [ConectionGroupController::class, 'create'])->name('conection-group/create');
 	Route::get('find-by-red/{red}', [ConectionGroupController::class, 'findByRed'])->name('conection-group/find-by-red');
+	Route::get('me-group', [ConectionGroupController::class, 'meGroup'])->name('conection-group/me-group');
+
 });
 
 Route::group(['prefix' => 'event'], function () {
@@ -41,4 +44,6 @@ Route::group(['prefix' => 'event'], function () {
 	Route::post('create', [EventController::class, 'create'])->name('event/create');
 	Route::put('cancel/{id}', [EventController::class, 'cancel'])->name('event/cancel');
 	Route::get('settings/{id}', [EventController::class, 'settings'])->name('event/settings');
+	Route::post('save-assistance', [EventController::class, 'saveAssistance'])->name('event/save-assistance');	
+	Route::get('find-assistants/{event_id}', [EventController::class, 'findAssistants'])->name('event/find-assistants');
 });

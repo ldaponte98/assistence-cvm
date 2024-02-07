@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Shared\ProfileID;
 
 class Profile extends Model
 {
@@ -44,17 +45,17 @@ class Profile extends Model
     {
         $profile_id = session('profile_id');
 
-        if($profile_id == 1) { //SUPER ADMIN
+        if($profile_id == ProfileID::SUPER_ADMIN) { //SUPER ADMIN
             return Profile::all()->where('status', 1);
         }
-        if($profile_id == 2) { //LIDER DE SEGMENTO
+        if($profile_id == ProfileID::SEGMENT_LEADER) { //LIDER DE SEGMENTO
             return Profile::all()
-            ->whereIn('id', [3, 4])
+            ->whereIn('id', [ProfileID::LEADER, ProfileID::ASSISTANT])
             ->where('status', 1);
         }
-        if($profile_id == 3) { //LIDER
+        if($profile_id == ProfileID::LEADER) {
             return Profile::all()
-            ->where('id', [4])
+            ->where('id', [ProfileID::ASSISTANT])
             ->where('status', 1);
         }
     }

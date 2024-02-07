@@ -10,7 +10,8 @@
                     </div>
                     <div>
                         @if ($event->validForSettings())
-                            <button id="btn-entity" class="btn btn-white mobile-w-100" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">+ Nuevo asistente</button>
+                            <button onclick="$('#dialog-validate-people').modal('show'); $('#phone-validate-people').focus()" class="btn btn-white mobile-w-100" type="button">+ Nuevo asistente</button>
+                            <button id="btn-entity" class="btn btn-white mobile-w-100 hide" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">+ Nuevo asistente</button>
                             <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
                                 <div class="offcanvas-header">
                                     <h4 id="offcanvasRightLabel"><b>Nuevo asistente</b></h4>
@@ -79,17 +80,25 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-12 col-sm-12 mt-5 pull-right">
-                <button onclick="save()" class="btn btn-primary w-100 btn-loading">Guardar</button>
-                <div class="text-center loading">
-                    <div class="spinner-border text-primary" role="status">
-                      <span class="visually-hidden">Por favor espere...</span>
+            <div class="col-xl-12 col-lg-12 col-md-12 col-12 mt-5">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row mb-2">
+                            <div class="col-12">
+                                <label for=""><b>Observaciones</b> (Excusas, puntos de mejora, sucesos en el evento)</label>
+                                <textarea class="form-control" id="observations" rows="1">{{$event->observations}}</textarea>
+                            </div>
+                        </div>
                     </div>
-                  </div>
+                </div>
+            </div>
+            <div class="col-md-12 col-sm-12 mt-5 mb-5 pull-right">
+                <button onclick="saveAssistance()" class="btn btn-primary w-100 btn-loading">Guardar</button>
             </div>
         </div>
     </div>
     {{ view('event.settings.settings-script', compact(['event'])) }}
+    {{ view('event.settings.components.modal-validate-people.modal-validate-people', compact(['event'])) }}
 
     <style>
         .attended{

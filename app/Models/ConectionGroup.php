@@ -33,6 +33,21 @@ class ConectionGroup extends Model
         return $ids;
     }
 
+    public function getIdsPeopleAssistants()
+    {
+        $result = DB::select("SELECT people_id FROM conection_group_assistant WHERE conection_group_id = " . $this->id);
+        $ids = [];
+        foreach ($result as $item) {
+            $ids[] = $item->people_id;
+        }
+        return $ids;
+    }
+
+    public function getAssistants()
+    {
+        return People::whereIn('id', $this->getIdsPeopleAssistants())->get();
+    }
+
     public function getLeaders()
     {
         return People::whereIn('id', $this->getIdsPeopleLeader(PeopleType::LEADER))->get(['id']);
@@ -41,6 +56,22 @@ class ConectionGroup extends Model
     public function getSegmentLeaders()
     {
         return People::whereIn('id', $this->getIdsPeopleLeader(PeopleType::SEGMENT_LEADER))->get(['id']);
+    }
+
+    public function isSegmentLeader($people_id)
+    {
+        foreach ($this->getIdsPeopleLeader(PeopleType::SEGMENT_LEADER) as $id_valid) {
+            if($people_id == $id_valid) return true;
+        }
+        return false;
+    }
+
+    public function isLeader($people_id)
+    {
+        foreach ($this->getIdsPeopleLeader(PeopleType::LEADER) as $id_valid) {
+            if($people_id == $id_valid) return true;
+        }
+        return false;
     }
 
     public function validate()

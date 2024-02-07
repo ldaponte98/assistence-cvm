@@ -15,6 +15,13 @@ class PeopleController extends Controller
         return view('people.all.all', compact(['peoples'])); 
     }
 
+    public function findByPhone($phone)
+    {
+        $people = People::where('phone', $phone)->first();
+        $message = $people != null ? "OK" : "Persona no existe por telefono enviado";
+        return $this->responseApi(false, "OK", $people);
+    }
+
     public function findByCharacters($characters, $type = null)
     {
         $result = [];
