@@ -1,15 +1,18 @@
 //ESTA FUNCIONALOIDAD ES PARA GLOBALIZAR LA LOGICA DEL CRUD
 
 var id = null;
+var currentEntity = null;
 
 function clean() {
     this.id = null
     $(".property").val("")
+    this.currentEntity = null
 }
 
 function openEdit(json) {
     let entity = JSON.parse(json)
     clean()
+    this.currentEntity = entity
     this.id = !isEmpty(entity.id) ? entity.id : null
     for (const property in entity) {
         $(`#${property}`).val(entity[property])

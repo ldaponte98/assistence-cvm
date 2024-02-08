@@ -31,6 +31,7 @@ class ConectionGroupController extends Controller
             $entity = new ConectionGroup;
             $entity->fill($request->all());
             $entity->validate();
+            $entity->created_by_id = session('id');
             if(!$entity->save()){
                 throw new Exception("Ocurrio un error interno al almacenar el grupo de conexión, comuniquese con el administrador del sistema");
             }

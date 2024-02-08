@@ -60,8 +60,8 @@
     </div>
 
     <div class="col-md-12 col-sm-12 mt-2 pull-right hide" id="box-cancel">
-        <button onclick="cancelEvent()" class="btn btn-primary w-100 btn-loading">Cancelar evento</button>
-        <div class="text-center loading">
+        <button onclick="cancelEvent()" class="btn btn-primary w-100" id="btn-loading-cancel">Cancelar evento</button>
+        <div class="text-center hide" id="loading-cancel">
             <div class="spinner-border text-primary" role="status">
               <span class="visually-hidden">Por favor espere...</span>
             </div>

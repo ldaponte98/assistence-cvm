@@ -22,11 +22,12 @@
         $("#start").val(parseDateEventShow(entity.start))
         $("#end").val(parseDateEventShow(entity.end))
         $('#days').trigger('change.select2');
+        validateType();
     }
 
-    function validateType() {
+    async function validateType() {
         let type = $("#type option:selected").text();
-        isConectionGroup(type)
+        await isConectionGroup(type)
     }
 
     async function isConectionGroup(type) {
@@ -48,7 +49,7 @@
             validation = await $.get(urlFindConectionGroups + red)
             setLoading(false)
             if(validation.error) throw validation.message
-            setDataSelect(validation.data, "id", "name", "conection_group_id")
+            setDataSelect(validation.data, "id", "name", "conection_group_id", true, currentEntity != null ? currentEntity.conection_group_id : null)
         } catch (error) {
             setLoading(false)
             showAlert("Error", error, "error")
@@ -59,16 +60,16 @@
         let observations = prompt("Indique el motivo de cancelación del evento");
         if (!isEmpty(observations)) {
             try {
-                setLoading(true)
+                setLoading(true, "btn-loading-cancel", "loading-cancel")
                 let request = { observations: observations }
                 validation = await $.put(urlCancel + this.id, request)
-                setLoading(false)
+                setLoading(false, "btn-loading-cancel", "loading-cancel")
                 if(validation.error) throw validation.message
                 showAlert("!Listo¡", validation.message, "success", () => {
                     location.reload()
                 })
             } catch (error) {
-                setLoading(false)
+                setLoading(false, "btn-loading-cancel", "loading-cancel")
                 showAlert("Error", error, "error")
             }
         }
