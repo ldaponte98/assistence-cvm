@@ -41,7 +41,7 @@ class Profile extends Model
         return $fathers;
     }
 
-    public function getProfiles()
+    public static function getProfiles()
     {
         $profile_id = session('profile_id');
 

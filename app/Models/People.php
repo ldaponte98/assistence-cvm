@@ -58,7 +58,7 @@ class People extends Model
         }
     }
 
-    public function getActives($types)
+    public static function getActives($types)
     {
         return People::all()
                     ->where('status', PeopleStatus::ACTIVE)
