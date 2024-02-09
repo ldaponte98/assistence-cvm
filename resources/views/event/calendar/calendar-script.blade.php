@@ -5,6 +5,12 @@
         findEvents();
     })
 
+    function showNew() {
+        clean()
+        validateType();
+        $("#btn-entity").click()
+    }
+
     function InitializeCalendar(events = []) {
         let div = document.getElementById('calendar');
         let calendar = new FullCalendar.Calendar(div, {

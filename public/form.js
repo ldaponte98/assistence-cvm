@@ -5,7 +5,7 @@ var currentEntity = null;
 
 function clean() {
     this.id = null
-    $(".property").val("")
+    $(".property").val(null)
     this.currentEntity = null
 }
 

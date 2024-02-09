@@ -19,7 +19,7 @@
     </div>
     <div class="col-md-12 col-sm-12 mt-2 hide" id="box-group">
         <label for="validationCustom01" class="form-label"><b>Grupo de conexión<span class="required">*</span></b></label>
-        <select class="form-select property" id="conection_group_id" name="conection_group_id">
+        <select class="form-select select2 property" multiple id="conection_group_id" name="conection_group_id">
            
         </select>
     </div>

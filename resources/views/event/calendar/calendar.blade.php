@@ -10,7 +10,8 @@
                             <h3 class="mb-0  text-white">Eventos</h3>
                         </div>
                         <div>
-                            <button id="btn-entity" class="btn btn-white" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">+ Nuevo</button>
+                            <button onclick="showNew()" class="btn btn-white" type="button">+ Nuevo</button>
+                            <button id="btn-entity" class="btn btn-white hide" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">+ Nuevo</button>
                             <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
                                 <div class="offcanvas-header">
                                     <h4 id="offcanvasRightLabel"><b>Gestión de evento</b></h4>

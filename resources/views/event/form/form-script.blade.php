@@ -4,7 +4,7 @@
     const urlFindConectionGroups = "{{env('APP_URL')}}/conection-group/find-by-red/"
     const urlCancel = "{{env('APP_URL')}}/event/cancel/"
 
-    const requiredFields = [
+    var requiredFields = [
         { property: "type", message: "Tipo de evento es un campo obligatorio" },
         { property: "red", message: "La red es un campo obligatorio" },
         { property: "title", message: "Titulo es un campo obligatorio" },
@@ -21,7 +21,7 @@
         }
         $("#start").val(parseDateEventShow(entity.start))
         $("#end").val(parseDateEventShow(entity.end))
-        $('#days').trigger('change.select2');
+        $('.select2').trigger('change.select2');
         validateType();
     }
 
@@ -39,6 +39,8 @@
         }else{
             requiredFields = requiredFields.filter(item => item.property != "conection_group_id")
             $("#box-group").fadeOut()
+            $("#conection_group_id").val(null);
+            $('.select2').trigger('change.select2');
         }
     }
 
