@@ -29,16 +29,8 @@
         <div class="row mt-6">
             <div class="col-md-12 col-12">
                 <div class="card">
-                    <input id="filter-conection-group" list="list-filter" type="text" class="form-control" placeholder="Consulta cualquier campo aqui">
-                    <datalist id="list-filter">
-                        @foreach (\App\Shared\RedType::LIST as $item)
-                            <option value="{{ $item["text"] }}">
-                        @endforeach
-                        <option value="Activo">
-                        <option value="Inactivo">
-                    </datalist>
                     <div class="table-responsive">
-                        <table class="table text-nowrap mb-0" id="tb-conection-group">
+                        <table class="table text-nowrap mb-0 data-table" id="tb-conection-group">
                             <thead class="table-light">
                                 <tr>
                                     <th class="center"><b>Nombre</b></th>

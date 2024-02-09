@@ -151,12 +151,38 @@ function isMobile() {
   return /Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
 }
 
+new DataTable('.data-table', {
+  language: {
+      url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
+  },
+});
+
+//SET DATATABLE SIZES
+setTimeout(() => {
+  let initSize = 5
+  let sizes = [5, 10, 20, 50, 100]
+  let options = ""
+  sizes.forEach((num) => {
+      options += `<option value='${num}'>${num}</option>`
+  }) 
+  $(".form-select-sm").html(options);
+  $(".form-select-sm").val(initSize);
+  $(".form-select-sm").trigger("change");
+}, 1 * 1000);
+
 $('body').on('click', 'button.fc-prev-button', function () {
   if(jQuery.isFunction('callbackPrevCalendar')) callbackPrevCalendar();
 });
 $('body').on('click', 'button.fc-next-button', function () {
   if(jQuery.isFunction('callbackNextCalendar')) callbackNextCalendar();
 });
+
+if(isMobile()) {
+  let element = document.getElementById("content")
+  element.addEventListener("click", function (e) {
+    $("#db-wrapper").removeClass("toggled")
+  });
+}
 
 FullCalendar.globalLocales.push(function () {
   'use strict';

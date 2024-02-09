@@ -29,17 +29,8 @@
         <div class="row mt-6">
             <div class="col-md-12 col-12">
                 <div class="card">
-                    <input id="filter-people" list="list-filter" type="text" class="form-control" placeholder="Consulta cualquier campo aqui">
-                    <datalist id="list-filter">
-                        @foreach (\App\Shared\PeopleType::LIST as $item)
-                            <option value="{{ $item["text"] }}">
-                        @endforeach
-                        @foreach (\App\Shared\PeopleStatus::LIST as $item)
-                            <option value="{{ $item["text"] }}">
-                        @endforeach
-                    </datalist>
                     <div class="table-responsive">
-                        <table class="table text-nowrap mb-0" id="tb-people">
+                        <table class="table text-nowrap mb-0 data-table" id="tb-people">
                             <thead class="table-light">
                                 <tr>
                                     <th class="center"><b>Registro</b></th>

@@ -106,7 +106,7 @@ class UserController extends Controller
             $entity->fill($request->all());
             $entity->validate();
             $entity->people_id = $this->getPeopleFromText($post->people);
-            $entity->password = md5($post->password);
+            if($entity->password != $post->password) $entity->password = md5($post->password);
             if(!$entity->save()){
                 throw new Exception("Ocurrio un error interno al actualizar el usuario, comuniquese con el administrador del sistema");
             }

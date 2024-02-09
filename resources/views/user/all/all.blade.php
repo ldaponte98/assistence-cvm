@@ -28,16 +28,8 @@
         <div class="row mt-6">
             <div class="col-md-12 col-12">
                 <div class="card">
-                    <input id="filter-users" list="list-filter" type="text" class="form-control" placeholder="Consulta cualquier campo aqui">
-                    <datalist id="list-filter">
-                        @foreach (\App\Models\Profile::getProfiles() as $item)
-                            <option value="{{ $item->name }}">
-                        @endforeach
-                        <option value="Activo">
-                        <option value="Inactivo">
-                    </datalist>
                     <div class="table-responsive">
-                        <table class="table text-nowrap mb-0" id="tb-users">
+                        <table class="table text-nowrap mb-0 data-table" id="tb-users">
                             <thead class="table-light">
                                 <tr>
                                     <th class="center"><b>Usuario</b></th>

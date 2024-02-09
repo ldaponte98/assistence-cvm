@@ -5,8 +5,10 @@ use Illuminate\Http\Request;
 use App\Models\People;
 use App\Models\ConectionGroup;
 use App\Models\Event;
+use App\Models\ConectionGroupSegmentLeader;
 use Illuminate\Support\Facades\DB;
 use App\Shared\ProfileID;
+use App\Shared\PeopleType;
 use Exception;
 
 class PanelController extends Controller
@@ -16,15 +18,24 @@ class PanelController extends Controller
         $profile_id = session("profile_id");
         $events = Event::where('status', 1);
 
+        if($profile_id == ProfileID::RED_AUDITOR){
+            $events = $events->where('red', session('red'));
+        }
+
         if($profile_id == ProfileID::SEGMENT_LEADER){
-            $events = $events->where('created_by_id', session('id'))
-                             ->where('red', session('red'));
+            $groups_in_charge = ConectionGroupSegmentLeader::getIdsConectionGroup(PeopleType::SEGMENT_LEADER, session('people_id'));
+            $events = $events->where('red', session('red'))
+                             ->whereIn('conection_group_id', $groups_in_charge);
+
         }
 
         if($profile_id == ProfileID::LEADER){
-            $events = $events->where('created_by_id', session('id'))
-                             ->where('red', session('red'));
+            $groups_in_charge = ConectionGroupSegmentLeader::getIdsConectionGroup(PeopleType::LEADER, session('people_id'));
+            $events = $events->where('red', session('red'))
+                             ->whereIn('conection_group_id', $groups_in_charge);
         }
+
+
 
         $events = $events->orderBy('start', 'asc')->get();
 

@@ -40,17 +40,8 @@
                     </div>
                     <div class="col-xl-12 col-lg-12 col-md-12 col-12 mt-6">
                         <div class="card">
-                            <input id="filter-conection-group-assistant" list="list-filter" type="text" class="form-control" placeholder="Consulta cualquier campo aqui">
-                            <datalist id="list-filter">
-                                @foreach (\App\Shared\PeopleType::LIST as $item)
-                                    <option value="{{ $item["text"] }}">
-                                @endforeach
-                                @foreach (\App\Shared\PeopleStatus::LIST as $item)
-                                    <option value="{{ $item["text"] }}">
-                                @endforeach
-                            </datalist>
                             <div class="table-responsive">
-                                <table class="table text-nowrap mb-0" id="tb-conection-group-assistant">
+                                <table class="table text-nowrap mb-0 data-table" id="tb-conection-group-assistant">
                                     <thead class="table-light">
                                         <tr>
                                             <th class="center"><b>Nombre</b></th>

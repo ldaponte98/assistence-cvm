@@ -1,6 +1,6 @@
 <script>
     $(document).ready(() => {
-        setFilter("filter-people", "tb-people")
+        setFilter("filter-conection-group", "tb-conection-group")
     })
 
     function showNew() {

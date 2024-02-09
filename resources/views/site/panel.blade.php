@@ -20,8 +20,7 @@
                             <div>
                                 <h4 class="mb-0">{{ $event->title }}</h4>
                             </div>
-                            <div class="icon-shape icon-md bg-light-primary text-primary
-                        rounded-2">
+                            <div class="icon-shape icon-md bg-light-primary text-primary rounded-2 icon-card">
                                 <i class="bi bi-people fs-4"></i>
                             </div>
                         </div>
@@ -41,4 +40,11 @@
             @endforeach
         </div>
     </div>
+
+    <style>
+        .icon-card{
+            min-width: 39.6px;
+            margin-left: 10px;
+        }
+    </style>
 @endsection

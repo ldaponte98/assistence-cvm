@@ -41,6 +41,27 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm {
     cursor: pointer;
 }
 
+
+
+.dataTables_length label{
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    gap: 10px;
+}
+
+.dataTables_info{
+    padding: 10px;
+}
+
+.dataTables_paginate{
+    padding: 10px;
+}
+
+.dataTables_filter{
+    padding: 10px;
+}
+
 @media only screen and (max-width: 600px) {
     .fc .fc-toolbar{
         display: block;
@@ -52,5 +73,18 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm {
 
     .mobile-w-100{
         width: 100%;  
+    }
+
+    .blockUI h1{
+        font-size: 1rem;
+        margin-top: 10px;
+    }
+
+    .dataTables_wrapper .col-sm-12{
+        padding: 0px;
+    }
+
+    .dataTables_length label {
+        justify-content: center;
     }
 }

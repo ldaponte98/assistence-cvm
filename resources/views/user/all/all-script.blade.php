@@ -1,8 +1,4 @@
 <script>
-    $(document).ready(() => {
-        setFilter("filter-users", "tb-users")
-    })
-
     function changeStatus(userId, status) {
         showAlert("Confirmación", `¿Seguro que desea ${status == 1 ? 'activar' : 'inactivar'} a este usuario?`, "info", async () => {
             setLoadingFullScreen(true)
