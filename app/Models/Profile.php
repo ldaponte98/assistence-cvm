@@ -7,7 +7,7 @@ use App\Shared\ProfileID;
 
 class Profile extends Model
 {
-    protected $table      = 'Profile';
+    protected $table      = 'profile';
     protected $fillable   = [
         'name',
         'status',
