@@ -49,10 +49,10 @@
             </tr>`
             row = row.replaceAll("-param-", element.event_id);
             data += row;
-            totals.total += element.total;
-            totals.attendeds += element.attendeds;
-            totals.not_attendeds += element.not_attendeds;
-            totals.news += element.news;
+            totals.total += parseFloat(element.total);
+            totals.attendeds += parseFloat(element.attendeds);
+            totals.not_attendeds += parseFloat(element.not_attendeds);
+            totals.news += parseFloat(element.news);
         });
         let footer = `<tr>
             <td colspan="4"><b>Totales</b></td>
