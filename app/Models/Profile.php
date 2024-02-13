@@ -53,6 +53,11 @@ class Profile extends Model
         if($profile_id == ProfileID::SUPER_ADMIN) { //SUPER ADMIN
             return Profile::all()->where('status', 1);
         }
+        if($profile_id == ProfileID::RED_AUDITOR) { //COORDINADOR GENERAL DE RED
+            return Profile::all()
+            ->whereIn('id', [ProfileID::SEGMENT_LEADER, ProfileID::LEADER])
+            ->where('status', 1);
+        }
         if($profile_id == ProfileID::SEGMENT_LEADER) { //LIDER DE SEGMENTO
             return Profile::all()
             ->whereIn('id', [ProfileID::LEADER, ProfileID::ASSISTANT])
@@ -63,6 +68,7 @@ class Profile extends Model
             ->where('id', [ProfileID::ASSISTANT])
             ->where('status', 1);
         }
+        return [];
     }
 
 }
