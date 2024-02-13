@@ -29,9 +29,9 @@ class AssistanceGeneralReport extends Report
         DATE_FORMAT(e.end, '%Y-%m-%d %H:%i') as end,
         CASE WHEN e.managed = 1 THEN 'Finalizada' ELSE 'Pendiente' END AS assistance,
         count(a.id) as total, 
-        count(a.id) - count(a.attended) as not_attendeds, 
-        count(a.attended) as attendeds, 
-        count(a.isNew) as news
+        count(a.id) - sum(if(a.attended = 1, 1, 0)) as not_attendeds, 
+        sum(if(a.attended = 1, 1, 0)) as attendeds, 
+        sum(if(a.isNew = 1, 1, 0)) as news
         FROM event e LEFT JOIN event_assistance a ON e.id = a.event_id
         WHERE e.status = 1
         $conditions
