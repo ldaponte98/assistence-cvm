@@ -4,7 +4,9 @@
         <select class="form-select property" id="red" name="red">
             <option value=""></option>
             @foreach (\App\Shared\RedType::LIST as $item)
-                <option value="{{ $item["code"] }}">{{ $item["text"] }}</option>
+                @if (\App\Models\User::validRed($item["code"]))
+                    <option value="{{ $item["code"] }}">{{ $item["text"] }}</option>
+                @endif
             @endforeach
         </select>
     </div>
