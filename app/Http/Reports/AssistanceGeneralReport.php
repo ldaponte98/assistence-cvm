@@ -33,7 +33,7 @@ class AssistanceGeneralReport extends Report
         count(a.attended) as attendeds, 
         count(a.isNew) as news
         FROM event e LEFT JOIN event_assistance a ON e.id = a.event_id
-        WHERE 1 = 1
+        WHERE e.status = 1
         $conditions
         GROUP BY 1, 2, 3, 4, 5
         ORDER BY e.start ASC";
