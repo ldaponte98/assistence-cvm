@@ -1,5 +1,5 @@
 <script>
-    let eventValid = {{ $event->validForSettings() }}
+    let eventValid = {{ $event->validForSettings() == false ? 'false' : true }}
     const urlSaveAssistance = "{{env('APP_URL')}}/event/save-assistance"
     const urlFindAssistants = "{{env('APP_URL')}}/event/find-assistants/{{$event->id}}"
     

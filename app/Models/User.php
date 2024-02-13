@@ -41,4 +41,11 @@ class User extends Model
             throw new Exception("El nombre de usuario ya se encuentra registrado");
         }
     }
+
+    public static function validRed($compare)
+    {
+        $red = session("red");
+        if($red == null) return true;
+        return $red == $compare;
+    }
 }

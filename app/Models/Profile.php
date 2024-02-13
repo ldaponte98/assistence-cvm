@@ -25,8 +25,13 @@ class Profile extends Model
         $children = [];
         foreach ($this->menus->sortBy('menu.orden') as $menu_profile) { 
             if($menu_profile->menu->father_id == null) {
-                $father = $menu_profile->menu;
-                $father->children = [];
+                $father = (object)[
+                    "id" => $menu_profile->menu->id,
+                    "title" => $menu_profile->menu->title,
+                    "icon" => $menu_profile->menu->icon,
+                    "path" => $menu_profile->menu->path,
+                    "children" => []
+                ];
                 $fathers[] = $father;
             }else{
                 $children[] = $menu_profile->menu;
@@ -35,7 +40,7 @@ class Profile extends Model
 
         foreach ($fathers as $father) {
             foreach ($children as $son) {
-                if($son->father_id == $father->id) $father->children[] = $son;
+                if($son->father_id == $father->id) array_push($father->children, $son);
             }
         }
         return $fathers;

@@ -16,7 +16,8 @@
     <link rel="stylesheet" href="{{ asset('style.css') }}">
     <link rel="stylesheet" href="{{ asset('datetimepicker/jquery.datetimepicker.min.css') }}">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
-    
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
     <title>Asistencia | CVM</title>
     <script src="{{ asset('template/assets/libs/jquery/dist/jquery.min.js') }}"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
@@ -31,7 +32,9 @@
     <script src="{{ asset('blockUI.js') }}"></script>
     <script src="{{ asset('form.js') }}"></script>
     <script src="{{ asset('mapper.js') }}"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script src="{{ asset('datetimepicker/jquery.datetimepicker.full.min.js') }}"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 </head>
 @php
     $user = \App\Models\User::find(session('id'));

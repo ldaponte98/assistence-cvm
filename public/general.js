@@ -117,7 +117,6 @@ var tableToExcel = (function() {
           })
       }
   return function(table, name = 'Informe') {
-      console.log(name)
       if (!table.nodeType) table = document.getElementById(table)
       var ctx = {
           worksheet: name || 'Worksheet',
@@ -157,6 +156,9 @@ new DataTable('.data-table', {
       url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
   },
 });
+function refreshTables() {
+  feather.replace();
+}
 
 //SET DATATABLE SIZES
 setTimeout(() => {
@@ -230,6 +232,9 @@ jQuery('.datetimepicker').datetimepicker({
  format:'Y-m-d H:i'
 });
 
+
+
+
 function addZero(i) {
   if (i < 10) {i = "0" + i}
   return i;
@@ -261,3 +266,12 @@ function parseDateEventShow(strDate) {
   second = null;
   return res;
 }
+
+$('.daterangepicker').daterangepicker({
+  timePicker: true,
+  startDate: moment().startOf('hour'),
+  endDate: moment().startOf('hour').add(32, 'hour'),
+  locale: {
+    format: 'M/DD hh:mm A'
+  }
+});

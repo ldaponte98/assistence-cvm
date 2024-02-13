@@ -126,6 +126,7 @@ class EventController extends Controller
     {
         $event = Event::find($id);
         if($event == null) throw new Exception("El evento no existe");
+        $event->isValid = $event->validForSettings();
         return view("event.settings.settings", compact(['event']));
     }
 

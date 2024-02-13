@@ -14,9 +14,9 @@
                         <i data-feather="{{ $father->icon }}" class="nav-icon icon-xs me-2"></i> {{ $father->title }}
                     </a>
                 @else
-                    <a class="nav-link has-arrow collapsed " href="#!" data-bs-toggle="collapse"
+                    <a class="nav-link has-arrow active collapsed " href="#!" data-bs-toggle="collapse"
                         data-bs-target="#nav{{$father->id}}" aria-expanded="false" aria-controls="nav{{$father->id}}">
-                        <i data-feather="layers" class="nav-icon icon-xs me-2">
+                        <i data-feather="{{ $father->icon }}" class="nav-icon icon-xs me-2">
                         </i> {{ $father->title }}
                     </a>
                     <div id="nav{{$father->id}}" class="collapse " data-bs-parent="#sideNavbar">

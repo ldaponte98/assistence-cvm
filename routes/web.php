@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\PeopleController;
 use App\Http\Controllers\ConectionGroupController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\ReportController;
 
 Route::get('/', function () { return view('site.login'); });
 Route::group(['prefix' => 'panel'], function () {
@@ -47,3 +48,9 @@ Route::group(['prefix' => 'event'], function () {
 	Route::post('save-assistance', [EventController::class, 'saveAssistance'])->name('event/save-assistance');	
 	Route::get('find-assistants/{event_id}', [EventController::class, 'findAssistants'])->name('event/find-assistants');
 });
+
+Route::group(['prefix' => 'report'], function () {
+	Route::view('assistance-general', 'report.assistance.assistance-general');
+	Route::post('get-assistance-general', [ReportController::class, 'getAssistanceGeneral'])->name('report/get-assistance-general');
+});
+
