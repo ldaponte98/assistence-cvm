@@ -2,6 +2,7 @@
 
 var id = null;
 var currentEntity = null;
+var extraData = []
 
 function clean() {
     this.id = null
@@ -40,6 +41,9 @@ async function save() {
             let property = $(this).attr('id')
             request[property] = $("#" + property).val()
         });
+        extraData.forEach(extra => {
+            request[extra.key] = extra.value
+        });
         let validation = null;
         if(this.id == null) {
             validation = await $.post(urlSave, request)
@@ -60,6 +64,7 @@ async function save() {
                 location.reload()
             })
         }
+        extraData = []
     } catch (error) {
         setLoading(false)
         showAlert("Error", error, "error")

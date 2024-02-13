@@ -4,6 +4,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\People;
 use App\Models\ConectionGroup;
+use App\Models\ConectionGroupAssistant;
 use App\Models\ConectionGroupLeader;
 use App\Shared\PeopleType;
 use Illuminate\Support\Facades\DB;
@@ -96,5 +97,17 @@ class ConectionGroupController extends Controller
 
         if($relation != null) $group = $relation->conection_group;
         return view('conection-group.me-group.me-group', compact(['group'])); 
+    }
+
+    public function removePeople($people_id, $conection_group_id)
+    {
+        try {
+            ConectionGroupAssistant::where('conection_group_id', $conection_group_id)
+            ->where('people_id', $people_id)
+            ->delete();
+            return $this->responseApi(false, "Participante eliminado del grupo exitosamente");
+        } catch (Exception $e) {
+            return $this->responseApi(true, $e->getMessage());
+        }
     }
 }

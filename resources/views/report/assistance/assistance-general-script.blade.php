@@ -3,6 +3,7 @@
     $(document).ready(() => {
         setFilter("filter-assistance-general", "tb-assistance-general")
     })
+
     async function find() {
         try {
             setLoading(true)
@@ -63,6 +64,15 @@
             <td></td>
         </tr>`
         $("#tb-assistance-general tbody").html(data + footer)
+        if(response.length > 0){
+            $("#btn-export").fadeIn()
+        }else{
+            $("#btn-export").fadeOut()
+        }
         refreshTables()
+    }
+
+    function exportReport() {
+        tableToExcel("tb-assistance-general", "Reporte de asistencias")
     }
 </script>

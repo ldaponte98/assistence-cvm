@@ -35,7 +35,7 @@ Route::group(['prefix' => 'conection-group'], function () {
 	Route::post('create', [ConectionGroupController::class, 'create'])->name('conection-group/create');
 	Route::get('find-by-red/{red}', [ConectionGroupController::class, 'findByRed'])->name('conection-group/find-by-red');
 	Route::get('me-group', [ConectionGroupController::class, 'meGroup'])->name('conection-group/me-group');
-
+	Route::delete('remove-people/{people_id}/{conection_group_id}', [ConectionGroupController::class, 'removePeople'])->name('conection-group/remove-people');
 });
 
 Route::group(['prefix' => 'event'], function () {

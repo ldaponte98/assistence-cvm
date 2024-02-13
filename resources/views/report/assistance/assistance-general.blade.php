@@ -13,8 +13,7 @@
                 </div>
             </div>
         </div>
-        <hr class="text-white">
-        <div class="card">
+        <div class="card mt-6">
             <div class="card-body">
                 <div class="row">
                     <div class="col-lg-3 col-md-3 col-sm-12 mt-2">
@@ -57,6 +56,7 @@
                 <div class="row mt-2">
                     <div class="col-lg-12 col-md-12 col-sm-12 center">
                         <button class="btn btn-primary" onclick="find()">Consultar</button>
+                        <button id="btn-export" class="btn btn-success hide" onclick="exportReport()">Exportar</button>
                     </div>
                 </div>
             </div>

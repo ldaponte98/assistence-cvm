@@ -1,9 +1,11 @@
 <script>
+    const urlChangeStatus = "{{env('APP_URL')}}/user/change-status/"
+
     function changeStatus(userId, status) {
         showAlert("Confirmación", `¿Seguro que desea ${status == 1 ? 'activar' : 'inactivar'} a este usuario?`, "info", async () => {
             setLoadingFullScreen(true)
             try {
-                let validation = await $.put("{{env('APP_URL')}}/user/change-status/" + userId + "/" + status)
+                let validation = await $.put(urlChangeStatus + userId + "/" + status)
                 if(validation.error) throw validation.message
                 setLoadingFullScreen(false)
                 showAlert("!Listo¡", validation.message, "success", () => {
