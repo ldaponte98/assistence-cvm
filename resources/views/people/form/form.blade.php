@@ -12,6 +12,10 @@
         <input type="text" class="form-control property" id="phone" name="phone" required>
     </div>
     <div class="col-md-12 col-sm-12 mt-2">
+        <label for="validationCustom01" class="form-label"><b>Fecha de nacimiento<span class="required">*</span></b></label>
+        <input type="text" class="form-control property datepicker" placeholder="aaaa-mm-dd" id="birthday" name="birthday" required>
+    </div>
+    <div class="col-md-12 col-sm-12 mt-2">
         <label for="validationCustom01" class="form-label"><b>Nombres<span class="required">*</span></b></label>
         <input type="text" class="form-control property" id="fullname" name="fullname" required>
     </div>

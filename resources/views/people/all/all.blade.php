@@ -36,6 +36,7 @@
                                     <th class="center"><b>Registro</b></th>
                                     <th class="center"><b>Categorización</b></th>
                                     <th class="center"><b>Telefono</b></th>
+                                    <th class="center"><b>F. Nacimiento</b></th>
                                     <th class="center"><b>Email</b></th>
                                     <th class="center"><b>Estado</b></th>
                                     <th class="center"><b>Acciones</b></th>
@@ -47,6 +48,7 @@
                                         <td><img alt="avatar" src="{{ $people->getAvatar() }}" class="rounded-circle" width="30" /> {{ $people->names() }}</td>
                                         <td>{{ \App\Shared\PeopleType::get($people->type) }}</td>
                                         <td>{{ $people->phone }}</td>
+                                        <td>{{ $people->birthday != null ? date('d/m/Y', strtotime($people->birthday)) : "" }}</td>
                                         <td>{{ $people->email }}</td>
                                         <td>
                                             <span class="badge bg-{{ \App\Shared\PeopleStatus::getClass($people->status) }}">

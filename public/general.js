@@ -232,6 +232,24 @@ jQuery('.datetimepicker').datetimepicker({
  format:'Y-m-d H:i'
 });
 
+jQuery('.datepicker').datetimepicker({
+  i18n:{
+   es:{
+    months:[
+     'Enero','Febrero','Marzo','Abril',
+     'Mayo','Junio','Julio','Agosto',
+     'Septiembre','Octubre','Noviembre','Diciembre',
+    ],
+    dayOfWeek:[
+     "Do", "Lu", "Ma", "Mi",
+     "Ju", "Vi", "Sa",
+    ]
+   }
+  },
+  timepicker: false,
+  format:'Y-m-d'
+ });
+
 
 
 

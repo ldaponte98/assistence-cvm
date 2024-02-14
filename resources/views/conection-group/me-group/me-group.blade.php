@@ -60,6 +60,7 @@
                                             <th class="center"><b>Nombre</b></th>
                                             <th class="center"><b>Clasificación</b></th>
                                             <th class="center"><b>Telefono</b></th>
+                                            <th class="center"><b>F. Nacimiento</b></th>
                                             <th class="center"><b>Email</b></th>
                                             <th class="center"><b>Fecha ingreso</b></th>
                                             <th class="center"><b>Estado</b></th>
@@ -72,6 +73,7 @@
                                                 <td><img alt="avatar" src="{{ $people->getAvatar() }}" class="rounded-circle" width="30" /> {{ $people->names() }}</td>
                                                 <td>{{ \App\Shared\PeopleType::get($people->type) }}</td>
                                                 <td>{{ $people->phone }}</td>
+                                                <td>{{ $people->birthday != null ? date('d/m/Y', strtotime($people->birthday)) : "" }}</td>
                                                 <td>{{ $people->email }}</td>
                                                 <td>{{ date('d/m/Y H:i', strtotime($people->created_at)) }}</td>
                                                 <td>
@@ -87,7 +89,6 @@
                                                         <i data-feather="slash" class="nav-icon icon-xs"></i>
                                                     </button>
                                                 </td>
-                                                
                                             </tr>
                                         @endforeach
                                     </tbody>

@@ -30,8 +30,8 @@
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
     <script src="{{ asset('blockUI.js') }}"></script>
-    <script src="{{ asset('form.js') }}"></script>
-    <script src="{{ asset('mapper.js') }}"></script>
+    <script src="{{ asset('form.js?v=1') }}"></script>
+    <script src="{{ asset('mapper.js?v=1') }}"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script src="{{ asset('datetimepicker/jquery.datetimepicker.full.min.js') }}"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
@@ -69,6 +69,6 @@
     <script src="{{ asset('template/assets/libs/prismjs/plugins/toolbar/prism-toolbar.min.js') }}"></script>
     <script src="{{ asset('template/assets/libs/prismjs/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js') }}"></script>
     <script src="{{ asset('template/assets/js/theme.min.js') }}"></script>
-    <script src="{{ asset('general.js') }}"></script>
+    <script src="{{ asset('general.js?v=1') }}"></script>
 </body>
 </html>
