@@ -27,12 +27,12 @@ class AssistanceGeneralReport extends Report
         if(session('red') != null) $conditions .= " AND e.red = '".session('red')."'";
 
         if(session('profile_id') == ProfileID::SEGMENT_LEADER and ($post->type == EventType::CONECTIONS_GROUP or $this->isEmpty($post->type))){
-            $joins .= " LEFT JOIN conection_group_segment_leaders cgsl ON cgsl.conection_group_id = e.conection_group_id";
+            $joins .= " INNER JOIN conection_group_segment_leaders cgsl ON cgsl.conection_group_id = e.conection_group_id";
             $conditions .= " AND cgsl.people_id = ".session('people_id')."";
         } 
 
         if(session('profile_id') == ProfileID::LEADER and ($post->type == EventType::CONECTIONS_GROUP or $this->isEmpty($post->type))){
-            $joins .= " LEFT JOIN conection_group_leaders cgl ON cgl.conection_group_id = e.conection_group_id";
+            $joins .= " INNER JOIN conection_group_leaders cgl ON cgl.conection_group_id = e.conection_group_id";
             $conditions .= " AND cgl.people_id = ".session('people_id')."";
         } 
         
@@ -47,7 +47,7 @@ class AssistanceGeneralReport extends Report
         sum(if(a.attended = 1, 1, 0)) as attendeds, 
         sum(if(a.isNew = 1, 1, 0)) as news
         FROM event e 
-        INNER JOIN event_assistance a ON e.id = a.event_id
+        LEFT JOIN event_assistance a ON e.id = a.event_id
         $joins
         WHERE e.status = 1
         $conditions
