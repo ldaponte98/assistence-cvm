@@ -190,6 +190,7 @@ class EventController extends Controller
         if($event->type == EventType::CONECTIONS_GROUP){
             $in_group = ConectionGroupAssistant::where('status', 1)
                                                ->where('conection_group_id', $event->conection_group_id)
+                                               ->where('created_at', '<=', $event->end)
                                                ->get();
             foreach ($in_group as $assistantOld) {
                 $assistantOld = (object) $assistantOld;

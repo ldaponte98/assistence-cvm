@@ -46,7 +46,7 @@
                                 <option value="">Todas</option>
                                 @foreach (\App\Shared\RedType::LIST as $item)
                                     @if (\App\Models\User::validRed($item["code"]))
-                                        <option value="{{ $item["code"] }}">{{ $item["text"] }}</option>
+                                        <option @if (session('red') == $item["code"]) selected @endif value="{{ $item["code"] }}">{{ $item["text"] }}</option>
                                     @endif
                                 @endforeach
                             </select>
