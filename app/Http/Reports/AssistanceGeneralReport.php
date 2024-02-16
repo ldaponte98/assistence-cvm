@@ -5,6 +5,7 @@ use App\Models\People;
 use App\Models\ConectionGroup;
 use App\Models\ConectionGroupLeader;
 use App\Shared\PeopleType;
+use App\Shared\EventType;
 use App\Shared\ProfileID;
 use Illuminate\Support\Facades\DB;
 use App\Shared\Log;
@@ -24,8 +25,9 @@ class AssistanceGeneralReport extends Report
         if(!$this->isEmpty($post->red)) $conditions .= " AND e.red = '".$post->red."'";
         if(session('red') != null) $conditions .= " AND e.red = '".session('red')."'";
 
-        if(session('profile_id') == ProfileID::SEGMENT_LEADER) $conditions .= " AND cgsl.people_id = ".session('people_id')."";
-        if(session('profile_id') == ProfileID::LEADER) $conditions .= " AND cgl.people_id = ".session('people_id')."";
+        if(session('profile_id') == ProfileID::SEGMENT_LEADER and ($post->type == EventType::CONECTIONS_GROUP or $this->isEmpty($post->type))) $conditions .= " AND cgsl.people_id = ".session('people_id')."";
+        if(session('profile_id') == ProfileID::LEADER and ($post->type == EventType::CONECTIONS_GROUP or $this->isEmpty($post->type))) $conditions .= " AND cgl.people_id = ".session('people_id')."";
+        
         $sql = "SELECT 
         e.id as event_id,
         e.title,
