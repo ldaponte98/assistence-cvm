@@ -34,7 +34,7 @@
             if(item.isNew) news++
             render += `<div onclick="changeAssistant(${item.id})" class="row hand ${item.attended ? 'attended' : ''}">
                                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mt-2 mb-2">
-                                    <label class="hand"><b> ${item.name} </b></label> ${item.isNew ? renderIsNew : ""}
+                                    <label class="hand"><img alt="avatar" src="${item.avatar}" class="rounded-circle" width="30" /> <b> ${item.name} </b></label> ${item.isNew ? renderIsNew : ""}
                                 </div>
                             </div>
                         <hr>`

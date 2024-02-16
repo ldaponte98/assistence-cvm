@@ -197,6 +197,7 @@ class EventController extends Controller
                 $result[] = (object) [
                     "id" => $assistantOld->people_id,
                     "name" => $assistantOld->people->names(),
+                    "avatar" => $assistantOld->people->getAvatar(),
                     "attended" => false,
                     "isNew" => false
                 ];
@@ -208,6 +209,7 @@ class EventController extends Controller
                 $data = (object) [
                     "id" => $prev->people_id,
                     "name" => $prev->people->names(),
+                    "avatar" => $prev->people->getAvatar(),
                     "attended" => $prev->attended == 1,
                     "isNew" => $prev->isNew == 1
                 ];

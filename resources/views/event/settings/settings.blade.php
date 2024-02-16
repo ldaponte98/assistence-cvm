@@ -93,7 +93,9 @@
                 </div>
             </div>
             <div class="col-md-12 col-sm-12 mt-5 mb-5 pull-right">
-                <button onclick="saveAssistance()" class="btn btn-primary w-100 btn-loading">Guardar</button>
+                @if ($event->validForSettings())
+                    <button onclick="saveAssistance()" class="btn btn-primary w-100 btn-loading">Guardar</button>
+                @endif
             </div>
         </div>
     </div>
