@@ -8,6 +8,7 @@ use App\Http\Controllers\ConectionGroupController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\ReportController;
 
+Route::get('/test', function () { return view('site.test'); });
 Route::get('/', function () { return view('site.login'); });
 Route::group(['prefix' => 'panel'], function () {
 	Route::any('', [PanelController::class, 'index'])->name('panel');
