@@ -1,7 +1,13 @@
 {
     "name": "Asistencia CVM",
+    "short_name": "Asistencia CVM",
     "start_url" : "/",
     "icons": [
+      {
+        "src": "images/logo.png",
+        "type": "image/png",
+        "sizes": "192x192"
+      },
       {
         "src": "images/logo.png",
         "type": "image/png",
