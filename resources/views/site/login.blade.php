@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 	<title>Asistencia | CVM</title>
+	<link rel="manifest" href="{{ asset('manifest.json') }}">
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="icon" href="{{asset('images/logo.png')}}" sizes="32x32">

@@ -1,0 +1,9 @@
+{
+    "name" : "Asistencia CVM",
+    "icons" : [
+        {
+            "src" : "images/logo.png",
+            "type" : "image/png"
+        }
+    ]
+}
