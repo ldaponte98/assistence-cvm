@@ -72,5 +72,10 @@
     <script src="{{ asset('template/assets/libs/prismjs/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js') }}"></script>
     <script src="{{ asset('template/assets/js/theme.min.js') }}"></script>
     <script src="{{ asset('general.js?v=1') }}"></script>
+    <script>
+		if ('serviceWorker' in navigator) {
+			navigator.serviceWorker.register("/sw.js")
+		}
+	</script>
 </body>
 </html>

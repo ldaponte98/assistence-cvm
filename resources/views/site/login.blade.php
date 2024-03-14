@@ -95,5 +95,10 @@
 	<div id="dropDownSelect1"></div>
 	
 	<script src="{{ asset('general.js') }}"></script>
+	<script>
+		if ('serviceWorker' in navigator) {
+			navigator.serviceWorker.register("/sw.js")
+		}
+	</script>
 </body>
 </html>
