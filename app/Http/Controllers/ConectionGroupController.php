@@ -4,9 +4,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\People;
 use App\Models\ConectionGroup;
+use App\Models\ConectionGroupSegmentLeader;
 use App\Models\ConectionGroupAssistant;
 use App\Models\ConectionGroupLeader;
 use App\Shared\PeopleType;
+use App\Shared\ProfileID;
 use Illuminate\Support\Facades\DB;
 use App\Shared\Log;
 use Exception;
@@ -84,7 +86,33 @@ class ConectionGroupController extends Controller
 
     public function findByRed($red)
     {
-        return $this->responseApi(false, "OK", ConectionGroup::all()->where('red', $red)->where('status', 1));
+        $profile_id = session("profile_id");
+        $data = ConectionGroup::where('status', 1);
+
+        if($profile_id == ProfileID::SUPER_ADMIN and $red != null){
+            $data = $data->where('red', $red);
+        }
+
+        if($profile_id == ProfileID::RED_AUDITOR){
+            $data = $data->where('red', session('red'));
+        }
+
+        if($profile_id == ProfileID::SEGMENT_LEADER){
+            $relations = ConectionGroupSegmentLeader::where('people_id', session('people_id'))
+            ->get(['conection_group_id']);
+            $data = $data->where('red', session('red'))
+                             ->whereIn('conection_group_id', $relations);
+        }
+
+        if($profile_id == ProfileID::LEADER){
+            $relations = ConectionGroupLeader::where('people_id', session('people_id'))
+            ->get(['conection_group_id']);
+            $data = $data->where('red', session('red'))
+                             ->whereIn('conection_group_id', $relations);
+        }
+
+        $data = $data->get();
+        return $this->responseApi(false, "OK", $data);
     }
 
     public function meGroup()
