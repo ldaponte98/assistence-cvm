@@ -101,14 +101,14 @@ class ConectionGroupController extends Controller
             $relations = ConectionGroupSegmentLeader::where('people_id', session('people_id'))
             ->get(['conection_group_id']);
             $data = $data->where('red', session('red'))
-                             ->whereIn('conection_group_id', $relations);
+                             ->whereIn('id', $relations);
         }
 
         if($profile_id == ProfileID::LEADER){
             $relations = ConectionGroupLeader::where('people_id', session('people_id'))
             ->get(['conection_group_id']);
             $data = $data->where('red', session('red'))
-                             ->whereIn('conection_group_id', $relations);
+                             ->whereIn('id', $relations);
         }
 
         $data = $data->get();
