@@ -7,7 +7,7 @@
                 <div>
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="mb-2 mb-lg-0">
-                            <h3 class="mb-0  text-white">Inicio (Eventos)</h3>
+                            <h3 class="mb-0  text-white">Inicio (Eventos validos para asistencia)</h3>
                         </div>
                     </div>
                 </div>
@@ -26,7 +26,8 @@
                         </div>
                         <div>
                             <h1 class="fw-bold">{{ date('H:i', strtotime($event->start)) }}</h1>
-                            <p class="mb-0"> {{ $event->getInfo() }} </p>
+                            <p class="mb-0"> <b>{{ $event->getInfo() }}</b> </p>
+                            <p class="mb-0"> {{ $event->getInfoType() }} </p>
                         </div>
                         @if ($event->managed == 1)
                             <span class="badge bg-success">Asistencia tomada</span>

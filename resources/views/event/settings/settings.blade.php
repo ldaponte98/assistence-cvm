@@ -29,7 +29,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
+                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 mt-2">
                                 <label><b>Red: </b> {{ \App\Shared\RedType::get($event->red) }}</label>
                             </div>
                             <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 mt-2">
@@ -53,6 +53,20 @@
                             <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 mt-2">
                                 <label><b>Nuevos:  <span id="info-news">0</span></b></label>
                             </div>
+                            @if ($event->type == \App\Shared\EventType::CONECTIONS_GROUP)
+                            @php
+                                $leaders = $event->conection_group->getLeadersFull();
+                                $text = "";
+                                foreach ($leaders as $leader) {
+                                    if($text != "") $text .= ", ";
+                                    $text .= $leader->names();
+                                }
+                            @endphp
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mt-2">
+                                <label><b>Lideres: </b><span id="info-news">{{ $text }}</span></label>
+                            </div>
+                            @endif
+                            
                         </div>
                     </div>
                 </div>
@@ -75,6 +89,7 @@
                                 @endif
                             </div>
                         </div>
+                        <input type="text" placeholder="Consulta por cualquier campo" class="form-control mb-5" id="filter-assistants" onkeyup="filterAissistant(this.value)">
                         <div id="assistants">
                         </div>
                     </div>

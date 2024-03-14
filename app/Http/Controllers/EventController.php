@@ -29,7 +29,7 @@ class EventController extends Controller
             $events = $events->where('red', session('red'))
                              ->whereIn('conection_group_id', $relations);
         }
-        $events = $events->get();
+        $events = $events->with("conection_group")->get();
         return $this->responseApi(false, "OK", $events);
     }
 

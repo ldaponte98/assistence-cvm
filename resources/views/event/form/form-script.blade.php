@@ -51,7 +51,7 @@
             validation = await $.get(urlFindConectionGroups + red)
             setLoading(false)
             if(validation.error) throw validation.message
-            setDataSelect(validation.data, "id", "name", "conection_group_id", true, currentEntity != null ? currentEntity.conection_group_id : null)
+            setDataSelect(validation.data, "id", "name", "conection_group_id", true, "", currentEntity != null ? currentEntity.conection_group_id : null)
         } catch (error) {
             setLoading(false)
             showAlert("Error", error, "error")

@@ -58,4 +58,13 @@ class Event extends Model
         if($start == $tomorrow) $info = "Mañana";
         return $info;
     }
+
+    public function getInfoType()
+    {
+        $text = "";
+        if($this->type == EventType::CONECTIONS_GROUP){
+            $text = $this->conection_group->name; 
+        }
+        return $text;
+    }
 }

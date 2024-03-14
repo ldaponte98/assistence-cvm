@@ -59,7 +59,7 @@
             end: info.event.end,
             id: info.event.id,
             title: info.event.title,
-            red: info.event.red
+            red: info.event.red 
         }
         Object.assign(event, info.event.extendedProps);
         openEdit(JSON.stringify(event))
@@ -68,8 +68,12 @@
     function hoverEvent(info) {
         let hourStart = getHour(info.event.start)
         let hourEnd = getHour(info.event.end)
+        let title = info.event.title;
+        if(info.event.extendedProps.conection_group_id != null){
+            title += ` [${info.event.extendedProps.conection_group.name}]`
+        }
         $(info.el).tooltip({ 
-            title: info.event.title + ` (Horario: ${hourStart} hasta ${hourEnd})` 
+            title: title  + ` (Horario: ${hourStart} hasta ${hourEnd})` 
         });
     }
     

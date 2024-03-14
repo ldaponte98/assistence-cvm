@@ -1,28 +1,67 @@
 <script>
+    const urlFindConectionGroups = "{{env('APP_URL')}}/conection-group/find-by-red/"
     const urlFind = "{{env('APP_URL')}}/report/get-assistance-general"
+
     $(document).ready(() => {
         setFilter("filter-assistance-general", "tb-assistance-general")
     })
 
+    function localLoading(loading) {
+        $("#div-actions").css("display", loading ? "none" : "block")
+        $("#div-loading").css("display", loading ? "block" : "none")
+    }
+
     async function find() {
         try {
-            setLoading(true)
+            localLoading(true)
             let red = $("#red").val()
             let request = {
                 start: $("#start").val(),
                 end: $("#end").val(),
                 type: $("#type").val(),
-                red: $("#red").val()
+                red: $("#red").val(),
+                conection_group_id: $("#conection_group_id").val()
             }
             let validation = await $.post(urlFind, request)
-            setLoading(false)
+            localLoading(false)
             if(validation.error) throw validation.message
             drawBody(validation.data)
+        } catch (error) {
+            localLoading(false)
+            showAlert("Error", error, "error")
+        }
+    }
+
+    async function validateType() {
+        let type = $("#type option:selected").text();
+        await isConectionGroup(type)
+    }
+
+    async function isConectionGroup(type) {
+        let typeConectionGroup = "{{ \App\Shared\EventType::get(\App\Shared\EventType::CONECTIONS_GROUP) }}"
+        if (type == typeConectionGroup) {
+            $("#div_conection_group_id").fadeIn()
+            await findConectionGroups()
+        }else{
+            $("#div_conection_group_id").fadeOut()
+            $("#conection_group_id").val(null);
+        }
+    }
+
+    async function findConectionGroups() {
+        try {
+            setLoading(true)
+            let red = $("#red").val()
+            validation = await $.get(urlFindConectionGroups + red)
+            setLoading(false)
+            if(validation.error) throw validation.message
+            setDataSelect(validation.data, "id", "name", "conection_group_id", true, "Todos")
         } catch (error) {
             setLoading(false)
             showAlert("Error", error, "error")
         }
     }
+
 
     function drawBody(response) {
         let data = response.length == 0 ? "<tr><td colspan='8'><center>No se encontraron resultados</center></td></tr>" : "";
@@ -34,7 +73,7 @@
         }
         response.forEach(element => {
             let row = `<tr>
-                <td>${element.title}</td>
+                <td><a href="{{ route('event/settings', '-param-') }}" target="_blank">${element.title}</a></td>
                 <td>${element.start}</td>
                 <td>${element.end}</td>
                 <td>${element.assistance}</td>
@@ -73,6 +112,8 @@
     }
 
     function exportReport() {
+        localLoading(true)
         tableToExcel("tb-assistance-general", "Reporte de asistencias")
+        localLoading(false)
     }
 </script>

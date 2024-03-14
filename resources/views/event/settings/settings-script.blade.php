@@ -4,6 +4,7 @@
     const urlFindAssistants = "{{env('APP_URL')}}/event/find-assistants/{{$event->id}}"
     
     var assistants = []
+    var assistantsOrigin = []
 
     $(document).ready(async () => {
         await findAssistants()
@@ -66,6 +67,7 @@
             setLoadingFullScreen(false)
             if(validation.error) throw validation.message
             assistants = validation.data
+            assistantsOrigin = assistants
         } catch (error) {
             setLoadingFullScreen(false)
             showAlert("Error", error, "error")
@@ -102,6 +104,13 @@
             setLoadingFullScreen(false)
             showAlert("Error", error, "error")
         }
+    }
+
+    function filterAissistant(value) {
+        this.assistants = this.assistantsOrigin.filter(
+            item => item.name.toUpperCase().replaceAll(" ", "")
+            .includes(value.toUpperCase().replaceAll(" ", "")))
+        refreshAssistants()
     }
 
 </script>

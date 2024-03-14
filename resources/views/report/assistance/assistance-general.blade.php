@@ -31,7 +31,7 @@
                     <div class="col-lg-3 col-md-3 col-sm-12 mt-2">
                         <div class="mb-lg-0">
                             <label>Tipo</label>
-                            <select class="form-select property" id="type" name="type" onchange="validateType()">
+                            <select onchange="validateType()" class="form-select property" id="type" name="type" onchange="validateType()">
                                 <option value="">Todos</option>
                                 @foreach (\App\Shared\EventType::LIST as $item)
                                     <option value="{{ $item["code"] }}">{{ $item["text"] }}</option>
@@ -52,11 +52,26 @@
                             </select>
                         </div>
                     </div>
+                    <div id="div_conection_group_id" class="col-lg-3 col-md-3 col-sm-12 mt-2 hide">
+                        <div class="mb-lg-0">
+                            <label>Grupo de conexión</label>
+                            <select class="form-select property" id="conection_group_id" name="conection_group_id">
+                                <option value="">Todos</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
                 <div class="row mt-2">
                     <div class="col-lg-12 col-md-12 col-sm-12 center">
-                        <button class="btn btn-primary" onclick="find()">Consultar</button>
-                        <button id="btn-export" class="btn btn-success hide" onclick="exportReport()">Exportar</button>
+                        <div id="div-loading" class="text-center hide">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Por favor espere...</span>
+                            </div>
+                        </div>
+                        <div id="div-actions">
+                            <button class="btn btn-primary" onclick="find()">Consultar</button>
+                            <button id="btn-export" class="btn btn-success hide" onclick="exportReport()">Exportar</button>
+                        </div>
                     </div>
                 </div>
             </div>

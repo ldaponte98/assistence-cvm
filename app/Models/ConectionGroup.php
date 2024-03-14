@@ -53,6 +53,11 @@ class ConectionGroup extends Model
         return People::whereIn('id', $this->getIdsPeopleLeader(PeopleType::LEADER))->get(['id']);
     }
 
+    public function getLeadersFull()
+    {
+        return People::whereIn('id', $this->getIdsPeopleLeader(PeopleType::LEADER))->get();
+    }
+
     public function getSegmentLeaders()
     {
         return People::whereIn('id', $this->getIdsPeopleLeader(PeopleType::SEGMENT_LEADER))->get(['id']);
