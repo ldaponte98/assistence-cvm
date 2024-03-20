@@ -28,7 +28,7 @@ class ConectionGroupController extends Controller
     public function settings($id = null)
     {
         $entity = $id == null ? new ConectionGroup : ConectionGroup::find($id);
-        if($entity != null){
+        if($entity->id != null){
             $entity->segment_leaders = $entity->getSegmentLeaders();
             $entity->leaders = $entity->getLeaders();
         }
