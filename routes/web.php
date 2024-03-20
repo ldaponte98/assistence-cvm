@@ -32,6 +32,7 @@ Route::group(['prefix' => 'people'], function () {
 
 Route::group(['prefix' => 'conection-group'], function () {
 	Route::get('all', [ConectionGroupController::class, 'all'])->name('conection-group/all');
+	Route::get('settings/{id?}', [ConectionGroupController::class, 'settings'])->name('conection-group/settings');
 	Route::put('update', [ConectionGroupController::class, 'update'])->name('conection-group/update');
 	Route::post('create', [ConectionGroupController::class, 'create'])->name('conection-group/create');
 	Route::get('find-by-red/{red}', [ConectionGroupController::class, 'findByRed'])->name('conection-group/find-by-red');

@@ -10,17 +10,7 @@
                             <h3 class="mb-0  text-white">Grupos de conexión</h3>
                         </div>
                         <div>
-                            <button onclick="showNew()" class="btn btn-white" type="button">+ Nuevo</button>
-                            <button id="btn-entity" class="hide" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Nuevo</button>
-                            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-                                <div class="offcanvas-header">
-                                    <h4 id="offcanvasRightLabel"><b>Gestion de grupo de conexión</b></h4>
-                                    <button onclick="clean()" type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                                </div>
-                                <div class="offcanvas-body">
-                                    {{ view("conection-group.form.form") }}
-                                </div>
-                            </div>
+                            <a href="{{ route('conection-group/settings') }}" class="btn btn-white" type="button">+ Nuevo</a>
                         </div>
                     </div>
                 </div>
@@ -35,8 +25,9 @@
                                 <tr>
                                     <th class="center"><b>Nombre</b></th>
                                     <th class="center"><b>Red</b></th>
-                                    <th class="center"><b>Edad inicial</b></th>
-                                    <th class="center"><b>Edad final</b></th>
+                                    <th class="center"><b>¿Valida la edad?</b></th>
+                                    <th class="center"><b>¿Valida el barrio?</b></th>
+                                    <th class="center"><b>¿Admite casados?</b></th>
                                     <th class="center"><b>Estado</b></th>
                                     <th class="center"><b>Acciones</b></th>
                                 </tr>
@@ -46,8 +37,9 @@
                                     <tr>
                                         <td>{{ $item->name }}</td>
                                         <td>{{ \App\Shared\RedType::get($item->red) }}</td>
-                                        <td>{{ $item->initial_age }}</td>
-                                        <td>{{ $item->final_age }}</td>
+                                        <td class="center">{{ $item->check_years == 1 ? 'Si' : 'No' }}</td>
+                                        <td class="center">{{ $item->check_neighborhoods == 1 ? 'Si' : 'No' }}</td>
+                                        <td class="center">{{ $item->check_couples == 1 ? 'Si' : 'No' }}</td>
                                         <td class="center">
                                             @if ($item->status == 1)
                                                 <span class="badge bg-success">Activo</span>
@@ -56,9 +48,9 @@
                                             @endif
                                         </td>
                                         <td class="center">
-                                            <button onclick="openEdit('{{json_encode($item)}}')" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Gestionar información" type="button" class="btn btn-icon btn-white border border-2 rounded-circle btn-dashed ms-2">
+                                            <a href="{{ route('conection-group/settings', $item->id) }}" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Gestionar información" class="btn btn-icon btn-white border border-2 rounded-circle btn-dashed ms-2">
                                                 <i data-feather="settings" class="nav-icon icon-xs"></i>
-                                            </button>
+                                            </a>
                                         </td>
                                     </tr>
                                 @endforeach

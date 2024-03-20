@@ -31,7 +31,7 @@ class Event extends Model
     public function validForSettings()
     {
         $current = date('Y-m-d H:i:s'); 
-        $end = date('Y-m-d H:i:s', strtotime($this->start . "+1 days"));
+        $end = date('Y-m-d H:i:s', strtotime($this->end . "+1 days"));
         return $this->start <= $current && $end >= $current;
     }
 

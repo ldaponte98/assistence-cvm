@@ -17,6 +17,9 @@ class ConectionGroup extends Model
         'red',
         'initial_age',
         'final_age',
+        'check_years',
+        'check_neighborhoods',
+        'check_couples',
         'leader_id',
         'leader_segment_id',
         'status'
@@ -81,6 +84,17 @@ class ConectionGroup extends Model
 
     public function validate()
     {
+        if($this->check_years == null) $this->check_years = 0;
+        if($this->check_neighborhoods == null) $this->check_neighborhoods = 0;
+        if($this->check_couples == null) $this->check_couples = 0;
+
+        if($this->check_years == 1 and ($this->initial_age == null or $this->final_age == null)){
+            throw new Exception("Para esta configuración la edad inicial y final son obligatorias.");
+        }
+
+        if($this->check_years == 1 and $this->initial_age > $this->final_age){
+            throw new Exception("La edad inicial no puede ser mayor a la final.");
+        }
         $validation = ConectionGroup::where('name', $this->phone)->where('red', $this->name);
         if($this->id != null) $validation->where('id', '<>', $this->id);
         $validation = $validation->first();

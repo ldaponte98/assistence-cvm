@@ -25,6 +25,16 @@ class ConectionGroupController extends Controller
         return view('conection-group.all.all', compact(['groups'])); 
     }
 
+    public function settings($id = null)
+    {
+        $entity = $id == null ? new ConectionGroup : ConectionGroup::find($id);
+        if($entity != null){
+            $entity->segment_leaders = $entity->getSegmentLeaders();
+            $entity->leaders = $entity->getLeaders();
+        }
+        return view("conection-group.form.form", compact(['entity']));
+    }
+
     public function create(Request $request)
     {
         try {
@@ -35,6 +45,13 @@ class ConectionGroupController extends Controller
             $entity->fill($request->all());
             $entity->validate();
             $entity->created_by_id = session('id');
+            $entity->neighborhoods = "";
+            if($post->check_neighborhoods == 1){
+                foreach ($post->neighborhoods as $item) {
+                    if($entity->neighborhoods != "") $entity->neighborhoods .= "%%";
+                    $entity->neighborhoods .= $item;
+                }
+            }
             if(!$entity->save()){
                 throw new Exception("Ocurrio un error interno al almacenar el grupo de conexión, comuniquese con el administrador del sistema");
             }
@@ -57,6 +74,13 @@ class ConectionGroupController extends Controller
             if($entity == null) throw new Exception("El registro no existe");
             $entity->fill($request->all());
             $entity->validate();
+            $entity->neighborhoods = "";
+            if($post->check_neighborhoods == 1){
+                foreach ($post->neighborhoods as $item) {
+                    if($entity->neighborhoods != "") $entity->neighborhoods .= "%%";
+                    $entity->neighborhoods .= $item;
+                }
+            }
             if(!$entity->save()){
                 throw new Exception("Ocurrio un error interno al actualizar el grupo de conexión, comuniquese con el administrador del sistema");
             }
