@@ -50,9 +50,11 @@ class UserController extends Controller
     public function all()
     {
         $profile_id = session('profile_id');
+        $red = session('red');
         $users = [];
-        if($profile_id == 1) $users = User::all();
-        if($profile_id != 1) $users = User::all()->where('created_by_id', session('id'));
+        if($profile_id == ProfileID::SUPER_ADMIN) $users = User::all();
+        if($profile_id == ProfileID::RED_AUDITOR) $users = User::all()->where('red', $red);
+        if($profile_id != ProfileID::SUPER_ADMIN and $profile_id != ProfileID::RED_AUDITOR) $users = User::all()->where('created_by_id', session('id'));
         return view('user.all.all', compact(['users'])); 
     }
 
