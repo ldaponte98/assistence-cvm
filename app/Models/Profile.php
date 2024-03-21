@@ -23,24 +23,47 @@ class Profile extends Model
     {
         $fathers = [];
         $children = [];
+        $red = session('red');
         foreach ($this->menus->sortBy('menu.orden') as $menu_profile) { 
             if($menu_profile->menu->father_id == null) {
-                $father = (object)[
-                    "id" => $menu_profile->menu->id,
-                    "title" => $menu_profile->menu->title,
-                    "icon" => $menu_profile->menu->icon,
-                    "path" => $menu_profile->menu->path,
-                    "children" => []
-                ];
-                $fathers[] = $father;
+                $valid = false;
+                if($menu_profile->red != null and $menu_profile->red != "" and session('profile_id') != ProfileID::SUPER_ADMIN){
+                    $redes = explode(",", $menu_profile->red);
+                    foreach ($redes as $value) {
+                        if($value == $red) $valid = true;
+                    }
+                }else{
+                    $valid = true;
+                }
+                if($valid){
+                    $father = (object)[
+                        "id" => $menu_profile->menu->id,
+                        "title" => $menu_profile->menu->title,
+                        "icon" => $menu_profile->menu->icon,
+                        "path" => $menu_profile->menu->path,
+                        "children" => []
+                    ];
+                    $fathers[] = $father;
+                }
             }else{
-                $children[] = $menu_profile->menu;
+                $children[] = $menu_profile;
             }
         }
 
         foreach ($fathers as $father) {
             foreach ($children as $son) {
-                if($son->father_id == $father->id) array_push($father->children, $son);
+                $valid = false;
+                if($son->red != null and $son->red != "" and session('profile_id') != ProfileID::SUPER_ADMIN){
+                    $redes = explode(",", $son->red);
+                    foreach ($redes as $value) {
+                        if($value == $red) $valid = true;
+                    }
+                }else{
+                    $valid = true;
+                }
+                if($valid){
+                    if($son->menu->father_id == $father->id) array_push($father->children, $son->menu);
+                }
             }
         }
         return $fathers;

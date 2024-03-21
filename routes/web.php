@@ -7,6 +7,8 @@ use App\Http\Controllers\PeopleController;
 use App\Http\Controllers\ConectionGroupController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\ConnectionsController;
+
 
 Route::get('/test', function () { return view('site.test'); });
 Route::get('/', function () { return view('site.login'); });
@@ -49,6 +51,10 @@ Route::group(['prefix' => 'event'], function () {
 	Route::get('settings/{id}', [EventController::class, 'settings'])->name('event/settings');
 	Route::post('save-assistance', [EventController::class, 'saveAssistance'])->name('event/save-assistance');	
 	Route::get('find-assistants/{event_id}', [EventController::class, 'findAssistants'])->name('event/find-assistants');
+});
+
+Route::group(['prefix' => 'connections'], function () {
+	Route::get('members', [ConnectionsController::class, 'members'])->name('connections/members');
 });
 
 Route::group(['prefix' => 'report'], function () {

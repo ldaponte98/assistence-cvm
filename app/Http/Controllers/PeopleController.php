@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\ConectionGroupAssistant;
+use App\Models\ConnectionMember;
 use Illuminate\Http\Request;
 use App\Models\People;
 use Illuminate\Support\Facades\DB;
@@ -69,6 +70,10 @@ class PeopleController extends Controller
             if(isset($post->conection_group_id)){
                 $this->registerPeopleInGroup($post->conection_group_id, $entity->id);
             }
+            
+            if(isset($post->member_connections)){
+                $this->registerPeopleInConnections($entity->id);
+            }
             Log::save("Registro una nueva persona en la base de datos [".$post->phone."]");
             return $this->responseApi(false, "Registro almacenado exitosamente", $entity);
         } catch (Exception $e) {
@@ -80,6 +85,13 @@ class PeopleController extends Controller
     {
         $register = new ConectionGroupAssistant;
         $register->conection_group_id = $conection_group_id;
+        $register->people_id = $people_id;
+        $register->save();
+    }
+
+    public function registerPeopleInConnections($people_id)
+    {
+        $register = new ConnectionMember;
         $register->people_id = $people_id;
         $register->save();
     }
