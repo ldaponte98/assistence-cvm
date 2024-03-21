@@ -19,6 +19,7 @@ class ConectionGroupController extends Controller
     {
         $groups = [];
         $profile_id = session('profile_id');
+        $red = session('red');
         if($profile_id == ProfileID::SUPER_ADMIN) $groups = ConectionGroup::all();
         if($profile_id == ProfileID::RED_AUDITOR) $groups = ConectionGroup::all()->where('red', $red);
         foreach ($groups as $group) {
