@@ -18,8 +18,8 @@ class ConectionGroupController extends Controller
     public function all()
     {
         $groups = [];
-        if($profile_id == ProfileID::SUPER_ADMIN) $users = ConectionGroup::all();
-        if($profile_id == ProfileID::RED_AUDITOR) $users = ConectionGroup::all()->where('red', $red);
+        if($profile_id == ProfileID::SUPER_ADMIN) $groups = ConectionGroup::all();
+        if($profile_id == ProfileID::RED_AUDITOR) $groups = ConectionGroup::all()->where('red', $red);
         foreach ($groups as $group) {
             $group->segment_leaders = $group->getSegmentLeaders();
             $group->leaders = $group->getLeaders();
