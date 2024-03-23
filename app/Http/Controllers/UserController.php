@@ -16,7 +16,7 @@ class UserController extends Controller
         $post = $request->all();
         if ($post) {
             $post    = (object) $post;
-            $user = User::where('username', $post->username)
+            $user = User::where('username', str_replace(" ", "", $post->username))
                 ->where('status', 1)
                 ->first();
 
