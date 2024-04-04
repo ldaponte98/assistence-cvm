@@ -9,6 +9,7 @@ class RedType
     const CONQUERORS = "CONQUERORS";
     const KIDS = "KIDS";
     const CONNECTIONS = "CONNECTIONS";
+    const GUACOCHE = "GUACOCHE";
 
     const LIST = [
         ["code" => RedType::RELEVAT_GENERATION, "text" => "Generación relevante"],
@@ -16,7 +17,8 @@ class RedType
         ["code" => RedType::INSEPARABLE, "text" => "Inseparables"],
         ["code" => RedType::CONQUERORS, "text" => "Conquistadores"],
         ["code" => RedType::KIDS, "text" => "IgleKids"],
-        ["code" => RedType::CONNECTIONS, "text" => "Conexiones"]
+        ["code" => RedType::CONNECTIONS, "text" => "Conexiones"],
+        ["code" => RedType::GUACOCHE, "text" => "Guacoche"]
     ];
 
     public static function get($code)
