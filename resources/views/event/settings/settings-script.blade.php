@@ -55,9 +55,11 @@
             id: people.id,
             name: people.fullname + " " + (people.lastname != null ? people.lastname : ""),
             attended: true,
-            isNew: isNew
+            isNew: isNew,
+            avatar: people.gender == "F" ? "{{\App\Models\People::imageAvatar('F')}}" : "{{\App\Models\People::imageAvatar('M')}}"
         })
         refreshAssistants()
+        saveAssistance(true, false)
     }
 
     async function findAssistants() {
@@ -74,7 +76,7 @@
         }    
     }
 
-    async function saveAssistance(validateLength = true) {
+    async function saveAssistance(validateLength = true, refresh = true) {
         try{
             let go = true
             if(assistants.length == 0 && validateLength){
@@ -84,21 +86,22 @@
                 })
             }
             if(go){
-                setLoadingFullScreen(true)
+                setLoadingFullScreen(true, "Guardando la asistencia...")
                 let event_id = "{{$event->id}}"
                 let request = {
                     event_id: event_id,
                     assistants: this.assistants,
                     observations: $("#observations").val()
                 }
-                console.log({request: request})
                 let validation = await $.post(urlSaveAssistance, request)
                 setLoadingFullScreen(false)
                 if(validation.error) throw validation.message
-                showAlert("!Listo¡", validation.message, "success", () => {
-                    setLoadingFullScreen(true)
-                    location.reload()
-                })
+                if(refresh) {
+                        showAlert("!Listo¡", validation.message, "success", () => {
+                        setLoadingFullScreen(true)
+                        location.reload()
+                    })
+                }
             }            
         } catch (error) {
             setLoadingFullScreen(false)

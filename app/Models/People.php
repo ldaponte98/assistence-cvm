@@ -32,6 +32,11 @@ class People extends Model
         return $this->gender == 'F' ? asset('images/women.png') : asset('images/men.png');
     }
 
+    public static function imageAvatar($gender)
+    {
+        return $gender == 'F' ? asset('images/women.png') : asset('images/men.png');
+    }
+
     public function validate()
     {
         $validation = People::where('phone', $this->phone);
