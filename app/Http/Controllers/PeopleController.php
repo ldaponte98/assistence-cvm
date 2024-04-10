@@ -51,7 +51,15 @@ class PeopleController extends Controller
             OR UPPER(email) LIKE '%$characters%')";
             $result = DB::select($sql);
         }
+        foreach ($result as $people) {
+            $people = (object) $people;
+            $people->info = $this->stripAccents($people->info);
+        }
         return response()->json($result);
+    }
+
+    function stripAccents($str) {
+        return strtr(utf8_decode($str), utf8_decode('àáâãäçèéêëìíîïñòóôõöùúûüýÿÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝ'), 'aaaaaceeeeiiiinooooouuuuyyAAAAACEEEEIIIINOOOOOUUUUY');
     }
 
     public function create(Request $request)
