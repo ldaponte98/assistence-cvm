@@ -42,6 +42,7 @@ class Event extends Model
             $group = $this->conection_group;
             if($profile_id == ProfileID::SEGMENT_LEADER and $group->isSegmentLeader($people_id)) return true;
             if($profile_id == ProfileID::LEADER and $group->isLeader($people_id)) return true;
+            if($profile_id == ProfileID::RED_AUDITOR and ($group->isLeader($people_id) or $group->isSegmentLeader($people_id))) return true;
         }
         return false;
     }
