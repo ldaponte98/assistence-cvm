@@ -11,6 +11,7 @@ use App\Shared\ProfileID;
 use App\Shared\Util\Encryptor;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
+use App\External\Http;
 use Exception;
 
 class UserController extends Controller
@@ -62,35 +63,22 @@ class UserController extends Controller
         }
     }
 
-    public function _validate_token(Request $request)
-    {
-        $data = $request->all();
-        if($data){
-            $data = (object) $data;
-            $token = $data->key;
-            echo $token;die;
-            /*session([
-                        'id'              => $user->id,
-                        'people_id'       => $user->people_id,
-                        'profile_id'      => $user->profile_id,
-                        'red'             => $user->red
-                    ]);
-                    return redirect()->route('panel');*/
-        }else{
-            echo "acceso denegado";
-        }
-    }
-
     public function validate_token(Request $request)
     {
         $data = $request->all();
         if($data){
             $data = (object) $data;
             $token = $data->key;
-            $url = env("GENESIS_IDENTITY");
-            
+            $user = User::find($data->identity->id);
+            session([
+                'id'              => $user->id,
+                'people_id'       => $user->people_id,
+                'profile_id'      => $user->profile_id,
+                'red'             => $user->red
+            ]);
+            return redirect()->route('panel');
         }else{
-            echo "Acceso denegado";
+            echo "acceso denegado";
         }
     }
 

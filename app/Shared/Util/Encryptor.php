@@ -17,8 +17,8 @@ class Encryptor
             $llave = base64_encode($encrypted."::".$iv);
             $size = strlen($llave);
             $ultimo_caracter_llave = $llave[$size-1];
-            if (strpos($llave, ' ') !== false) {
-                $ultimo_caracter_llave = "*";
+            for ($i=0; $i < $size; $i++) { 
+                if($llave[$i] == " ") $ultimo_caracter_llave = "*";
             }
         }
         return $llave;

@@ -12,7 +12,9 @@ use App\Http\Controllers\ConnectionsController;
 
 Route::get('/test', function () { return view('site.test'); });
 Route::get('auth/{key}', function ($key) { return view('auth.validate', compact('key')); });
-Route::get('authentication/validate', [UserController::class, 'validate_token'])->name('authentication/validate');
+Route::middleware(['validate.token.application'])->group(function () {
+	Route::get('authentication/validate', [UserController::class, 'validate_token'])->name('authentication/validate');
+});
 Route::get('/', function () { return view('site.login'); });
 Route::group(['prefix' => 'panel'], function () {
 	Route::any('', [PanelController::class, 'index'])->name('panel');

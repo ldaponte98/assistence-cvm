@@ -18,12 +18,14 @@ class ValidateTokenApplication
     public function handle(Request $request, Closure $next)
     {
         $token = $request->header('Authorization');
+        $params = (object) $request->all();
+        if($token == null && isset($params->key)) $token = $params->key;
         if($token == null || $token == "")
-            return response()->json(null, 401);
+            return response()->json("Accedo denegado", 401);
         
         $decrypt = Encryptor::decrypt($token);
         if($decrypt == null)
-            return response()->json(null, 498);
+            return response()->json("Token no valido", 498);
 
         $identity = null;
         try {
