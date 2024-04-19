@@ -11,12 +11,14 @@ use App\Http\Controllers\ConnectionsController;
 
 
 Route::get('/test', function () { return view('site.test'); });
+Route::get('auth/{key}', function ($key) { return view('auth.validate', compact('key')); });
+Route::get('authentication/validate', [UserController::class, 'validate_token'])->name('authentication/validate');
 Route::get('/', function () { return view('site.login'); });
 Route::group(['prefix' => 'panel'], function () {
 	Route::any('', [PanelController::class, 'index'])->name('panel');
 });
 Route::group(['prefix' => 'user'], function () {
-	Route::post('login', [UserController::class, 'login']);
+	Route::post('login', [UserController::class, 'login'])->name('user/login');
 	Route::any('logout', [UserController::class, 'logout'])->name('logout');
 	Route::get('all', [UserController::class, 'all'])->name('user/all');
 	Route::put('change-status/{id}/{status}', [UserController::class, 'changeStatus'])->name('user/change-status');
