@@ -12,7 +12,6 @@ class User extends Model
         'profile_id',
         'people_id',
         'username',
-        'password',
         'red',
         'status',
     ];
