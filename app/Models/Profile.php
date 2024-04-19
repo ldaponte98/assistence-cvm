@@ -78,12 +78,12 @@ class Profile extends Model
         }
         if($profile_id == ProfileID::RED_AUDITOR) { //COORDINADOR GENERAL DE RED
             return Profile::all()
-            ->whereIn('id', [ProfileID::SEGMENT_LEADER, ProfileID::LEADER])
+            ->whereIn('id', [ProfileID::SEGMENT_LEADER, ProfileID::LEADER, ProfileID::RED_AUDITOR])
             ->where('status', 1);
         }
         if($profile_id == ProfileID::SEGMENT_LEADER) { //LIDER DE SEGMENTO
             return Profile::all()
-            ->whereIn('id', [ProfileID::LEADER, ProfileID::ASSISTANT])
+            ->whereIn('id', [ProfileID::LEADER, ProfileID::ASSISTANT, ProfileID::SEGMENT_LEADER])
             ->where('status', 1);
         }
         if($profile_id == ProfileID::LEADER) {
