@@ -4,9 +4,14 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\People;
+use App\Models\Application;
+use App\Models\ApplicationSession;
 use App\Shared\Log;
 use App\Shared\ProfileID;
+use App\Shared\Util\Encryptor;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
+use App\External\Http;
 use Exception;
 
 class UserController extends Controller
@@ -16,29 +21,64 @@ class UserController extends Controller
         $post = $request->all();
         if ($post) {
             $post    = (object) $post;
+            
+            if(!isset($post->key) || $post->key == "" || $post->key == null) {
+                return back()->withErrors(['error' => 'Acceso denegado por clave de aplicación, comunicate con el administrador del sistema.']);
+            }
+            //Validamos que la aplicación q esta consumiendo el recurso este activa y registrada
+            $application = Application::where('private_key', $post->key)
+                ->where('status', 1)
+                ->first();
+            if($application == null){
+                return back()->withErrors(['error' => 'Acceso denegado por clave de aplicación, comunicate con el administrador del sistema.']);
+            }
+
             $user = User::where('username', str_replace(" ", "", $post->username))
                 ->where('status', 1)
                 ->first();
-
             if ($user) {
                 $password = md5($post->password);
                 if (trim($user->password) == trim($password)) {
                     if ($user->status == 0) {
                         return back()->withErrors(['error' => 'Acceso denegado']);
                     }
-                    session([
-                        'id'              => $user->id,
-                        'people_id'       => $user->people_id,
-                        'profile_id'      => $user->profile_id,
-                        'red'             => $user->red,
-                        'user_fullname'   => $user->fullname,
-                    ]);
-                    return redirect()->route('panel');
+                    $current = date('Y-m-d H:i:s');
+                    $data = [
+                        'id' => $user->id,
+                        'fullname' => $user->people->fullname,
+                        'lastname' => $user->people->lastname,
+                        'gender' => $user->people->gender,
+                        'profile' => $user->profile->name,
+                        'expired' => date('Y-m-d H:i:s', strtotime($current . "+1 days"))
+                    ];
+                    $token = Encryptor::encrypt(json_encode($data));
+                    $params = "?key=$token";
+                    return Redirect::to($application->webhook_url . $params);
+                    
                 }
                 return back()->withErrors(['error' => 'Credenciales invalidas']);
             } else {
                 return back()->withErrors(['error' => 'Credenciales invalidas']);
             }
+        }
+    }
+
+    public function validate_token(Request $request)
+    {
+        $data = $request->all();
+        if($data){
+            $data = (object) $data;
+            $token = $data->key;
+            $user = User::find($data->identity->id);
+            session([
+                'id'              => $user->id,
+                'people_id'       => $user->people_id,
+                'profile_id'      => $user->profile_id,
+                'red'             => $user->red
+            ]);
+            return redirect()->route('panel');
+        }else{
+            echo "acceso denegado";
         }
     }
 
@@ -118,5 +158,12 @@ class UserController extends Controller
         } catch (Exception $e) {
             return $this->responseApi(true, $e->getMessage());
         }
+    }
+
+    public function identity(Request $request)
+    {
+        $data = $request->all();
+        $data = (object) $data;
+        return response()->json($data);
     }
 }
