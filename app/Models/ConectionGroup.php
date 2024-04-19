@@ -48,7 +48,8 @@ class ConectionGroup extends Model
 
     public function getAssistants()
     {
-        return People::whereIn('id', $this->getIdsPeopleAssistants())->get();
+        return People::whereIn('id', $this->getIdsPeopleAssistants())
+        ->orderBy('created_at', 'desc')->get();
     }
 
     public function getLeaders()
