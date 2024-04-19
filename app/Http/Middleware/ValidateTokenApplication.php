@@ -23,6 +23,7 @@ class ValidateTokenApplication
         if($token == null || $token == "")
             return response()->json("Accedo denegado", 401);
         
+        $token = str_replace(" ", "+",$token);    
         $decrypt = Encryptor::decrypt($token);
         if($decrypt == null)
             return response()->json("Token no valido", 498);
