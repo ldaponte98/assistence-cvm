@@ -188,9 +188,10 @@ class EventController extends Controller
         if($event == null) throw new Exception("El evento no existe");
         $result = [];
         if($event->type == EventType::CONECTIONS_GROUP){
+            $end = date('Y-m-d H:i:s', strtotime($event->end . "+1 days"));
             $in_group = ConectionGroupAssistant::where('status', 1)
                                                ->where('conection_group_id', $event->conection_group_id)
-                                               ->where('created_at', '<=', $event->end)
+                                               ->where('created_at', '<=', $end)
                                                ->get();
             foreach ($in_group as $assistantOld) {
                 $assistantOld = (object) $assistantOld;
