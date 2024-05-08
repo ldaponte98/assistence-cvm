@@ -19,6 +19,7 @@ class Encryptor
             $ultimo_caracter_llave = $llave[$size-1];
             for ($i=0; $i < $size; $i++) { 
                 if($llave[$i] == " ") $ultimo_caracter_llave = "*";
+                if($llave[$i] == "/") $ultimo_caracter_llave = "*";
             }
         }
         return $llave;
@@ -27,6 +28,7 @@ class Encryptor
     public static function decrypt($data)
     {
         try {
+            $data = str_replace(" ", "+",$data);
             $key  = env('KEY_ENCRYPT');
             list($encrypted_data, $iv) = explode('::', base64_decode($data), 2);
             $result = openssl_decrypt($encrypted_data, 'aes-256-cbc', $key, 0, $iv);

@@ -12,6 +12,8 @@ use App\Http\Controllers\ConnectionsController;
 
 Route::get('/test', function () { return view('site.test'); });
 Route::get('auth/{key}', function ($key) { return view('auth.validate', compact('key')); });
+Route::any('auth/reset-password/{key}/{encrypt_id}', [UserController::class, 'reset_password'])
+->name('auth/reset-password');
 Route::middleware(['validate.token.application'])->group(function () {
 	Route::get('authentication/validate', [UserController::class, 'validate_token'])->name('authentication/validate');
 });

@@ -42,16 +42,10 @@ class UserController extends Controller
                     if ($user->status == 0) {
                         return back()->withErrors(['error' => 'Acceso denegado']);
                     }
-                    $current = date('Y-m-d H:i:s');
-                    $data = [
-                        'id' => $user->id,
-                        'fullname' => $user->people->fullname,
-                        'lastname' => $user->people->lastname,
-                        'gender' => $user->people->gender,
-                        'profile' => $user->profile->name,
-                        'expired' => date('Y-m-d H:i:s', strtotime($current . "+1 days"))
-                    ];
-                    $token = Encryptor::encrypt(json_encode($data));
+                    if($user->initial_password == 1) {
+                        return redirect()->route('auth/reset-password', array('key' => $post->key,'encrypt_id' => Encryptor::encrypt($user->id)));
+                    }
+                    $token = $this->get_token_access($user);
                     $params = "?key=$token";
                     return Redirect::to($application->webhook_url . $params);
                     
@@ -63,19 +57,87 @@ class UserController extends Controller
         }
     }
 
+    public function get_token_access($user)
+    {
+        $current = date('Y-m-d H:i:s');
+        $data = [
+            'id' => $user->id,
+            'fullname' => $user->people->fullname,
+            'lastname' => $user->people->lastname,
+            'gender' => $user->people->gender,
+            'profile' => $user->profile->name,
+            'expired' => date('Y-m-d H:i:s', strtotime($current . "+1 days"))
+        ];
+        $token = Encryptor::encrypt(json_encode($data));
+        return $token;
+    }
+
+    public function reset_password(Request $request, $key, $encrypt_id)
+    {
+        try {
+            if(!isset($key) || $key == "" || $key == null) {
+                echo "Acceso denegado"; die;
+            }
+            //Validamos que la aplicación q esta consumiendo el recurso este activa y registrada
+            $application = Application::where('private_key', $key)
+                ->where('status', 1)
+                ->first();
+            if($application == null){
+                echo 'Acceso denegado por clave de aplicación, comunicate con el administrador del sistema.'; die;
+            }
+
+            $id_user = Encryptor::decrypt($encrypt_id);
+            if($id_user == null){
+                echo "Acceso denegado"; die;
+            } 
+            $user = User::where('id', $id_user)
+                ->where('status', 1)
+                ->first();
+            if ($user == null) {
+                echo "Acceso denegado"; die;
+            }
+
+            $post = $request->all();
+            if($post){
+                $post = (object) $post;
+                if(!isset($post->username)) throw new Exception("El nuevo nombre de usuario es requerido");
+                if(!isset($post->password)) throw new Exception("La nueva contraseña es requerida");
+                if(!isset($post->confirm_password)) throw new Exception("La confirmación de contraseña es requerida");
+                if($post->password != $post->confirm_password) throw new Exception("Las contraseñas no coinciden");
+
+                $user->password = md5($post->password);
+                $user->username = $post->username;
+                $user->initial_password = 0;
+                $user->validate();
+                $user->save();
+
+                $token = $this->get_token_access($user);
+                $params = "?key=$token";
+                return Redirect::to($application->webhook_url . $params);
+            }
+            return view('auth.change-password', compact(['user', 'key', 'encrypt_id'])); 
+        } catch (Exception $e) {
+            return back()->withErrors(['error' => $e->getMessage()]);
+        }
+    }
+    public function set_session($user_id)
+    {
+        $user = User::find($user_id);
+        session([
+            'id'              => $user->id,
+            'people_id'       => $user->people_id,
+            'profile_id'      => $user->profile_id,
+            'red'             => $user->red
+        ]);
+    }
+
     public function validate_token(Request $request)
     {
         $data = $request->all();
         if($data){
             $data = (object) $data;
             $token = $data->key;
-            $user = User::find($data->identity->id);
-            session([
-                'id'              => $user->id,
-                'people_id'       => $user->people_id,
-                'profile_id'      => $user->profile_id,
-                'red'             => $user->red
-            ]);
+            $this->set_session($data->identity->id);
             return redirect()->route('panel');
         }else{
             echo "acceso denegado";

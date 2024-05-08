@@ -38,4 +38,9 @@ class Controller extends BaseController
     {
         return strtolower(date('l', strtotime($date)));
     }
+
+    public function isEmpty($var)
+    {
+        return $var == null || $var == "";
+    }
 }
