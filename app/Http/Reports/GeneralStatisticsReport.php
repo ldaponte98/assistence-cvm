@@ -64,6 +64,8 @@ class GeneralStatisticsReport extends Report
         $response = (object)[
             'assistance_zero' => 0,
             'assistance_only_one' => 0,
+            'assistance_only_two' => 0,
+            'assistance_only_tree' => 0,
             'total' => count($result),
             'real' => 0
         ];
@@ -72,8 +74,10 @@ class GeneralStatisticsReport extends Report
             $item = (object) $item;
             if($item->attends == 0) $response->assistance_zero++;
             if($item->attends == 1) $response->assistance_only_one++;
+            if($item->attends == 2) $response->assistance_only_two++;
+            if($item->attends == 3) $response->assistance_only_tree++;
         }
-        $response->real = $response->total - $response->assistance_zero - $response->assistance_only_one;
+        $response->real = $response->total - $response->assistance_zero - $response->assistance_only_one - $response->assistance_only_two - $response->assistance_only_tree;
         return $response;
     }
 

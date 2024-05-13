@@ -114,6 +114,14 @@
                                                     <td class="right"><b>Asistio solo una vez</b></td>
                                                     <td class="center"><b id="actives-database-only-one">0</b></td>
                                                 </tr>
+                                                <tr>
+                                                    <td class="right"><b>Asistio solo dos veces</b></td>
+                                                    <td class="center"><b id="actives-database-only-two">0</b></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right"><b>Asistio solo tres veces</b></td>
+                                                    <td class="center"><b id="actives-database-only-tree">0</b></td>
+                                                </tr>
                                             </thead>
                                             <tbody class="table-light">
                                                 <tr>
