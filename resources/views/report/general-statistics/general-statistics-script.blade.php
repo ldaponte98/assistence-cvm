@@ -44,6 +44,7 @@
 
     async function generate() {
         try {
+            $("#totalByDate").html("")
             localLoading(true)
             let red = $("#red").val()
             let request = {
