@@ -66,5 +66,9 @@ Route::group(['prefix' => 'connections'], function () {
 Route::group(['prefix' => 'report'], function () {
 	Route::view('assistance-general', 'report.assistance.assistance-general');
 	Route::post('get-assistance-general', [ReportController::class, 'getAssistanceGeneral'])->name('report/get-assistance-general');
+	Route::view('general-statistics', 'report.general-statistics.general-statistics');
+	Route::post('generate-general-statistics', [ReportController::class, 'generateGeneralStatistics'])->name('report/generate-general-statistics');
+
+	
 });
 

@@ -49,16 +49,18 @@
     }
 
     async function findConectionGroups() {
-        try {
-            setLoading(true)
-            let red = $("#red").val()
-            validation = await $.get(urlFindConectionGroups + red)
-            setLoading(false)
-            if(validation.error) throw validation.message
-            setDataSelect(validation.data, "id", "name", "conection_group_id", true, "Todos")
-        } catch (error) {
-            setLoading(false)
-            showAlert("Error", error, "error")
+        let red = $("#red").val()
+        if(!isEmpty(red)){
+            try {
+                setLoading(true)
+                validation = await $.get(urlFindConectionGroups + red)
+                setLoading(false)
+                if(validation.error) throw validation.message
+                setDataSelect(validation.data, "id", "name", "conection_group_id", true, "Todos")
+            } catch (error) {
+                setLoading(false)
+                showAlert("Error", error, "error")
+            }
         }
     }
 
