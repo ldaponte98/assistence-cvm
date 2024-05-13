@@ -65,6 +65,12 @@
     }
 
     function drawStatistics(response) {
+        this.drawRealityDatabase(response)
+        this.drawGraphicsAssistances(response)
+        $(".div-charts").fadeIn()
+    }
+
+    function drawGraphicsAssistances(response) {
         const data = response.totalByDate;
         new Chart(document.getElementById('totalByDate'),
             {
@@ -85,8 +91,8 @@
                         {
                             label: 'Asistentes',
                             data: data.map(row => row.attendeds),
-                            borderColor: '#FF6384',
-                            backgroundColor: '#FFB1C1',
+                            borderColor: 'red',
+                            backgroundColor: '#ffffff00',
                             pointStyle: 'circle',
                             pointRadius: 10,
                             pointHoverRadius: 15
@@ -95,7 +101,7 @@
                             label: 'Nuevos',
                             data: data.map(row => row.news),
                             borderColor: '#36A2EB',
-                            backgroundColor: '#9BD0F5',
+                            backgroundColor: '#ffffff00',
                             pointStyle: 'circle',
                             pointRadius: 10,
                             pointHoverRadius: 15
@@ -104,16 +110,22 @@
                         {
                             label: 'Registrados',
                             data: data.map(row => row.total),
-                            borderColor: '#eb6000',
-                            backgroundColor: '#f08d49',
+                            borderColor: 'green',
+                            backgroundColor: '#ffffff00',
                             pointStyle: 'circle',
                             pointRadius: 10,
-                            pointHoverRadius: 15                            
+                            pointHoverRadius: 15
                         }
                     ]
                 }
             }
         );
-        $(".div-charts").fadeIn()
+    }
+
+    function drawRealityDatabase(response) {
+        $("#actives-database-total").html(response.extractorActives.total)
+        $("#actives-database-zero").html(response.extractorActives.assistance_zero)
+        $("#actives-database-only-one").html(response.extractorActives.assistance_only_one)
+        $("#actives-database-real").html(response.extractorActives.real)
     }
 </script>

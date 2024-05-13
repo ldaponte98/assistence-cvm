@@ -15,18 +15,22 @@ use Exception;
 class GeneralStatisticsReport extends Report
 {
     public function __construct(
-        AssistanceGeneralReport $assistanceGeneralReport
+        AssistanceGeneralReport $assistanceGeneralReport,
+        ActiveAssistantReport $activeAssistantReport
     )
     {
         $this->assistanceGeneralReport = $assistanceGeneralReport;
+        $this->activeAssistantReport = $activeAssistantReport;
     }
     public function generate($request)
     {
         $result = $this->assistanceGeneralReport->generate($request);
-        $report = (object) [
-            'totalByDate' => $this->reportGeneralByDate($result)
+        $resultActives = $this->activeAssistantReport->generate($request);
+        return (object) [
+            'detailsExtractorActives' => $resultActives,
+            'totalByDate' => $this->reportGeneralByDate($result),
+            'extractorActives' => $this->reportExtractorActives($resultActives)
         ];
-        return $report;
     }
 
     public function reportGeneralByDate($result)
@@ -53,6 +57,24 @@ class GeneralStatisticsReport extends Report
             }
         }
         return $report;
+    }
+
+    public function reportExtractorActives($result)
+    {
+        $response = (object)[
+            'assistance_zero' => 0,
+            'assistance_only_one' => 0,
+            'total' => count($result),
+            'real' => 0
+        ];
+
+        foreach ($result as $item) {
+            $item = (object) $item;
+            if($item->attends == 0) $response->assistance_zero++;
+            if($item->attends == 1) $response->assistance_only_one++;
+        }
+        $response->real = $response->total - $response->assistance_zero - $response->assistance_only_one;
+        return $response;
     }
 
     public function existInArray($array, $property, $value)
