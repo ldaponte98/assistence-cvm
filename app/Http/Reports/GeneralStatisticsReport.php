@@ -4,6 +4,7 @@ namespace App\Http\Reports;
 use App\Models\People;
 use App\Models\ConectionGroup;
 use App\Models\ConectionGroupLeader;
+use App\Models\EventAssistance;
 use App\Shared\PeopleType;
 use App\Shared\EventType;
 use App\Shared\ProfileID;
@@ -36,16 +37,16 @@ class GeneralStatisticsReport extends Report
                 $item = (object) $item;
                 $date = date('Y-m-d', strtotime($item->start));
                 $index = $this->existInArray($report, 'date', $date);
-                
+                $total = $this->totalOldsByEvent($item->event_id, $date);
                 if($index == -1){                
-                    $report[] = [ 
+                    $report[] = [
                         'date' => $date,
-                        'total' => $item->total, 
+                        'total' => $total, 
                         'attendeds' => $item->attendeds, 
                         'news' => $item->news
                     ];
                 }else{
-                    $report[$index]['total'] += $item->total;
+                    $report[$index]['total'] += $total;
                     $report[$index]['attendeds'] += $item->attendeds;
                     $report[$index]['news'] += $item->news;
                 }
@@ -65,5 +66,14 @@ class GeneralStatisticsReport extends Report
             $pos++;
         }
         return $result;
+    }
+
+    public function totalOldsByEvent($event_id, $date)
+    {
+        return DB::table('event_assistance as ea')
+            ->join('people as p', 'p.id', '=', 'ea.people_id')
+            ->where('ea.event_id', $event_id)
+            ->where('p.created_at', '<=', "$date 23:59:59")
+            ->count();
     }
 }
