@@ -41,6 +41,7 @@ class AssistanceGeneralReport extends Report
         $conection_group_type = EventType::CONECTIONS_GROUP;
         $sql = "SELECT 
         e.id as event_id,
+        e.conection_group_id as conection_group_id,
         CASE WHEN e.type = '$conection_group_type' then
             CONCAT(e.title, ' (', cg.name, ')')
         else 
@@ -59,7 +60,7 @@ class AssistanceGeneralReport extends Report
         $joins
         WHERE e.status = 1
         $conditions
-        GROUP BY 1, 2, 3, 4, 5
+        GROUP BY 1, 2, 3, 4, 5, 6
         ORDER BY e.start ASC";
         return DB::select($sql);
     }
