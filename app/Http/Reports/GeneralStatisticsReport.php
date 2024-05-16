@@ -15,18 +15,22 @@ use Exception;
 class GeneralStatisticsReport extends Report
 {
     public function __construct(
-        AssistanceGeneralReport $assistanceGeneralReport
+        AssistanceGeneralReport $assistanceGeneralReport,
+        ActiveAssistantReport $activeAssistantReport
     )
     {
         $this->assistanceGeneralReport = $assistanceGeneralReport;
+        $this->activeAssistantReport = $activeAssistantReport;
     }
     public function generate($request)
     {
         $result = $this->assistanceGeneralReport->generate($request);
-        $report = (object) [
-            'totalByDate' => $this->reportGeneralByDate($result)
+        $resultActives = $this->activeAssistantReport->generate($request);
+        return (object) [
+            'detailsExtractorActives' => $resultActives,
+            'totalByDate' => $this->reportGeneralByDate($result),
+            'extractorActives' => $this->reportExtractorActives($resultActives)
         ];
-        return $report;
     }
 
     public function reportGeneralByDate($result)
@@ -38,11 +42,11 @@ class GeneralStatisticsReport extends Report
                 $date = date('Y-m-d', strtotime($item->start));
                 $index = $this->existInArray($report, 'date', $date);
                 $total = $this->totalOldsByEvent($item->event_id, $date);
-                if($index == -1){                
+                if($index == -1){
                     $report[] = [
                         'date' => $date,
-                        'total' => $total, 
-                        'attendeds' => $item->attendeds, 
+                        'total' => $total,
+                        'attendeds' => $item->attendeds,
                         'news' => $item->news
                     ];
                 }else{
@@ -55,6 +59,28 @@ class GeneralStatisticsReport extends Report
         return $report;
     }
 
+    public function reportExtractorActives($result)
+    {
+        $response = (object)[
+            'assistance_zero' => 0,
+            'assistance_only_one' => 0,
+            'assistance_only_two' => 0,
+            'assistance_only_tree' => 0,
+            'total' => count($result),
+            'real' => 0
+        ];
+
+        foreach ($result as $item) {
+            $item = (object) $item;
+            if($item->attends == 0) $response->assistance_zero++;
+            if($item->attends == 1) $response->assistance_only_one++;
+            if($item->attends == 2) $response->assistance_only_two++;
+            if($item->attends == 3) $response->assistance_only_tree++;
+        }
+        $response->real = $response->total - $response->assistance_zero - $response->assistance_only_one - $response->assistance_only_two - $response->assistance_only_tree;
+        return $response;
+    }
+
     public function existInArray($array, $property, $value)
     {
         $pos = 0;
@@ -62,7 +88,7 @@ class GeneralStatisticsReport extends Report
         foreach ($array as $item) {
             if($item[$property] == $value){
                 $result = $pos;
-            } 
+            }
             $pos++;
         }
         return $result;
@@ -70,10 +96,11 @@ class GeneralStatisticsReport extends Report
 
     public function totalOldsByEvent($event_id, $date)
     {
-        return DB::table('event_assistance as ea')
-            ->join('people as p', 'p.id', '=', 'ea.people_id')
-            ->where('ea.event_id', $event_id)
-            ->where('p.created_at', '<=', "$date 23:59:59")
-            ->count();
+        $sql = "SELECT cga.people_id
+        FROM conection_group_assistant as cga
+        LEFT JOIN people as p on p.id = cga.people_id
+        WHERE cga.conection_group_id = (select distinct(e.conection_group_id) from event_assistance ea left join event e on e.id = ea.event_id where e.id = $event_id)
+        AND p.created_at <= '$date 23:59:59'";
+        return count(DB::select($sql));
     }
 }

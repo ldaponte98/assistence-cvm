@@ -87,7 +87,54 @@
                             </div>
                         </div>
                     </div>
-                    
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-6 div-charts mb-5" style="display: none">
+            <div class="col-md-12 col-sm-12 col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12 col-12">
+                                <h2><b>Realidad de asistentes a grupos de conexión</b></h2>
+                                <div class="table-responsive text-center mt-3">
+                                    <center>
+                                        <table class="table text-nowrap mb-0" style="width: 70%;">
+                                            <thead >
+                                            <tr>
+                                                    <td class="right"><b>Registrados</b></td>
+                                                    <td class="center"><b id="actives-database-total">0</b></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right"><b>Nunca ha asistido</b></td>
+                                                    <td class="center"><b id="actives-database-zero">0</b></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right"><b>Asistio solo una vez</b></td>
+                                                    <td class="center"><b id="actives-database-only-one">0</b></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right"><b>Asistio solo dos veces</b></td>
+                                                    <td class="center"><b id="actives-database-only-two">0</b></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="right"><b>Asistio solo tres veces</b></td>
+                                                    <td class="center"><b id="actives-database-only-tree">0</b></td>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="table-light">
+                                                <tr>
+                                                    <th class="right"><b>Activos reales</b></th>
+                                                    <th class="center"><b id="actives-database-real">0</b></th>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </center>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
