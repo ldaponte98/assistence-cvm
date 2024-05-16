@@ -41,7 +41,7 @@ class GeneralStatisticsReport extends Report
                 $item = (object) $item;
                 $date = date('Y-m-d', strtotime($item->start));
                 $index = $this->existInArray($report, 'date', $date);
-                $total = $this->totalOldsByEvent($item->event_id, $date);
+                $total = $this->totalOldsByEvent($item->event_id, $item->end);
                 if($index == -1){
                     $report[] = [
                         'date' => $date,
@@ -96,11 +96,12 @@ class GeneralStatisticsReport extends Report
 
     public function totalOldsByEvent($event_id, $date)
     {
+        $compare = date('Y-m-d', strtotime($date . " +24 hours"));
         $sql = "SELECT cga.people_id
         FROM conection_group_assistant as cga
         LEFT JOIN people as p on p.id = cga.people_id
         WHERE cga.conection_group_id = (select distinct(e.conection_group_id) from event_assistance ea left join event e on e.id = ea.event_id where e.id = $event_id)
-        AND p.created_at <= '$date 23:59:59'";
+        AND p.created_at <= '$compare 23:59:59'";
         return count(DB::select($sql));
     }
 }
