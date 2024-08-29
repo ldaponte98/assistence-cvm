@@ -166,4 +166,30 @@ class ConectionGroupController extends Controller
             return $this->responseApi(true, $e->getMessage());
         }
     }
+
+    public function assignPeople(Request $request)
+    {
+        try {
+            $post = $request->all();        
+            if($post == null) throw new Exception("Error de información enviada");
+            $post = (object) $post;
+            $group = ConectionGroup::find($post->group_id);
+            if($group == null) throw new Exception("El grupo no existe");
+            $people = People::find($post->people_id);
+            if($people == null) throw new Exception("La persona no existe");
+
+            ConectionGroupAssistant::where('people_id', $post->people_id)->delete();
+
+            $entity = new ConectionGroupAssistant;
+            $entity->conection_group_id = $post->group_id;
+            $entity->people_id = $post->people_id;
+            if(!$entity->save()){
+                throw new Exception("Ocurrio un error interno al agregar al asistente al grupo de conexión, comuniquese con el administrador del sistema");
+            }
+            Log::save("Agregaron a un nuevo integrante a un grupo [Grupo ID: ".$group->id."][Persona: ".$people->phone."]");
+            return $this->responseApi(false, "Asistente asociado al grupo de conexión exitosamente");
+        } catch (Exception $e) {
+            return $this->responseApi(true, $e->getMessage());
+        }
+    }
 }

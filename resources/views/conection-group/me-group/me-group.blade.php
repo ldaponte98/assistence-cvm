@@ -11,7 +11,7 @@
                         </div>
                         <div>
                             @if ($group != null)
-                            <button onclick="showNew({{ $group->id }})" class="btn btn-white mobile-w-100" type="button">+ Nuevo</button>
+                            <button onclick="$('#dialog-validate-people').modal('show'); $('#phone-validate-people').focus()" class="btn btn-white mobile-w-100" type="button">+ Nuevo integrante</button>
                             <button id="btn-entity" class="btn btn-white mobile-w-100 hide" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">+ Nuevo asistente</button>
                             <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
                                 <div class="offcanvas-header">
@@ -111,5 +111,6 @@
                 @endif
             </div>        
     </div>
-    {{ view('conection-group.me-group.me-group-script') }}
+    {{ view('conection-group.me-group.me-group-script', compact(['group'])) }}
+    {{ view('event.settings.components.modal-validate-people.modal-validate-people') }}
 @endsection
