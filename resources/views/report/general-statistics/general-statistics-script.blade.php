@@ -123,11 +123,13 @@
     }
 
     function drawRealityDatabase(response) {
+        let percentageRetention = (response.extractorActives.real / response.extractorActives.total) * 100;
+        percentageRetention = Math.round(percentageRetention);
         $("#actives-database-total").html(response.extractorActives.total)
         $("#actives-database-zero").html(response.extractorActives.assistance_zero)
         $("#actives-database-only-one").html(response.extractorActives.assistance_only_one)
         $("#actives-database-only-two").html(response.extractorActives.assistance_only_two)
         $("#actives-database-only-tree").html(response.extractorActives.assistance_only_tree)
-        $("#actives-database-real").html(response.extractorActives.real)
+        $("#actives-database-real").html(response.extractorActives.real + " (" + percentageRetention + "%)")
     }
 </script>
