@@ -46,6 +46,7 @@
             @endforeach
         </select>
     </div>
+    <input type="hidden" id="member_connections" value="1">
     <div class="col-md-12 col-sm-12 mt-5 pull-right">
         <button onclick="save()" class="btn btn-primary w-100 btn-loading">Guardar</button>
         <div class="text-center loading">

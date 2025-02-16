@@ -68,4 +68,18 @@ class Event extends Model
         }
         return $text;
     }
+
+    public static function createEvent($request, $start, $end, $conection_group_id = null)
+    {
+        $entity = new Event;
+        $entity->fill($request->except(['conection_group_id']));
+        $entity->conection_group_id = $conection_group_id;
+        $entity->validate();
+        $entity->start = $start;
+        $entity->end = $end;
+        $entity->created_by_id = session("id");
+        if(!$entity->save()){
+            throw new Exception("Ocurrio un error interno al programar el evento, comuniquese con el administrador del sistema");
+        }
+    }
 }

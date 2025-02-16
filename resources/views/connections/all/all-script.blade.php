@@ -1,7 +1,28 @@
 <script>
-    function showNew() {
+    const urlAssignPeople = "{{env('APP_URL')}}/connections/assign-member"
+    
+    setTypePeopleDefault("{{ \App\Shared\PeopleType::SERVER }}")
+
+    async function postSaveForm(response) {
         clean()
-        $("#btn-entity").click()
-        this.extraData.push({key: "member_connections", value: 1})
+        $(".btn-close").click()
+        setLoadingFullScreen(true)
+        let request = {
+            people_id: response.data.id
+        }
+        let validation = await $.post(urlAssignPeople, request)
+        setLoadingFullScreen(false)
+        if(validation.error){
+            showAlert("Error", validation.message, "error", 
+            () => {
+                $(".btn-close").click()
+            })
+            return;
+        }
+        showAlert("!Listo¡", validation.message, "success", 
+        () => {
+            setLoadingFullScreen(true)
+            location.reload()
+        })
     }
 </script>

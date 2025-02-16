@@ -1,5 +1,9 @@
 <script>
     const urlValidatePeople = "{{env('APP_URL')}}/people/find-by-phone/"
+    var typePeopleDefault = "{{\App\Shared\PeopleType::FOLLOWER}}" 
+    function setTypePeopleDefault(type) {
+        this.typePeopleDefault = type
+    }
     async function validatePeople() {
         let value = $("#phone-validate-people").val()
         if(isEmpty(value)){
@@ -13,7 +17,7 @@
             if(validation.error) throw validation.message
             let search = validation.data
             if(search != null){
-                let message = `Se encontro que el número de telefono pertenece a ${search.fullname + " " + search.lastname} ¿Deseas agregarlo como asistente del evento?`
+                let message = `Se encontro que el número de telefono pertenece a ${search.fullname + " " + search.lastname} ¿Deseas agregarlo?`
                 showAlert("!Confirma¡", message, "info", () => {
                     postSaveForm(validation, false)
                 }, null, "Sí", "Cancelar")
@@ -22,7 +26,7 @@
                 openEdit(JSON.stringify(
                     {
                         phone: value, 
-                        type: "{{\App\Shared\PeopleType::FOLLOWER}}",
+                        type: typePeopleDefault,
                         status: "{{\App\Shared\PeopleStatus::ACTIVE}}"
                     }))
             }              

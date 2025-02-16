@@ -7,7 +7,7 @@
         { property: "birthday", message: "Fecha de nacimiento es un campo obligatorio" },
         { property: "fullname", message: "Nombres es un campo obligatorio" },
         { property: "gender", message: "Estado es un campo obligatorio" },
-        { property: "status", message: "Estado es un campo obligatorio" }
+        { property: "status", message: "Estado es un campo obligatorio" },
+        { property: "member_connections", message: "Error en la asignacion para grupo de conexiones" }
     ];
-    
 </script>

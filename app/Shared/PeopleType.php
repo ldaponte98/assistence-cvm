@@ -6,6 +6,7 @@ class PeopleType
     const PASTOR = "PASTOR";
     const SEGMENT_LEADER = "SEGMENT_LEADER";
     const LEADER = "LEADER";
+    const SERVER = "SERVER";
     const MENTOR = "BELIEVER";
     const FOLLOWER = "FOLLOWER";
     const NEW_BELIEVER = "NEW_BELIEVER";
@@ -14,6 +15,7 @@ class PeopleType
         ["code" => PeopleType::NEW_BELIEVER, "text" => "Nuevo creyente"],
         ["code" => PeopleType::FOLLOWER, "text" => "Discipulo"],
         ["code" => PeopleType::MENTOR, "text" => "Mentor"],
+        ["code" => PeopleType::SERVER, "text" => "Servidor"],
         ["code" => PeopleType::LEADER, "text" => "Lider"],
         ["code" => PeopleType::SEGMENT_LEADER, "text" => "Lider de segmento"],
         ["code" => PeopleType::PASTOR, "text" => "Pastor"]

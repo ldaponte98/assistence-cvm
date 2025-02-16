@@ -62,6 +62,7 @@ Route::group(['prefix' => 'event'], function () {
 
 Route::group(['prefix' => 'connections'], function () {
 	Route::get('members', [ConnectionsController::class, 'members'])->name('connections/members');
+	Route::post('assign-member', [ConnectionsController::class, 'assignPeople'])->name('connections/assign-member');
 });
 
 Route::group(['prefix' => 'report'], function () {
@@ -69,7 +70,5 @@ Route::group(['prefix' => 'report'], function () {
 	Route::post('get-assistance-general', [ReportController::class, 'getAssistanceGeneral'])->name('report/get-assistance-general');
 	Route::view('general-statistics', 'report.general-statistics.general-statistics');
 	Route::post('generate-general-statistics', [ReportController::class, 'generateGeneralStatistics'])->name('report/generate-general-statistics');
-
-	
 });
 

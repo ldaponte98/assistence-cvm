@@ -95,6 +95,7 @@ class PeopleController extends Controller
         $register->conection_group_id = $conection_group_id;
         $register->people_id = $people_id;
         $register->save();
+        Log::save("Se agrego nuevo integrante [".$people_id."] a grupo de conexion [".$conection_group_id."]");
     }
 
     public function registerPeopleInConnections($people_id)
@@ -102,6 +103,7 @@ class PeopleController extends Controller
         $register = new ConnectionMember;
         $register->people_id = $people_id;
         $register->save();
+        Log::save("Se agrego nuevo miembro [".$people_id."] a conexiones");
     }
 
     public function update(Request $request)
@@ -118,7 +120,7 @@ class PeopleController extends Controller
                 throw new Exception("Ocurrio un error interno al actualizar el registro, comuniquese con el administrador del sistema");
             }
             Log::save("Actualizo información de una persona en la base de datos [".$post->phone."]");
-            return $this->responseApi(false, "Registro actualizado exitosamente");
+            return $this->responseApi(false, "Registro actualizado exitosamente", (object)[ "id" => $post->id]);
         } catch (Exception $e) {
             return $this->responseApi(true, $e->getMessage());
         }

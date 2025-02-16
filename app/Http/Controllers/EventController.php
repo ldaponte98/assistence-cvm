@@ -43,25 +43,22 @@ class EventController extends Controller
             $dateEnd = date('Y-m-d', strtotime($post->end));
             $validDates = false;
             
-            if(count($post->conection_group_id) == 0) $post->conection_group_id = [null];
+            if($post->type == EventType::CONECTIONS_GROUP and count($post->conection_group_id) == 0) $post->conection_group_id = [null];
             
             while ($dateStart <= $dateEnd) {
                 $dayWeek = $this->getDayWeek($dateStart);
                 if(in_array("all", $post->days) || in_array($dayWeek, $post->days)){
-                    foreach ($post->conection_group_id as $conection_group_id) {
-                        $validDates = true;
-                        $timeStart = date('H:i:s', strtotime($post->start));
-                        $timeEnd = date('H:i:s', strtotime($post->end));
-                        $entity = new Event;
-                        $entity->fill($request->except(['conection_group_id']));
-                        $entity->conection_group_id = $conection_group_id;
-                        $entity->validate();
-                        $entity->start = $dateStart . " " . $timeStart;
-                        $entity->end = $dateStart . " " . $timeEnd;
-                        $entity->created_by_id = session("id");
-                        if(!$entity->save()){
-                            throw new Exception("Ocurrio un error interno al programar el evento, comuniquese con el administrador del sistema");
+                    $validDates = true;
+                    $timeStart = date('H:i:s', strtotime($post->start));
+                    $timeEnd = date('H:i:s', strtotime($post->end));
+                    $finalStart = $dateStart . " " . $timeStart;
+                    $finalEnd = $dateStart . " " . $timeEnd;
+                    if ($post->type == EventType::CONECTIONS_GROUP) {
+                        foreach ($post->conection_group_id as $conection_group_id) {
+                            Event::createEvent($request, $finalStart, $finalEnd, $conection_group_id);
                         }
+                    }else {
+                        Event::createEvent($request, $finalStart, $finalEnd);
                     }
                 }
                 $dateStart = date('Y-m-d', strtotime($dateStart . " +1 days"));
@@ -83,7 +80,7 @@ class EventController extends Controller
             $post = (object) $post;
             $entity = Event::find($post->id);
             if($entity == null) throw new Exception("El evento no existe");
-            if(count($post->conection_group_id) != 1 and $post->type == EventType::CONECTIONS_GROUP) throw new Exception("No se puede modificar el evento porque en este apartado debes enviar solo un grupo de conexión.");
+            if($post->type == EventType::CONECTIONS_GROUP and count($post->conection_group_id) != 1) throw new Exception("No se puede modificar el evento porque en este apartado debes enviar solo un grupo de conexión.");
             $dateStart = date('Y-m-d', strtotime($post->start));
             $dateEnd = date('Y-m-d', strtotime($post->end));
             if($dateStart != $dateEnd) throw new Exception("No se puede modificar el evento porque las fechas deben ser el mismo dia");

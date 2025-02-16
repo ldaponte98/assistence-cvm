@@ -10,7 +10,7 @@
                             <h3 class="mb-0  text-white">Miembros de conexiones</h3>
                         </div>
                         <div>
-                            <button onclick="showNew()" class="btn btn-white" type="button">+ Nuevo</button>
+                            <button onclick="$('#dialog-validate-people').modal('show'); $('#phone-validate-people').focus()" class="btn btn-white mobile-w-100" type="button">+ Nuevo miembro</button>
                             <button id="btn-entity" class="hide" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Nuevo</button>
                             <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
                                 <div class="offcanvas-header">
@@ -69,5 +69,6 @@
             </div>
         </div>
     </div>
+    {{ view('event.settings.components.modal-validate-people.modal-validate-people') }}
     {{ view('connections.all.all-script') }}
 @endsection
