@@ -38,7 +38,7 @@ class ConectionGroup extends Model
 
     public function getIdsPeopleAssistants()
     {
-        $result = DB::select("SELECT people_id FROM conection_group_assistant WHERE conection_group_id = " . $this->id);
+        $result = DB::select("SELECT people_id FROM conection_group_assistant WHERE status = 1 and conection_group_id = " . $this->id);
         $ids = [];
         foreach ($result as $item) {
             $ids[] = $item->people_id;
@@ -81,6 +81,16 @@ class ConectionGroup extends Model
             if($people_id == $id_valid) return true;
         }
         return false;
+    }
+
+    public function getTextLeaders() {
+        $leaders = $this->getLeadersFull();
+        $text = "";
+        foreach ($leaders as $leader) {
+            if($text != "") $text .= ", ";
+            $text .= $leader->names();
+        }
+        return $text;
     }
 
     public function validate()

@@ -23,7 +23,7 @@ class Controller extends BaseController
         ]);
     }
 
-    public function getPeopleFromText($text_people)
+    public function getPeopleFromText($text_people, $return_object = false)
     {
         $array = explode("(Tel: ", $text_people);
         if(count($array) != 2) throw new Exception("El registro de base de datos enviado no es valido");
@@ -31,7 +31,7 @@ class Controller extends BaseController
         if($phone == null || $phone == "") throw new Exception("El registro de base de datos enviado no cumple la estructura definida");
         $people = People::where('phone', $phone)->first();
         if($people == null) throw new Exception("El registro de base de datos enviado no es valido segun su numero de telefono");
-        return $people->id;
+        return !$return_object ? $people->id : $people;
     }
 
     public function getDayWeek($date)

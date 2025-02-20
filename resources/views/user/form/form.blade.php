@@ -40,3 +40,4 @@
     </div>
 </div>
 {{ view('user.form.form-script') }}
+{{ view('general-utilities-script') }}

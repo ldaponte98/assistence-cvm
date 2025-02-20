@@ -62,6 +62,10 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm {
     padding: 10px;
 }
 
+.text-tran-none thead th{
+    text-transform: none !important;
+}
+
 @media only screen and (max-width: 600px) {
     .fc .fc-toolbar{
         display: block;

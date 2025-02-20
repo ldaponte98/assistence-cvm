@@ -45,7 +45,7 @@ class UserController extends Controller
                     if($user->initial_password == 1) {
                         return redirect()->route('auth/reset-password', array('key' => $post->key,'encrypt_id' => Encryptor::encrypt($user->id)));
                     }
-                    $token = $this->get_token_access($user);
+                    $token = $this->get_token_access($user, $application);
                     $params = "?key=$token";
                     return Redirect::to($application->webhook_url . $params);
                     
@@ -57,11 +57,13 @@ class UserController extends Controller
         }
     }
 
-    public function get_token_access($user)
+    public function get_token_access($user, $application)
     {
         $current = date('Y-m-d H:i:s');
         $data = [
             'id' => $user->id,
+            'app_id' => $application->id,
+            'document' => $user->people->document,
             'fullname' => $user->people->fullname,
             'lastname' => $user->people->lastname,
             'gender' => $user->people->gender,

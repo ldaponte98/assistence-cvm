@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Shared\EventType;
+use App\Shared\RedType;
 use App\Shared\ProfileID;
 
 class Event extends Model
@@ -60,6 +61,25 @@ class Event extends Model
         return $info;
     }
 
+    public function getDateInfo()
+    {
+        $current = date('Y-m-d');
+        $yesterday = date('Y-m-d', strtotime($current . "-1 days"));
+        $tomorrow = date('Y-m-d', strtotime($current . "+1 days"));
+        $start = date('Y-m-d', strtotime($this->start));
+        $info = "";
+        if($start == $current) $info = "Hoy";
+        if($start == $yesterday) $info = "Ayer";
+        if($start == $tomorrow) $info = "Mañana";
+
+        if ($info == "") {
+            $timeStart = date('H:i', strtotime($this->start));
+            $timeEnd = date('H:i', strtotime($this->end));
+            $info = $start . " desde las $timeStart hasta las $timeEnd";
+        }
+        return $info;
+    }
+
     public function getInfoType()
     {
         $text = "";
@@ -67,5 +87,13 @@ class Event extends Model
             $text = $this->conection_group->name; 
         }
         return $text;
+    }
+
+    public function getTextType() {
+        return EventType::get($this->type);
+    }
+
+    public function getTextRed() {
+        return RedType::get($this->red);
     }
 }

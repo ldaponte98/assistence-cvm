@@ -4,7 +4,7 @@ namespace App\External;
 
 class Http
 {
-    public static function execute($method, $url, $request = null, $array_headers = [], $encode = true, $timeout = 120)
+    public static function execute($method, $url, $request = null, $array_headers = [], $encode = true, $timeout = 10)
     {
         $response = null;
         $error    = true;

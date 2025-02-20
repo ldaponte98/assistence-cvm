@@ -36,6 +36,7 @@ Route::group(['prefix' => 'people'], function () {
 	Route::get('find-by-phone/{phone}', [PeopleController::class, 'findByPhone'])->name('people/find-by-phone');
 	Route::put('update', [PeopleController::class, 'update'])->name('people/update');
 	Route::post('create', [PeopleController::class, 'create'])->name('people/create');
+	Route::any('history', [PeopleController::class, 'history'])->name('people/history');
 });
 
 Route::group(['prefix' => 'conection-group'], function () {

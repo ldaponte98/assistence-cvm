@@ -9,6 +9,7 @@ class PeopleType
     const MENTOR = "BELIEVER";
     const FOLLOWER = "FOLLOWER";
     const NEW_BELIEVER = "NEW_BELIEVER";
+    const CLINIC_PATIENT = "CLINIC_PATIENT";
 
     const LIST = [
         ["code" => PeopleType::NEW_BELIEVER, "text" => "Nuevo creyente"],
@@ -16,6 +17,7 @@ class PeopleType
         ["code" => PeopleType::MENTOR, "text" => "Mentor"],
         ["code" => PeopleType::LEADER, "text" => "Lider"],
         ["code" => PeopleType::SEGMENT_LEADER, "text" => "Lider de segmento"],
+        ["code" => PeopleType::CLINIC_PATIENT, "text" => "Paciente de clínica"],
         ["code" => PeopleType::PASTOR, "text" => "Pastor"]
     ];
 

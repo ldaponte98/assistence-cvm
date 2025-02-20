@@ -34,24 +34,32 @@
     async function postSaveForm(response) {
         clean()
         $(".btn-close").click()
-        setLoadingFullScreen(true)
-        let request = {
-            group_id: {{ $group->id }},
-            people_id: response.data.id
-        }
-        let validation = await $.post(urlAssignPeople, request)
-        setLoadingFullScreen(false)
-        if(validation.error){
-            showAlert("Error", validation.message, "error", 
-            () => {
-                $(".btn-close").click()
-            })
-            return;
-        }
-        showAlert("!Listo¡", validation.message, "success", 
-        () => {
+        if(response.data){
             setLoadingFullScreen(true)
-            location.reload()
-        })
+            let request = {
+                group_id: {{ $group->id }},
+                people_id: response.data.id
+            }
+            let validation = await $.post(urlAssignPeople, request)
+            setLoadingFullScreen(false)
+            if(validation.error){
+                showAlert("Error", validation.message, "error", 
+                () => {
+                    $(".btn-close").click()
+                })
+                return;
+            }
+            showAlert("!Listo¡", validation.message, "success", 
+            () => {
+                setLoadingFullScreen(true)
+                location.reload()
+            })
+        }else{
+            showAlert("!Listo¡", response.message, "success", 
+            () => {
+                setLoadingFullScreen(true)
+                location.reload()
+            })
+        }
     }
 </script>

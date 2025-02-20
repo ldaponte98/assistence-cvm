@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\People;
 use Illuminate\Support\Facades\DB;
 use App\Shared\Log;
+use App\Shared\ApplicationWebhookHandler;
+use App\Shared\PeopleStatus;
 use Exception;
 
 class PeopleController extends Controller
@@ -21,7 +23,14 @@ class PeopleController extends Controller
     {
         $people = People::where('phone', $phone)->first();
         $message = $people != null ? "OK" : "Persona no existe por telefono enviado";
-        return $this->responseApi(false, "OK", $people);
+        return $this->responseApi($people == null, $message, $people);
+    }
+
+    public function findByDocument($value)
+    {
+        $people = People::where('document', $value)->first();
+        $message = $people != null ? "OK" : "Persona no existe";
+        return $this->responseApi($people == null, $message, $people);
     }
 
     public function findByCharacters($characters, $type = null)
@@ -70,6 +79,7 @@ class PeopleController extends Controller
             $post = (object) $post;
             $entity = new People;
             $entity->created_by_id = session("id");
+            $entity->cre = $post->identity->
             $entity->fill($request->all());
             $entity->validate();
             if(!$entity->save()){
@@ -118,9 +128,48 @@ class PeopleController extends Controller
                 throw new Exception("Ocurrio un error interno al actualizar el registro, comuniquese con el administrador del sistema");
             }
             Log::save("Actualizo información de una persona en la base de datos [".$post->phone."]");
+            ApplicationWebhookHandler::run(ApplicationWebhookHandler::UPDATE_PEOPLE, $entity);
             return $this->responseApi(false, "Registro actualizado exitosamente");
         } catch (Exception $e) {
             return $this->responseApi(true, $e->getMessage());
         }
+    }
+
+    public function createExternal(Request $request){
+        try {
+            $post = $request->all();    
+            if($post == null) throw new Exception("Error de información enviada");
+            $post = (object) $post;
+            $entity = new People;
+            $entity->created_by_id = 0;
+            $entity->application_created_by = $post->identity->app_id;
+            $entity->status = PeopleStatus::ACTIVE;
+            $entity->fill($request->all());
+            $entity->validate();
+            if(!$entity->save()){
+                throw new Exception("Ocurrio un error interno al almacenar el registro, comuniquese con el administrador del sistema");
+            }
+            Log::save("Registro una nueva persona en la base de datos [".$post->phone."] desde la app id: " . $post->identity->app_id);
+            return $this->responseApi(false, "Registro almacenado exitosamente", $entity);
+        } catch (Exception $e) {
+            return $this->responseApi(true, $e->getMessage());
+        }
+    }
+
+    public function history(Request $request) {
+        $people = null;
+        $error = null;
+        try {
+            $data = [];
+            $post = $request->all();
+            if ($post) {
+                $post = (object) $post;
+                $people = $this->getPeopleFromText($post->people, true);
+            }
+        } catch (Exception $e) {
+            $people = null;
+            $error = $e->getMessage();
+        }
+        return view("people.history.history", compact(["people", "error"]));
     }
 }

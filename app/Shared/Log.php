@@ -9,7 +9,7 @@ class Log
         DB::table('log')->insert(
             [
                 'message' => $message, 
-                'user_id' => session('id')
+                'user_id' => session('id') ? session('id') : 0
             ]
         );
     }

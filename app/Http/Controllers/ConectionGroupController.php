@@ -158,9 +158,15 @@ class ConectionGroupController extends Controller
     public function removePeople($people_id, $conection_group_id)
     {
         try {
-            ConectionGroupAssistant::where('conection_group_id', $conection_group_id)
+            $groups = ConectionGroupAssistant::where('conection_group_id', $conection_group_id)
             ->where('people_id', $people_id)
-            ->delete();
+            ->get();
+
+            foreach ($groups as $group_assistance) {
+                $group_assistance->status = 0;
+                $group_assistance->save();
+            }
+
             return $this->responseApi(false, "Participante eliminado del grupo exitosamente");
         } catch (Exception $e) {
             return $this->responseApi(true, $e->getMessage());
