@@ -23,7 +23,7 @@ class PeopleController extends Controller
     {
         $people = People::where('phone', $phone)->first();
         $message = $people != null ? "OK" : "Persona no existe por telefono enviado";
-        return $this->responseApi($people == null, $message, $people);
+        return $this->responseApi(false, $message, $people);
     }
 
     public function findByDocument($value)
@@ -79,7 +79,7 @@ class PeopleController extends Controller
             $post = (object) $post;
             $entity = new People;
             $entity->created_by_id = session("id");
-            $entity->cre = $post->identity->
+            $entity->application_created_by = session("app_id");
             $entity->fill($request->all());
             $entity->validate();
             if(!$entity->save()){

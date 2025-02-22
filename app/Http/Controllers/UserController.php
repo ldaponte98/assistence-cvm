@@ -122,14 +122,16 @@ class UserController extends Controller
             return back()->withErrors(['error' => $e->getMessage()]);
         }
     }
-    public function set_session($user_id)
+    public function set_session($identity)
     {
-        $user = User::find($user_id);
+        $user = User::find($identity->id);
+        if ($user == null) return back()->withErrors(['error' => "Usuario invalido"]);
         session([
             'id'              => $user->id,
             'people_id'       => $user->people_id,
             'profile_id'      => $user->profile_id,
-            'red'             => $user->red
+            'red'             => $user->red,
+            'app_id'          => $identity->app_id
         ]);
     }
 
@@ -139,7 +141,7 @@ class UserController extends Controller
         if($data){
             $data = (object) $data;
             $token = $data->key;
-            $this->set_session($data->identity->id);
+            $this->set_session($data->identity);
             return redirect()->route('panel');
         }else{
             echo "acceso denegado";
