@@ -106,15 +106,21 @@ class People extends Model
         return $result;
     }
 
+    public function compareDate($a, $b){
+        return strtotime(trim($a->created_at)) > strtotime(trim($b->created_at));
+    }
+
     public function getAssistances(){
         $relations = EventAssistance::all()->where('people_id', $this->id);
         $result = [];
         foreach ($relations as $relation) {
             $result[] = (object) [
                 "event" => $relation->event,
-                "assistance" => $relation
+                "assistance" => $relation,
+                "created_at" => $relation->created_at
             ];
         }
+        usort($result, 'compareDate');
         return $result;
     }
 }

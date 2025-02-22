@@ -15,7 +15,7 @@
         <tbody>
             @foreach ($people->getAssistances() as $item)
             <tr>
-                <td>{{ $item->event->title }}</td>
+                <td>{{ date('Y-m-d H:i:s', strtotime($item->assistance->created_at)) }}</td>
                 <td class="center">
                     <span class="badge bg-{{$item->assistance->attended == 1 ? 'success' : 'danger'}}">
                         {{ $item->assistance->attended == 1 ? 'Sí' : 'No'}}
@@ -26,7 +26,7 @@
                         {{ $item->assistance->isNew == 1 ? 'Sí' : 'No'}}
                     </span>
                 </td>
-                <td>{{ date('Y-m-d H:i:s', strtotime($item->assistance->created_at)) }}</td>
+                <td>{{ $item->event->title }}</td>
                 <td>{{ $item->event->getTextType()}}</td>
                 <td>{{ $item->event->getTextRed()}}</td>
                 <td>{{ $item->event->getInfoType()}}</td>
