@@ -106,8 +106,8 @@ class People extends Model
         return $result;
     }
 
-    public function compareDate($a, $b){
-        return strtotime(trim($a->created_at)) > strtotime(trim($b->created_at));
+    private static function compareDate($a, $b){
+        return strtotime(trim($a->created_at)) < strtotime(trim($b->created_at));
     }
 
     public function getAssistances(){
@@ -120,7 +120,7 @@ class People extends Model
                 "created_at" => $relation->created_at
             ];
         }
-        usort($result, 'compareDate');
+        usort($result, array( $this, 'compareDate' ));
         return $result;
     }
 }
