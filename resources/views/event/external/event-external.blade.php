@@ -43,8 +43,8 @@
 		<div class="wrap-input100 validate-input m-b-23" data-validate="Contraseña es obligatoria">
 			<span class="label-input100">Genero<span class="required">*</span></span>
 			<select class="form-control" name="gender" required>
-				<option value="M">Maculino</option>
 				<option value="F">Femenino</option>
+				<option value="M">Maculino</option>
 				<option value="O">Otro</option>
 			</select>
 		</div>
