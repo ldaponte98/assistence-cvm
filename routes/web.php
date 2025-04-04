@@ -9,18 +9,24 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ConnectionsController;
 
-
+//PUBLICAS
 Route::get('/test', function () { return view('site.test'); });
 Route::get('auth/{key}', function ($key) { return view('auth.validate', compact('key')); });
-Route::any('auth/reset-password/{key}/{encrypt_id}', [UserController::class, 'reset_password'])
-->name('auth/reset-password');
+Route::any('auth/reset-password/{key}/{encrypt_id}', [UserController::class, 'reset_password'])->name('auth/reset-password');
+Route::get('event/autoregister/{id}', [EventController::class, 'autoregister'])->name('event/autoregister');
+Route::post('event/autoregister/save/{id}', [EventController::class, 'saveAutoregister'])->name('event/autoregister/save');
+
+Route::get('/', function () { return view('site.login'); });
+
+//PRIVADAS
 Route::middleware(['validate.token.application'])->group(function () {
 	Route::get('authentication/validate', [UserController::class, 'validate_token'])->name('authentication/validate');
 });
-Route::get('/', function () { return view('site.login'); });
+
 Route::group(['prefix' => 'panel'], function () {
 	Route::any('', [PanelController::class, 'index'])->name('panel');
 });
+
 Route::group(['prefix' => 'user'], function () {
 	Route::post('login', [UserController::class, 'login'])->name('user/login');
 	Route::any('logout', [UserController::class, 'logout'])->name('logout');
@@ -70,7 +76,5 @@ Route::group(['prefix' => 'report'], function () {
 	Route::post('get-assistance-general', [ReportController::class, 'getAssistanceGeneral'])->name('report/get-assistance-general');
 	Route::view('general-statistics', 'report.general-statistics.general-statistics');
 	Route::post('generate-general-statistics', [ReportController::class, 'generateGeneralStatistics'])->name('report/generate-general-statistics');
-
-	
 });
 

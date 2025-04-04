@@ -20,7 +20,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
     <title>Asistencia | CVM</title>
-    
+    <script type="text/javascript" src="{{ asset('qr/qrcode.js') }}"></script>
     <script src="{{ asset('template/assets/libs/jquery/dist/jquery.min.js') }}"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <script src="{{ asset('template/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>

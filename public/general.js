@@ -293,3 +293,12 @@ $('.daterangepicker').daterangepicker({
     format: 'M/DD hh:mm A'
   }
 });
+
+function generateQR(link, idDiv, width = 100, height = 100, title = null) {		
+	var qrcode = new QRCode(document.getElementById(idDiv), {
+    width : width,
+    height : height
+  });
+  qrcode.makeCode(link);
+  $("#"+idDiv).attr("title", title != null ? title : link)
+}

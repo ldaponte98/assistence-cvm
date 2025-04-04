@@ -4,6 +4,8 @@
     const urlFindConectionGroups = "{{env('APP_URL')}}/conection-group/find-by-red/"
     const urlCancel = "{{env('APP_URL')}}/event/cancel/"
 
+    const urlAutoregister = "{{env('APP_URL')}}/event/autoregister/"
+
     var requiredFields = [
         { property: "type", message: "Tipo de evento es un campo obligatorio" },
         { property: "red", message: "La red es un campo obligatorio" },
@@ -23,11 +25,29 @@
         $("#end").val(parseDateEventShow(entity.end))
         $('.select2').trigger('change.select2');
         validateType();
+        validateAutoregister();
     }
 
     async function validateType() {
         let type = $("#type option:selected").text();
         await isConectionGroup(type)
+        isExternal(type)
+    }
+
+    function validateAutoregister() {
+        try {
+            if (currentEntity.id != null && currentEntity.id != undefined && currentEntity.id != "") {
+                const link = urlAutoregister + currentEntity.id
+                $("#link-autoregister").attr('href', link);
+                generateQR(link, "qr-event", 100, 100, "Da clic para abrir el formulario");
+                $("#box-autoregister").fadeIn()
+            }else{
+                $("#box-autoregister").fadeOut()
+            }
+        } catch (error) {
+            console.error(error)
+        }
+        
     }
 
     async function isConectionGroup(type) {
@@ -41,6 +61,15 @@
             $("#box-group").fadeOut()
             $("#conection_group_id").val(null);
             $('.select2').trigger('change.select2');
+        }
+    }
+
+    function isExternal(type) {
+        let typeExternal = "{{ \App\Shared\EventType::get(\App\Shared\EventType::EXTERNAL) }}"
+        if(type == typeExternal){
+            requiredFields = requiredFields.filter(item => item.property != "red");
+            $("#box-red").fadeOut();
+            $("#red").val(null);
         }
     }
 

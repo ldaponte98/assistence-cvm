@@ -113,7 +113,7 @@ class UserController extends Controller
                 $user->validate();
                 $user->save();
 
-                $token = $this->get_token_access($user);
+                $token = $this->get_token_access($user, $application);
                 $params = "?key=$token";
                 return Redirect::to($application->webhook_url . $params);
             }

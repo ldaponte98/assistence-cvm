@@ -43,6 +43,7 @@ class EventController extends Controller
             $dateEnd = date('Y-m-d', strtotime($post->end));
             $validDates = false;
             
+            if (!isset($post->conection_group_id)) $post->conection_group_id = [null];
             if(count($post->conection_group_id) == 0) $post->conection_group_id = [null];
             
             while ($dateStart <= $dateEnd) {
@@ -128,6 +129,26 @@ class EventController extends Controller
         if($event == null) throw new Exception("El evento no existe");
         $event->isValid = $event->validForSettings();
         return view("event.settings.settings", compact(['event']));
+    }
+
+    public function autoregister($id) {
+        try{
+            $event = Event::find($id);
+            if($event == null) throw new Exception("El evento no existe");
+            return view("event.external.event-external", compact(['event']));
+        } catch (Exception $e) {
+            echo "Acceso no valido";
+        }
+    }
+
+    public function saveAutoregister(Request $request, $id) {
+        try{
+            $event = Event::find($id);
+            if($event == null) throw new Exception("El evento no existe");
+            echo "bien";
+        } catch (Exception $e) {
+            return back()->withErrors(['error' => 'Error: ' . $e->getMessage()]);
+        }
     }
 
     public function saveAssistance(Request $request)

@@ -1,5 +1,14 @@
 <div class="row">
     <div class="col-md-12 col-sm-12 mt-2">
+        <label for="validationCustom01" class="form-label"><b>Tipo<span class="required">*</span></b></label>
+        <select class="form-select property" id="type" name="type" onchange="validateType()">
+            <option value=""></option>
+            @foreach (\App\Shared\EventType::LIST as $item)
+                <option value="{{ $item["code"] }}">{{ $item["text"] }}</option>
+            @endforeach
+        </select>
+    </div>
+    <div class="col-md-12 col-sm-12 mt-2" id="box-red">
         <label for="validationCustom01" class="form-label"><b>Red<span class="required">*</span></b></label>
         <select class="form-select property" id="red" name="red">
             <option value=""></option>
@@ -7,15 +16,6 @@
                 @if (\App\Models\User::validRed($item["code"]))
                     <option value="{{ $item["code"] }}">{{ $item["text"] }}</option>
                 @endif
-            @endforeach
-        </select>
-    </div>
-    <div class="col-md-12 col-sm-12 mt-2">
-        <label for="validationCustom01" class="form-label"><b>Tipo<span class="required">*</span></b></label>
-        <select class="form-select property" id="type" name="type" onchange="validateType()">
-            <option value=""></option>
-            @foreach (\App\Shared\EventType::LIST as $item)
-                <option value="{{ $item["code"] }}">{{ $item["text"] }}</option>
             @endforeach
         </select>
     </div>
@@ -50,6 +50,15 @@
             <option value="saturday">Sabado</option>
             <option value="sunday">Domingo</option>
         </select>
+    </div>
+
+    <div class="col-md-12 col-sm-12 mt-2 hide" id="box-autoregister">
+        <label for="validationCustom01" class="form-label"><b>Autoregistro</b></label>
+        <center>
+            <a id="link-autoregister" target="_blank">
+                <div id="qr-event"></div>
+            </a>
+        </center>
     </div>
     
     <div class="col-md-12 col-sm-12 mt-5 pull-right">
