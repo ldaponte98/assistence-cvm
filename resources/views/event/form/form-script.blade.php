@@ -39,7 +39,7 @@
             if (currentEntity.id != null && currentEntity.id != undefined && currentEntity.id != "") {
                 const link = urlAutoregister + currentEntity.id
                 $("#link-autoregister").attr('href', link);
-                generateQR(link, "qr-event", 100, 100, "Da clic para abrir el formulario");
+                generateQR(link, "qr-event", 200, 200, "Da clic para abrir el formulario");
                 $("#box-autoregister").fadeIn()
             }else{
                 $("#box-autoregister").fadeOut()
