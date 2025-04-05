@@ -27,7 +27,7 @@ class AssistanceGeneralReport extends Report
         if($post->type == EventType::CONECTIONS_GROUP){
             if(!$this->isEmpty($post->conection_group_id)) $conditions .= " AND e.conection_group_id = ".$post->conection_group_id;
         }
-        if(session('red') != null) $conditions .= " AND e.red = '".session('red')."'";
+        if(session('red') != null && $post->type != EventType::EXTERNAL) $conditions .= " AND e.red = '".session('red')."'";
 
         if(session('profile_id') == ProfileID::SEGMENT_LEADER and ($post->type == EventType::CONECTIONS_GROUP or $this->isEmpty($post->type))){
             $joins .= " INNER JOIN conection_group_segment_leaders cgsl ON cgsl.conection_group_id = e.conection_group_id";

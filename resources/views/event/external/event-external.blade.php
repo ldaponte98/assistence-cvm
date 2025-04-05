@@ -53,7 +53,7 @@
 			<span class="label-input100">Fecha de nacimiento<span class="required">*</span></span>
 			<div class="row mt-2">
 				<div class="col-4 col-sm-4">
-					<select class="form-control" name="birthday-day" required>
+					<select class="form-control" name="birthdayDay" required>
 						<option selected disabled value="">Día</option>
 						<option value="01">1</option>
 						<option value="02">2</option>
@@ -90,7 +90,7 @@
 					</select>
 				</div>
 				<div class="col-4 col-sm-4">
-					<select class="form-control" name="birthday-month" required>
+					<select class="form-control" name="birthdayMonth" required>
 						<option selected disabled value="">Mes</option>
 						<option value="01">Enero</option>
 						<option value="02">Febrero</option>
@@ -107,7 +107,7 @@
 					</select>
 				</div>
 				<div class="col-4 col-sm-4">
-					<select class="form-control" id="select-year" name="birthday-year" required>
+					<select class="form-control" id="select-year" name="birthdayYear" required>
 					</select>
 				</div>
 			</div>

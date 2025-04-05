@@ -5,6 +5,7 @@
     const urlCancel = "{{env('APP_URL')}}/event/cancel/"
 
     const urlAutoregister = "{{env('APP_URL')}}/event/autoregister/"
+    const urlPlay = "{{env('APP_URL')}}/event/play/"
 
     var requiredFields = [
         { property: "type", message: "Tipo de evento es un campo obligatorio" },
@@ -26,6 +27,7 @@
         $('.select2').trigger('change.select2');
         validateType();
         validateAutoregister();
+        validateLinkPlay();
     }
 
     async function validateType() {
@@ -36,7 +38,7 @@
 
     function validateAutoregister() {
         try {
-            if (currentEntity.id != null && currentEntity.id != undefined && currentEntity.id != "") {
+            if (currentEntity != null && currentEntity.id != undefined && currentEntity.id != "") {
                 const link = urlAutoregister + currentEntity.id
                 $("#link-autoregister").attr('href', link);
                 generateQR(link, "qr-event", 200, 200, "Da clic para abrir el formulario");
@@ -47,7 +49,14 @@
         } catch (error) {
             console.error(error)
         }
-        
+    }
+
+    function validateLinkPlay() {
+        if (currentEntity != null && currentEntity.id != undefined && currentEntity.id != "") {
+            $("#link-play").html(urlPlay + currentEntity.id);
+            $("#link-play").attr("href", urlPlay + currentEntity.id);
+            $("#box-link-play").fadeIn()
+        }
     }
 
     async function isConectionGroup(type) {

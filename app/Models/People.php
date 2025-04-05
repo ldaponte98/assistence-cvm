@@ -33,12 +33,16 @@ class People extends Model
 
     public function getAvatar()
     {
-        return $this->gender == 'F' ? asset('images/women.png') : asset('images/men.png');
+        if ($this->gender == 'F') return asset('images/women.png');
+        if ($this->gender == 'M') return asset('images/men.png');
+        return asset('images/logo.png');
     }
 
     public static function imageAvatar($gender)
     {
-        return $gender == 'F' ? asset('images/women.png') : asset('images/men.png');
+        if ($gender == 'F') return asset('images/women.png');
+        if ($gender == 'M') return asset('images/men.png');
+        return asset('images/logo.png');
     }
 
     public function validate()

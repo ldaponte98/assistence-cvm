@@ -187,6 +187,13 @@ iframe {
   overflow: hidden;
 }
 
+.wrap-login100-l {
+  width: 700px;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
 
 /*------------------------------------------------------------------
 [ Form ]*/

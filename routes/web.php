@@ -15,6 +15,8 @@ Route::get('auth/{key}', function ($key) { return view('auth.validate', compact(
 Route::any('auth/reset-password/{key}/{encrypt_id}', [UserController::class, 'reset_password'])->name('auth/reset-password');
 Route::get('event/autoregister/{id}', [EventController::class, 'autoregister'])->name('event/autoregister');
 Route::post('event/autoregister/save/{id}', [EventController::class, 'saveAutoregister'])->name('event/autoregister/save');
+Route::get('event/congratulations/{id}', [EventController::class, 'congratulations'])->name('event/congratulations');
+Route::get('event/play/{id}', [EventController::class, 'play'])->name('event/play');
 
 Route::get('/', function () { return view('site.login'); });
 

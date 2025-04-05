@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use App\Shared\Log;
 use App\Shared\ProfileID;
 use App\Shared\EventType;
+use App\Shared\PeopleType;
 use Exception;
 
 class EventController extends Controller
@@ -84,6 +85,7 @@ class EventController extends Controller
             $post = (object) $post;
             $entity = Event::find($post->id);
             if($entity == null) throw new Exception("El evento no existe");
+            if (!isset($post->conection_group_id)) $post->conection_group_id = [null];
             if(count($post->conection_group_id) != 1 and $post->type == EventType::CONECTIONS_GROUP) throw new Exception("No se puede modificar el evento porque en este apartado debes enviar solo un grupo de conexión.");
             $dateStart = date('Y-m-d', strtotime($post->start));
             $dateEnd = date('Y-m-d', strtotime($post->end));
@@ -145,10 +147,45 @@ class EventController extends Controller
         try{
             $event = Event::find($id);
             if($event == null) throw new Exception("El evento no existe");
-            echo "bien";
+            if(!$event->validForSettings()) throw new Exception("Este evento esta por fuera de las fechas de toma de asistencia, por favor comunicate con el administrador del sistema.");
+            
+            $post = (object) $request->all();
+            if ($post) {
+                $people = $validation = People::where('phone', $post->phone)->first();
+                $isNew = $people == null;
+                if ($isNew) {
+                    $people = new People;
+                    $people->fill($request->all());
+                    $people->type = PeopleType::NEW_BELIEVER;
+                    $people->birthday = $post->birthdayYear . "-" . $post->birthdayMonth . "-" . $post->birthdayDay;
+                    $people->created_by_id = 1;
+                    $people->save();
+                }
+
+                $assistant = EventAssistance::where('event_id', $event->id)
+                                        ->where('people_id', $people->id)
+                                        ->first();
+                if($assistant != null) throw new Exception("Usted ya se encuentra registrado para este evento");
+                $assistant = new EventAssistance(); 
+                $assistant->event_id = $event->id;
+                $assistant->people_id = $people->id;
+                $assistant->attended = 1;
+                $assistant->isNew = $isNew ? 1 : 0;
+                $assistant->status = 1;
+                $assistant->save();
+
+                $event->managed = 1;
+                $event->save();
+
+                return redirect()->route('event/congratulations', $event->id);
+            }
         } catch (Exception $e) {
             return back()->withErrors(['error' => 'Error: ' . $e->getMessage()]);
         }
+    }
+
+    public function congratulations($id) {
+        return view('event.external.congratulations', compact(['id']));
     }
 
     public function saveAssistance(Request $request)
@@ -248,7 +285,30 @@ class EventController extends Controller
                     $result[] = $data;
                 }
             }
+        }else{
+            $assistantsPrev = EventAssistance::where('event_id', $event->id)->get();
+            foreach ($assistantsPrev as $prev) {
+                $prev = (object) $prev;
+                $data = (object) [
+                    "id" => $prev->people_id,
+                    "name" => $prev->people->names(),
+                    "avatar" => $prev->people->getAvatar(),
+                    "attended" => $prev->attended == 1,
+                    "isNew" => $prev->isNew == 1
+                ];
+                $result[] = $data;
+            }
         }
         return $this->responseApi(false, "OK", $result);
+    }
+
+    function play($id) {
+        try{
+            $event = Event::find($id);
+            if($event == null) throw new Exception("El evento no existe");
+            return view("event.play.event-play", compact(['event']));
+        } catch (Exception $e) {
+            echo "Acceso no valido";
+        }
     }
 }

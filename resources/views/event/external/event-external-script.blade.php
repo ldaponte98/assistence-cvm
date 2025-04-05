@@ -18,9 +18,9 @@
         if ($('input[name="lastname"]').val().trim() == "") { showAlert("Error", "El apellido es obligatorio", "error"); return; }
         if ($('input[name="phone"]').val().trim() == "") { showAlert("Error", "El número de telefono es obligatorio", "error"); return; }
         if ($('select[name="gender"]').val().trim() == "" || $('select[name="gender"]').val() == null) { showAlert("Error", "El sexo es obligatorio", "error"); return; }
-        if ($('select[name="birthday-day"]').val() == "" || $('select[name="birthday-day"]').val() == null) { showAlert("Error", "El dia de nacimiento es obligatorio", "error"); return; }
-        if ($('select[name="birthday-month"]').val() == "" || $('select[name="birthday-month"]').val() == null) { showAlert("Error", "El mes de nacimiento es obligatorio", "error"); return; }
-        if ($('select[name="birthday-year"]').val() == "" || $('select[name="birthday-year"]').val() == null) { showAlert("Error", "El año de nacimiento es obligatorio", "error"); return; }
+        if ($('select[name="birthdayDay"]').val() == "" || $('select[name="birthdayDay"]').val() == null) { showAlert("Error", "El dia de nacimiento es obligatorio", "error"); return; }
+        if ($('select[name="birthdayMonth"]').val() == "" || $('select[name="birthdayMonth"]').val() == null) { showAlert("Error", "El mes de nacimiento es obligatorio", "error"); return; }
+        if ($('select[name="birthdayYear"]').val() == "" || $('select[name="birthdayYear"]').val() == null) { showAlert("Error", "El año de nacimiento es obligatorio", "error"); return; }
         setLoadingFullScreen(true);
         setTimeout(() => {
             $("#form").submit()
