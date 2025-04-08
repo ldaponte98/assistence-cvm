@@ -64,7 +64,6 @@
     <div class="col-md-12 col-sm-12 mt-2 hide" id="box-link-play">
         <label for="validationCustom01" class="form-label"><b>Link para jugar</b></label><br>
         <a id="link-play" target="_blank">Presiona aquí</a>
-        
     </div>
     
     <div class="col-md-12 col-sm-12 mt-5 pull-right">

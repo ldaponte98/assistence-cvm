@@ -112,6 +112,36 @@
                     <button onclick="saveAssistance()" class="btn btn-primary w-100 btn-loading">Guardar</button>
                 @endif
             </div>
+
+            <div class="col-xl-12 col-lg-12 col-md-12 col-12 mt-5">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row mb-2">
+                            <div class="col-12">
+                                <label for="validationCustom01" class="form-label"><b>Autoregistro</b></label>
+                                <center>
+                                    <a id="link-autoregister" target="_blank">
+                                        <div id="qr-event"></div>
+                                    </a>
+                                </center>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-12 col-lg-12 col-md-12 col-12 mt-5">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row mb-2">
+                            <div class="col-12">
+                                <label for="validationCustom01" class="form-label"><b>Link para jugar</b></label><br>
+                                <a id="link-play" target="_blank">Presiona aquí</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     {{ view('event.settings.settings-script', compact(['event'])) }}

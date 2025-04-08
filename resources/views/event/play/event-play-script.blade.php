@@ -1,14 +1,33 @@
 <script>
     const urlFindAssistants = "{{env('APP_URL')}}/event/find-assistants/{{$event->id}}"
     var configuration = {
-        onlyNews: false
+        onlyNews: false,
+        onlyAttend: false,
+        winnerNotRepeat: true,
+        countdown: 10
     }
 
     var finishInscription = false
+    var assistantsOriginal = []
     var assistants = []
+    var winners = []
 
     function configure() {
         this.configuration.onlyNews = $("#in-check-only-news").prop("checked");
+        this.configuration.onlyAttend = $("#in-check-only-attend").prop("checked");
+        this.configuration.winnerNotRepeat = $("#in-check-people-not-repeat").prop("checked");
+        this.configuration.countdown = $("#countdown").val() != "" ? $("#countdown").val() : this.configuration.countdown;
+        $('#dialog-play').modal('hide');
+
+        if (finishInscription) {
+            refreshAssistants()
+        }
+    }
+
+    function stop(){
+        finishInscription = true; 
+        $('#btn-stop').fadeOut(); 
+        $('#btn-start').fadeIn();
     }
 
     async function findAssistants() {
@@ -16,20 +35,38 @@
             try{
                 let validation = await $.get(urlFindAssistants)
                 if(validation.error) throw validation.message
-                assistants = validation.data
-                $("#num-players").html(assistants.length)
+                assistantsOriginal = validation.data
+                refreshAssistants()
                 setTimeout(() => {
                     findAssistants()
                 }, 3 * 1000);
             } catch (error) {
                 showAlert("Error", error, "error")
             }
-        } 
+        }
+    }
+
+    function refreshAssistants() {
+        assistants = assistantsOriginal
+        if (this.configuration.onlyNews) {
+            assistants = assistantsOriginal.filter(p => p.isNew);
+        }
+        if (this.configuration.onlyAttend) {
+            assistants = assistantsOriginal.filter(p => p.attended);
+        }
+        if (this.configuration.winnerNotRepeat) {
+            assistants = assistantsOriginal.filter(p => winners.find(i => i.id == p.id) == null);
+        }
+        $("#num-players").html(assistants.length)
     }
 
     function start() {
+        if (assistants.length == 0) {
+            showAlert("Error", "No hay participantes validos para empezar a jugar", "error")
+            return;
+        }
         $('#btn-start').fadeOut();
-        let countdown = 10;
+        let countdown = this.configuration.countdown;
         $("#text-winner").html(`El ganador se mostrara en <br><b class='counter-lb'>${countdown}</b>`);
         let interval = setInterval(() => { 
             countdown--;
@@ -42,11 +79,8 @@
     }
 
     function chooseWinner() {
-        let list = assistants;
-        if (configuration.onlyNews) {
-            list = list.filter(p => p.isNew);
-        }
-        const winner = getRandom(list);
+        const winner = getRandom(assistants);
+        winners.push(winner);
         $("#text-winner").html(`El ganador es <br> <b>${winner.name.toUpperCase()}</b>`);
         $('#btn-reset').fadeIn();
     }

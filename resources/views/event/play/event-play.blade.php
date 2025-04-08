@@ -57,6 +57,30 @@
                             </label>
                         </div>
                     </div>
+                    <div class="col-md-12 col-sm-12 mt-2">
+                        <div class="form-check">
+                            <input type="hidden" class="property" id="check_only_attend">
+                            <input class="form-check-input" type="checkbox" value="" id="in-check-only-attend" name="in-check-only-news">
+                            <label class="form-check-label" for="in-check-only-attend">
+                                ¿Solo los que asistieron al evento?
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-sm-12 mt-2">
+                        <div class="form-check">
+                            <input type="hidden" class="property" id="check_winner_not_repeat">
+                            <input class="form-check-input" checked type="checkbox" value="" id="in-check-winner-not-repeat" name="in-check-only-news">
+                            <label class="form-check-label" for="in-check-winner-not-repeat">
+                                ¿Permitir que gane una misma persona siempre?
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-sm-12 mt-2">
+                        <div class="form-check">
+                            <label>Segungos del conteo regresivo</label>
+                            <input class="form-control" type="number" value="10" id="countdown">
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">

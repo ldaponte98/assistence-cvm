@@ -2,13 +2,17 @@
     let eventValid = {{ $event->validForSettings() == false ? 'false' : true }}
     const urlSaveAssistance = "{{env('APP_URL')}}/event/save-assistance"
     const urlFindAssistants = "{{env('APP_URL')}}/event/find-assistants/{{$event->id}}"
-    
+    const urlAutoregister = "{{env('APP_URL')}}/event/autoregister/"
+    const urlPlay = "{{env('APP_URL')}}/event/play/"
+
     var assistants = []
     var assistantsOrigin = []
 
     $(document).ready(async () => {
         await findAssistants()
         refreshAssistants()
+        validateAutoregister()
+        validateLinkPlay()
     })
 
     function changeAll(attended) {
@@ -46,6 +50,7 @@
         $("#info-news").html(news)
         $("#assistants").html(render)
     }
+
     //CUANDO SE REGISTRA UN NUEVO ASISTENTE
     function postSaveForm(responseApi, isNew = true) {
         clean()
@@ -114,6 +119,22 @@
             item => item.name.toUpperCase().replaceAll(" ", "")
             .includes(value.toUpperCase().replaceAll(" ", "")))
         refreshAssistants()
+    }
+
+    function validateAutoregister() {
+        try {
+            const link = urlAutoregister + "{{$event->id}}"
+            $("#link-autoregister").attr('href', link);
+            generateQR(link, "qr-event", 200, 200, "Da clic para abrir el formulario");
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+    function validateLinkPlay() {
+        $("#link-play").html(urlPlay + "{{$event->id}}");
+        $("#link-play").attr("href", urlPlay + "{{$event->id}}");
+        $("#box-link-play").fadeIn() 
     }
 
 </script>
