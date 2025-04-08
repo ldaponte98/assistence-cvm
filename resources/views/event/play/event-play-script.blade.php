@@ -95,6 +95,7 @@
         $('#btn-reset').fadeOut();
         $('#btn-start').fadeIn();
         $("#text-winner").html(`¿Quién ganará?`);
+        refreshAssistants();
     }
 
     $(document).ready(() => {
