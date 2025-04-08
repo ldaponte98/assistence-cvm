@@ -155,13 +155,12 @@ class EventController extends Controller
                 $isNew = $people == null;
                 if ($isNew) {
                     $people = new People;
-                    $people->fill($request->all());
                     $people->type = PeopleType::NEW_BELIEVER;
-                    $people->birthday = $post->birthdayYear . "-" . $post->birthdayMonth . "-" . $post->birthdayDay;
                     $people->created_by_id = 1;
-                    $people->save();
                 }
-
+                $people->fill($request->except(['phone']));
+                $people->birthday = $post->birthdayYear . "-" . $post->birthdayMonth . "-" . $post->birthdayDay;
+                $people->save();
                 $assistant = EventAssistance::where('event_id', $event->id)
                                         ->where('people_id', $people->id)
                                         ->first();
@@ -176,6 +175,20 @@ class EventController extends Controller
 
                 $event->managed = 1;
                 $event->save();
+
+                if($event->type == EventType::CONECTIONS_GROUP){
+                    $in_group = ConectionGroupAssistant::where('conection_group_id', $event->conection_group_id)
+                                            ->where('people_id', $assistant->people_id)
+                                            ->first();
+                    if($in_group == null){
+                        $in_group = new ConectionGroupAssistant;
+                        $in_group->conection_group_id = $event->conection_group_id;
+                        $in_group->people_id = $assistant->people_id;
+                        $in_group->save();
+                    }
+                    $sql = "UPDATE conection_group_assistant SET status = 0 WHERE people_id = " . $assistant->people_id . " AND conection_group_id <> " . $event->conection_group_id;
+                    DB::update($sql);
+                }
 
                 return redirect()->route('event/congratulations', $event->id);
             }
