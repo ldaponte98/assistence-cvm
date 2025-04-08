@@ -47,16 +47,17 @@
     }
 
     function refreshAssistants() {
-        assistants = assistantsOriginal
+        let list = assistantsOriginal
         if (this.configuration.onlyNews) {
-            assistants = assistantsOriginal.filter(p => p.isNew);
+            list = list.filter(p => p.isNew);
         }
         if (this.configuration.onlyAttend) {
-            assistants = assistantsOriginal.filter(p => p.attended);
+            list = list.filter(p => p.attended);
         }
         if (!this.configuration.winnerNotRepeat) {
-            assistants = assistantsOriginal.filter(p => winners.find(i => i.id == p.id) == null);
+            list = list.filter(p => winners.find(i => i.id == p.id) == null);
         }
+        assistants = list
         $("#num-players").html(assistants.length)
     }
 
