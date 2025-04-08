@@ -15,7 +15,7 @@
     function configure() {
         this.configuration.onlyNews = $("#in-check-only-news").prop("checked");
         this.configuration.onlyAttend = $("#in-check-only-attend").prop("checked");
-        this.configuration.winnerNotRepeat = $("#in-check-people-not-repeat").prop("checked");
+        this.configuration.winnerNotRepeat = $("#in-check-winner-not-repeat").prop("checked");
         this.configuration.countdown = $("#countdown").val() != "" ? $("#countdown").val() : this.configuration.countdown;
         $('#dialog-play').modal('hide');
 
