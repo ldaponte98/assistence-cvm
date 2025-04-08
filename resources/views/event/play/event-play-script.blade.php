@@ -54,7 +54,7 @@
         if (this.configuration.onlyAttend) {
             assistants = assistantsOriginal.filter(p => p.attended);
         }
-        if (this.configuration.winnerNotRepeat) {
+        if (!this.configuration.winnerNotRepeat) {
             assistants = assistantsOriginal.filter(p => winners.find(i => i.id == p.id) == null);
         }
         $("#num-players").html(assistants.length)
