@@ -10,7 +10,7 @@
     </div>
     <div class="col-md-12 col-sm-12 mt-2" id="box-red">
         <label for="validationCustom01" class="form-label"><b>Red<span class="required">*</span></b></label>
-        <select class="form-select property" id="red" name="red">
+        <select class="form-select property" id="red" name="red" onchange="validateRed()">
             <option value=""></option>
             @foreach (\App\Shared\RedType::LIST as $item)
                 @if (\App\Models\User::validRed($item["code"]))

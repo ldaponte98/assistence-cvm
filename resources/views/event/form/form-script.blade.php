@@ -32,8 +32,12 @@
 
     async function validateType() {
         let type = $("#type option:selected").text();
-        await isConectionGroup(type)
         isExternal(type)
+    }
+
+    async function validateRed() {
+        let type = $("#type option:selected").text();
+        await isConectionGroup(type);
     }
 
     function validateAutoregister() {
@@ -60,10 +64,12 @@
     }
 
     async function isConectionGroup(type) {
-        let typeConectionGroup = "{{ \App\Shared\EventType::get(\App\Shared\EventType::CONECTIONS_GROUP) }}"
-        if (type == typeConectionGroup) {
+        let typeConectionGroup = "{{ \App\Shared\EventType::get(\App\Shared\EventType::CONECTIONS_GROUP) }}";
+        let red = $("#red").val();
+        if (type == typeConectionGroup && red != null && red != undefined && red != "") {
             await findConectionGroups()
             $("#box-group").fadeIn()
+            setDataSelect(validation.data, "id", "name", "conection_group_id", true, "", currentEntity != null ? currentEntity.conection_group_id : null)
             requiredFields.push({ property: "conection_group_id", message: "El grupo de conexión es un campo obligatorio." })
         }else{
             requiredFields = requiredFields.filter(item => item.property != "conection_group_id")

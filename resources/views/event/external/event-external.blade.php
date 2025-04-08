@@ -113,6 +113,9 @@
 			</div>
 		</div>
 		<br>
+		<center>
+		<label style="font-size:10px; margin-bottom:5px;">Acepto el tratamiento de mis datos personales al continuar.</labe>
+		</center>
 		<div class="container-login100-form-btn">
 			<div class="wrap-login100-form-btn">
 				<div class="login100-form-bgbtn"></div>
