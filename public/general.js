@@ -294,7 +294,8 @@ $('.daterangepicker').daterangepicker({
   }
 });
 
-function generateQR(link, idDiv, width = 100, height = 100, title = null) {		
+function generateQR(link, idDiv, width = 100, height = 100, title = null) {
+  $("#"+idDiv).html("")
 	var qrcode = new QRCode(document.getElementById(idDiv), {
     width : width,
     height : height

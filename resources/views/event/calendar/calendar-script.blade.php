@@ -49,6 +49,7 @@
         let hourStart = getHour(current)
         current.setHours(current.getHours() + 1)
         let hourEnd = getHour(current)
+
         openEdit(JSON.stringify({ days: "all", start: info.dateStr + " " + hourStart, end: info.dateStr + " " + hourEnd }))
     }
 
@@ -62,6 +63,7 @@
             red: info.event.red 
         }
         Object.assign(event, info.event.extendedProps);
+        console.log({event: info.event})
         openEdit(JSON.stringify(event))
     }
     

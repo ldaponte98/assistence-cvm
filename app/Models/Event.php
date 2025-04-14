@@ -84,7 +84,7 @@ class Event extends Model
     {
         $text = "";
         if($this->type == EventType::CONECTIONS_GROUP){
-            $text = $this->conection_group->name; 
+            $text = $this->conection_group != null ? $this->conection_group->name : ""; 
         }
         return $text;
     }

@@ -17,6 +17,7 @@
     ];
 
     function posOpenEdit(entity) {
+        console.log({entity: entity})
         if(!isEmpty(entity.id)){
             $("#box-cancel").fadeIn()
         }else{
@@ -33,6 +34,7 @@
     async function validateType() {
         let type = $("#type option:selected").text();
         isExternal(type)
+        isConectionGroup(type)
     }
 
     async function validateRed() {
