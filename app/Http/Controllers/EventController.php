@@ -130,6 +130,10 @@ class EventController extends Controller
         $event = Event::find($id);
         if($event == null) throw new Exception("El evento no existe");
         $event->isValid = $event->validForSettings();
+        if ($event->type == EventType::CONECTIONS_GROUP && $event->conection_group_id == null) {
+            echo "El evento quedo mal creado porque no esta asignado a un grupo de conexion valido, ves a la opcion de eventos y modifica el evento para ajustarlo";
+            die;
+        }
         return view("event.settings.settings", compact(['event']));
     }
 
