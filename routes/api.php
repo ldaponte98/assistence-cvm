@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PeopleController;
+use App\Http\Controllers\JobsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,4 +26,8 @@ Route::middleware(['validate.token.application'])->group(function () {
     Route::get('people/find-by-document/{document}', [PeopleController::class, 'findByDocument']);
     Route::get('people/find-by-phone/{document}', [PeopleController::class, 'findByPhone']);
     Route::post('people', [PeopleController::class, 'createExternal']);
+});
+
+Route::group(['prefix' => 'jobs'], function () {
+	Route::get('validate-birthday', [JobsController::class, 'validateBirthday'])->name('jobs/validate-birthday');
 });

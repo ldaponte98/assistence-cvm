@@ -12,6 +12,7 @@ use App\Shared\Log;
 use App\Shared\ProfileID;
 use App\Shared\EventType;
 use App\Shared\PeopleType;
+use App\Shared\PeopleStatus;
 use Exception;
 
 class EventController extends Controller
@@ -163,6 +164,7 @@ class EventController extends Controller
                     $people->created_by_id = 1;
                 }
                 $people->fill($request->except(['phone']));
+                $people->state = PeopleStatus::ACTIVE;
                 $people->birthday = $post->birthdayYear . "-" . $post->birthdayMonth . "-" . $post->birthdayDay;
                 $people->save();
                 $assistant = EventAssistance::where('event_id', $event->id)
