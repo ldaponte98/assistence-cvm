@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PeopleController;
 use App\Http\Controllers\JobsController;
+use App\Http\Controllers\EventController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,4 +31,8 @@ Route::middleware(['validate.token.application'])->group(function () {
 
 Route::group(['prefix' => 'jobs'], function () {
 	Route::get('validate-birthday', [JobsController::class, 'validateBirthday'])->name('jobs/validate-birthday');
+});
+
+Route::group(['prefix' => 'event-external'], function () {
+	Route::post('save-assistance/{event_id}', [EventController::class, 'saveAssistanceExternal'])->name('event-external/validate-birthday');
 });

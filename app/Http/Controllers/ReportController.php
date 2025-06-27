@@ -39,4 +39,10 @@ class ReportController extends Controller
             return $this->responseApi(true, $e->getMessage());
         }
     }
+
+    public function clasificationPeople(Request $request)
+    {
+        $post = (object) $request->all();
+        dd($post);
+    }
 }

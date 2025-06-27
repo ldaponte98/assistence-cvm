@@ -23,7 +23,8 @@ class People extends Model
         'phone',
         'birthday',
         'email',
-        'status'
+        'status',
+        'attend_church'
     ];
 
     public function names()
@@ -43,6 +44,12 @@ class People extends Model
         if ($gender == 'F') return asset('images/women.png');
         if ($gender == 'M') return asset('images/men.png');
         return asset('images/logo.png');
+    }
+
+    public function getGender()
+    {
+        if ($this->gender == 'F') return "Mujer";
+        if ($this->gender == 'M') return "Hombre";
     }
 
     public function validate()

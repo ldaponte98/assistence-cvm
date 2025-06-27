@@ -84,6 +84,8 @@ Route::group(['prefix' => 'report'], function () {
 	Route::post('get-assistance-general', [ReportController::class, 'getAssistanceGeneral'])->name('report/get-assistance-general');
 	Route::view('general-statistics', 'report.general-statistics.general-statistics');
 	Route::post('generate-general-statistics', [ReportController::class, 'generateGeneralStatistics'])->name('report/generate-general-statistics');
+	Route::view('clasification-people', 'report.clasification-peoples.clasification-peoples');
+	Route::post('clasification-people', [ReportController::class, 'clasificationPeople'])->name('report/clasification-people');
 });
 
 

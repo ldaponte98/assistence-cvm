@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use App\Models\People;
 use App\Models\Event;
 use App\Models\EventAssistance;
+use App\Models\EventAssistanceQuestion;
 use App\Models\ConectionGroupAssistant;
 use App\Models\ConectionGroupSegmentLeader;
 use Illuminate\Support\Facades\DB;
@@ -164,7 +165,7 @@ class EventController extends Controller
                     $people->created_by_id = 1;
                 }
                 $people->fill($request->except(['phone']));
-                $people->state = PeopleStatus::ACTIVE;
+                $people->status = PeopleStatus::ACTIVE;
                 $people->birthday = $post->birthdayYear . "-" . $post->birthdayMonth . "-" . $post->birthdayDay;
                 $people->save();
                 $assistant = EventAssistance::where('event_id', $event->id)
@@ -321,13 +322,79 @@ class EventController extends Controller
         return $this->responseApi(false, "OK", $result);
     }
 
-    function play($id) {
+    public function play($id) {
         try{
             $event = Event::find($id);
             if($event == null) throw new Exception("El evento no existe");
             return view("event.play.event-play", compact(['event']));
         } catch (Exception $e) {
             echo "Acceso no valido";
+        }
+    }
+
+    public function saveAssistanceExternal(Request $request, $eventId) {
+        try{
+            $event = Event::find($eventId);
+            if($event == null) throw new Exception("El evento no existe");
+            if(!$event->validForSettings()) throw new Exception("Este evento esta por fuera de las fechas de toma de asistencia, por favor comunicate con el administrador del sistema.");
+            
+            $post = (object) $request->all();
+            if ($post) {
+                $people = $validation = People::where('phone', $post->phone)->first();
+                $isNew = $people == null;
+                if ($isNew) {
+                    $people = new People;
+                    $people->type = PeopleType::PARTICIPANT;
+                    $people->created_by_id = 1;
+                }
+                $people->fill($request->except(['phone', 'questions']));
+                $people->status = PeopleStatus::ACTIVE;
+                $people->save();
+                $assistant = EventAssistance::where('event_id', $event->id)
+                                        ->where('people_id', $people->id)
+                                        ->first();
+                if($assistant != null) throw new Exception("Usted ya se encuentra registrado para este evento");
+                $assistant = new EventAssistance(); 
+                $assistant->event_id = $event->id;
+                $assistant->people_id = $people->id;
+                $assistant->attended = 1;
+                $assistant->isNew = $isNew ? 1 : 0;
+                $assistant->status = 1;
+                $assistant->save();
+
+                foreach ($post->questions as $item) {
+                    $item = (object) $item;
+                    $question = new EventAssistanceQuestion;
+                    $question->event_id = $event->id;
+                    $question->people_id = $people->id;
+                    $question->code = $item->code;
+                    $question->question = $item->question;
+                    $question->answer = $item->answer;
+                    $question->save();
+                }
+
+                $event->managed = 1;
+                $event->save();
+
+                if($event->type == EventType::CONECTIONS_GROUP){
+                    $in_group = ConectionGroupAssistant::where('conection_group_id', $event->conection_group_id)
+                                            ->where('people_id', $assistant->people_id)
+                                            ->first();
+                    if($in_group == null){
+                        $in_group = new ConectionGroupAssistant;
+                        $in_group->conection_group_id = $event->conection_group_id;
+                        $in_group->people_id = $assistant->people_id;
+                        $in_group->save();
+                    }
+                    $sql = "UPDATE conection_group_assistant SET status = 0 WHERE people_id = " . $assistant->people_id . " AND conection_group_id <> " . $event->conection_group_id;
+                    DB::update($sql);
+                }
+
+                Log::save("Nuevo registro de evento externo [Evento: ".$event->title."] [Inicio: ".$event->start."][Fin: ".$event->end."] [Persona: ".$post->phone."]");
+                return $this->responseApi(false, "Inscripción exitosa a " . $event->title);
+            }
+        } catch (Exception $e) {
+             return $this->responseApi(true, $e->getMessage());
         }
     }
 }
