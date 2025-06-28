@@ -50,6 +50,7 @@ class People extends Model
     {
         if ($this->gender == 'F') return "Mujer";
         if ($this->gender == 'M') return "Hombre";
+        return $this->gender;
     }
 
     public function validate()

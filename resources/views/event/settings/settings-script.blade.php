@@ -73,7 +73,7 @@
             let validation = await $.get(urlFindAssistants)
             setLoadingFullScreen(false)
             if(validation.error) throw validation.message
-            assistants = validation.data
+            assistants = validation.data.result
             assistantsOrigin = assistants
         } catch (error) {
             setLoadingFullScreen(false)

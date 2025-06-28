@@ -84,8 +84,12 @@
                 <td>${element.not_attendeds}</td>
                 <td>${element.news}</td>
                 <td class="center">
-                    <a href="{{ route('event/settings', '-param-') }}" target="_blank" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Ver detalle de evento" type="button" class="btn btn-icon btn-white border border-2 rounded-circle btn-dashed ms-2">
+                    <a href="{{ route('event/settings', '-param-') }}" target="_blank" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Ver evento" type="button" class="btn btn-icon btn-white border border-2 rounded-circle btn-dashed ms-2">
                         <i data-feather="eye" class="nav-icon icon-xs"></i>
+                    </a>
+
+                    <a href="{{ route('event/detail', '-param-') }}" target="_blank" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Ver detalle de evento y asistentes" type="button" class="btn btn-icon btn-white border border-2 rounded-circle btn-dashed ms-2">
+                        <i data-feather="bar-chart" class="nav-icon icon-xs"></i>
                     </a>
                 </td>
             </tr>`

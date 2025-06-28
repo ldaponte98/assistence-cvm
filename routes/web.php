@@ -71,6 +71,7 @@ Route::group(['prefix' => 'event'], function () {
 	Route::post('create', [EventController::class, 'create'])->name('event/create');
 	Route::put('cancel/{id}', [EventController::class, 'cancel'])->name('event/cancel');
 	Route::get('settings/{id}', [EventController::class, 'settings'])->name('event/settings');
+	Route::get('detail/{id}', [EventController::class, 'detail'])->name('event/detail');
 	Route::post('save-assistance', [EventController::class, 'saveAssistance'])->name('event/save-assistance');	
 	Route::get('find-assistants/{event_id}', [EventController::class, 'findAssistants'])->name('event/find-assistants');
 });
@@ -86,6 +87,7 @@ Route::group(['prefix' => 'report'], function () {
 	Route::post('generate-general-statistics', [ReportController::class, 'generateGeneralStatistics'])->name('report/generate-general-statistics');
 	Route::view('clasification-people', 'report.clasification-peoples.clasification-peoples');
 	Route::post('clasification-people', [ReportController::class, 'clasificationPeople'])->name('report/clasification-people');
+
 });
 
 

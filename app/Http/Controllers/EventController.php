@@ -139,6 +139,18 @@ class EventController extends Controller
         return view("event.settings.settings", compact(['event']));
     }
 
+    public function detail($id)
+    {
+        $event = Event::find($id);
+        if($event == null) throw new Exception("El evento no existe");
+        $event->isValid = $event->validForSettings();
+        if ($event->type == EventType::CONECTIONS_GROUP && $event->conection_group_id == null) {
+            echo "El evento quedo mal creado porque no esta asignado a un grupo de conexion valido, ves a la opcion de eventos y modifica el evento para ajustarlo";
+            die;
+        }
+        return view("event.detail-event.detail-event", compact(['event']));
+    }
+
     public function autoregister($id) {
         try{
             $event = Event::find($id);
@@ -264,6 +276,8 @@ class EventController extends Controller
     {
         $event = Event::find($event_id);
         if($event == null) throw new Exception("El evento no existe");
+        
+        $questionAll = [];
         $result = [];
         if($event->type == EventType::CONECTIONS_GROUP){
             $end = date('Y-m-d H:i:s', strtotime($event->end . "+1 days"));
@@ -307,19 +321,46 @@ class EventController extends Controller
             }
         }else{
             $assistantsPrev = EventAssistance::where('event_id', $event->id)->get();
+            $questions = EventAssistanceQuestion::where('event_id', $event->id)->get();
+           
+            foreach ($questions as $question) {
+                $exist = false;
+                foreach ($questionAll as $questionFinal) {
+                    if($question->code == $questionFinal->code) $exist = true;
+                }
+                if(!$exist) $questionAll[] = (object) ['code' => $question->code, "question" => $question->question ];
+            }
+
             foreach ($assistantsPrev as $prev) {
                 $prev = (object) $prev;
+                $people = $prev->people;
+                $questions = EventAssistanceQuestion::where('event_id', $event->id)
+                                                    ->where('people_id', $prev->people_id)
+                                                    ->get();
                 $data = (object) [
                     "id" => $prev->people_id,
-                    "name" => $prev->people->names(),
-                    "avatar" => $prev->people->getAvatar(),
+                    "name" => $people->names(),
+                    "avatar" => $people->getAvatar(),
+                    "type" => PeopleType::get($people->type),
+                    "gender" => $people->getGender(),
+                    "birthday" => $people->birthday != null ? date('d/m/Y', strtotime($people->birthday)) : "",
+                    "age" => $people->birthday != null ? $people->getAge() : "",
+                    "phone" => $people->phone,
+                    "email" => $people->email,
+                    "status" => PeopleStatus::get($people->status),
                     "attended" => $prev->attended == 1,
-                    "isNew" => $prev->isNew == 1
+                    "isNew" => $prev->isNew == 1,
+                    "questions" => $questions
                 ];
                 $result[] = $data;
             }
         }
-        return $this->responseApi(false, "OK", $result);
+
+        $response = (object) [
+            "result" => $result,
+            "questions" => $questionAll
+        ];
+        return $this->responseApi(false, "OK", $response);
     }
 
     public function play($id) {

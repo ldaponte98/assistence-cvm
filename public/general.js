@@ -156,6 +156,14 @@ new DataTable('.data-table', {
       url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
   },
 });
+
+function setDatatable(id) {
+  new DataTable(`#${id}`, {
+    language: {
+        url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
+    }
+  });
+}
 function refreshTables() {
   feather.replace();
 }

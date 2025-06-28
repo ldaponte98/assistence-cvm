@@ -26,6 +26,6 @@ class RedType
         foreach (RedType::LIST as $type) {
             if($type["code"] == $code) return $type["text"];
         }
-        return "Desconocido";
+        return "No aplica";
     }
 }
