@@ -388,7 +388,7 @@ class EventController extends Controller
                     $people->type = PeopleType::PARTICIPANT;
                     $people->created_by_id = 1;
                 }
-                $people->fill($request->except(['phone', 'questions']));
+                $people->fill($request->except(['questions']));
                 $people->status = PeopleStatus::ACTIVE;
                 $people->save();
                 $assistant = EventAssistance::where('event_id', $event->id)
