@@ -54,7 +54,7 @@
                             <td>${item.status}</td>`
             questions.forEach((question) => {
                 let answer = item.questions.find(p => p.code == question.code)?.answer
-                render += `<td>${answer}</td>`
+                render += `<td>${answer != null ? answer : ""}</td>`
             })
             render += `</tr>`
         })
