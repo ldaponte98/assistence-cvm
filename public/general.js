@@ -161,7 +161,11 @@ function setDatatable(id) {
   new DataTable(`#${id}`, {
     language: {
         url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
-    }
+    },
+    lengthMenu: [
+      [5, 10, 20, 50, 100, -1],
+      [5, 10, 20, 50, 100, "Todos"]
+    ],
   });
 }
 function refreshTables() {
@@ -171,12 +175,6 @@ function refreshTables() {
 //SET DATATABLE SIZES
 setTimeout(() => {
   let initSize = 5
-  let sizes = [5, 10, 20, 50, 100]
-  let options = ""
-  sizes.forEach((num) => {
-      options += `<option value='${num}'>${num}</option>`
-  }) 
-  $(".form-select-sm").html(options);
   $(".form-select-sm").val(initSize);
   $(".form-select-sm").trigger("change");
 }, 1 * 1000);
