@@ -3,4 +3,8 @@
         clean()
         $("#btn-entity").click()
     }
+
+    $(document).ready(() => {
+        setDatatable("tb-conection-group")
+    })
 </script>

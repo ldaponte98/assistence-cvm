@@ -49,8 +49,8 @@
                             <td>${item.gender}</td>
                             <td>${item.phone != null ? item.phone : ""}</td>
                             <td>${item.birthday}</td>
-                            <td>${item.age}</td>
-                            <td>${item.email}</td>
+                            <td>${item.age} años</td>
+                            <td>${item.email != null ? item.email : ""}</td>
                             <td>${item.status}</td>`
             questions.forEach((question) => {
                 let answer = item.questions.find(p => p.code == question.code)?.answer

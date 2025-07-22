@@ -296,15 +296,37 @@ class EventController extends Controller
                 ];
             }
             $assistantsPrev = EventAssistance::where('event_id', $event->id)->get();
+
+            $questions = EventAssistanceQuestion::where('event_id', $event->id)->get();
+           
+            foreach ($questions as $question) {
+                $exist = false;
+                foreach ($questionAll as $questionFinal) {
+                    if($question->code == $questionFinal->code) $exist = true;
+                }
+                if(!$exist) $questionAll[] = (object) ['code' => $question->code, "question" => $question->question ];
+            }
+
             foreach ($assistantsPrev as $prev) {
                 $prev = (object) $prev;
-                $insert = true;
+                $people = $prev->people;
+                $questions = EventAssistanceQuestion::where('event_id', $event->id)
+                                                    ->where('people_id', $prev->people_id)
+                                                    ->get();
                 $data = (object) [
                     "id" => $prev->people_id,
-                    "name" => $prev->people->names(),
-                    "avatar" => $prev->people->getAvatar(),
+                    "name" => $people->names(),
+                    "avatar" => $people->getAvatar(),
+                    "type" => PeopleType::get($people->type),
+                    "gender" => $people->getGender(),
+                    "birthday" => $people->birthday != null ? date('d/m/Y', strtotime($people->birthday)) : "",
+                    "age" => $people->birthday != null ? $people->getAge() : "",
+                    "phone" => $people->phone,
+                    "email" => $people->email,
+                    "status" => PeopleStatus::get($people->status),
                     "attended" => $prev->attended == 1,
-                    "isNew" => $prev->isNew == 1
+                    "isNew" => $prev->isNew == 1,
+                    "questions" => $questions
                 ];
                 $index = 0;
                 foreach ($result as $in_group_element) {

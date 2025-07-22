@@ -151,11 +151,17 @@ function isMobile() {
   return /Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
 }
 
-new DataTable('.data-table', {
-  language: {
-      url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
-  },
-});
+$(document).ready(() => {
+  new DataTable('.data-table', {
+    language: {
+        url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
+    },
+    lengthMenu: [
+      [5, 10, 20, 50, 100, -1],
+      [5, 10, 20, 50, 100, "Todos"]
+    ]
+  });
+})
 
 function setDatatable(id) {
   new DataTable(`#${id}`, {

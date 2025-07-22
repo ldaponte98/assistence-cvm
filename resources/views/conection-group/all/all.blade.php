@@ -20,7 +20,7 @@
             <div class="col-md-12 col-12">
                 <div class="card">
                     <div class="table-responsive">
-                        <table class="table text-nowrap mb-0 data-table" id="tb-conection-group">
+                        <table class="table text-nowrap mb-0" id="tb-conection-group">
                             <thead class="table-light">
                                 <tr>
                                     <th class="center"><b>Nombre</b></th>
@@ -61,5 +61,5 @@
             </div>
         </div>
     </div>
-    {{ view('people.all.all-script') }}
+    {{ view('conection-group.all.all-script') }}
 @endsection
