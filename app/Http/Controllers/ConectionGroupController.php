@@ -152,6 +152,10 @@ class ConectionGroupController extends Controller
                                          ->first();
 
         if($relation != null) $group = $relation->conection_group;
+        if ($group == null) {
+            echo "Usuario no tiene grupo de conexión asignado";
+            die;
+        }
         return view('conection-group.me-group.me-group', compact(['group'])); 
     }
 
