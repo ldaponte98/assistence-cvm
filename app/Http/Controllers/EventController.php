@@ -351,7 +351,9 @@ class EventController extends Controller
                     if($question->code == $questionFinal->code) $exist = true;
                 }
                 if(!$exist) $questionAll[] = (object) ['code' => $question->code, "question" => $question->question ];
-                if (count($questionByPeople[$question->people_id]) == 0) $questionByPeople[$question->people_id] = [];
+                if (!isset($questionByPeople[$question->people_id])) {
+                    $questionByPeople[$question->people_id] = [];
+                }
                 $questionByPeople[$question->people_id][]= $question;
             }
 
