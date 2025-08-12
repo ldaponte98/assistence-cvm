@@ -45,7 +45,7 @@
             if(item.isNew) news++
             render += `<tr>
                             <td>${item.name}</td>
-                            <td>${item.document}</td>
+                            <td>${item.document != null ? item.document : ""}</td>
                             <td>${item.type}</td>
                             <td>${item.isNew ? "Nuevo" : "Antiguo"}</td>
                             <td>${item.gender}</td>
