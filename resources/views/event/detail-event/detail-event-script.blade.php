@@ -27,6 +27,7 @@
         let headerQuestions = `
             <tr>
                 <th class="center"><b>Nombre completo</b></th>
+                <th class="center"><b>Identificación</b></th>
                 <th class="center"><b>Tipo</b></th>
                 <th class="center"><b>Participación</b></th>
                 <th class="center"><b>Genero</b></th>
@@ -44,6 +45,7 @@
             if(item.isNew) news++
             render += `<tr>
                             <td>${item.name}</td>
+                            <td>${item.document}</td>
                             <td>${item.type}</td>
                             <td>${item.isNew ? "Nuevo" : "Antiguo"}</td>
                             <td>${item.gender}</td>

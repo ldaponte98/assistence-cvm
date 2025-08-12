@@ -362,6 +362,7 @@ class EventController extends Controller
                 $people = $prev->people;
                 $data = (object) [
                     "id" => $prev->people_id,
+                    "document" => $people->document,
                     "name" => $people->names(),
                     "avatar" => $people->getAvatar(),
                     "type" => PeopleType::get($people->type),
