@@ -344,21 +344,20 @@ class EventController extends Controller
         }else{
             $assistantsPrev = EventAssistance::where('event_id', $event->id)->get();
             $questions = EventAssistanceQuestion::where('event_id', $event->id)->get();
-           
+            $questionByPeople = [];
             foreach ($questions as $question) {
                 $exist = false;
                 foreach ($questionAll as $questionFinal) {
                     if($question->code == $questionFinal->code) $exist = true;
                 }
                 if(!$exist) $questionAll[] = (object) ['code' => $question->code, "question" => $question->question ];
+                if (count($questionByPeople[$question->people_id]) == 0) $questionByPeople[$question->people_id] = [];
+                $questionByPeople[$question->people_id][]= $question;
             }
 
             foreach ($assistantsPrev as $prev) {
                 $prev = (object) $prev;
                 $people = $prev->people;
-                $questions = EventAssistanceQuestion::where('event_id', $event->id)
-                                                    ->where('people_id', $prev->people_id)
-                                                    ->get();
                 $data = (object) [
                     "id" => $prev->people_id,
                     "name" => $people->names(),
@@ -372,7 +371,7 @@ class EventController extends Controller
                     "status" => PeopleStatus::get($people->status),
                     "attended" => $prev->attended == 1,
                     "isNew" => $prev->isNew == 1,
-                    "questions" => $questions
+                    "questions" => $questionByPeople[$prev->people_id]
                 ];
                 $result[] = $data;
             }
