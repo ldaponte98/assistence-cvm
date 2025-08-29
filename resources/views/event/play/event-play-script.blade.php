@@ -84,6 +84,7 @@
         winners.push(winner);
         $("#text-winner").html(`El ganador es <br> <b>${winner.name.toUpperCase()}</b>`);
         $('#btn-reset').fadeIn();
+        congratulationsAnimation(".limiter");
     }
 
     function getRandom(list) {
@@ -97,6 +98,7 @@
         $('#btn-start').fadeIn();
         $("#text-winner").html(`¿Quién ganará?`);
         refreshAssistants();
+        resetCongratulationsAnimation();
     }
 
     $(document).ready(() => {

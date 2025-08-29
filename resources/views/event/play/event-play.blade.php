@@ -1,7 +1,7 @@
 @extends('layout.large-external')
 @section('content')
-<style>
-    @if($design != null)
+@if($design != null)
+    <style>
         .limiter{
             background-image: url("{{ $design != null ? $design->background_url : '' }}");
             background-size: contain;
@@ -25,13 +25,15 @@
             width: 130vh !important;
             height: 47vh !important;
         }
-        
+    </style>
     @else
-        .container-login100{
-            background-color: #f8f9fa;
-        }
+        <style>
+            .container-login100{
+                background-color: #f8f9fa;
+            }
+        </style>
     @endif
-</style>
+
 	<form id="form" class="login100-form validate-form">
         <div class="row">
             <div class="col-6">
@@ -99,7 +101,7 @@
                     <div class="col-md-12 col-sm-12 mt-2">
                         <div class="form-check">
                             <input type="hidden" class="property" id="check_winner_not_repeat">
-                            <input class="form-check-input" checked type="checkbox" value="" id="in-check-winner-not-repeat" name="in-check-only-news">
+                            <input class="form-check-input" type="checkbox" value="" id="in-check-winner-not-repeat" name="in-check-only-news">
                             <label class="form-check-label" for="in-check-winner-not-repeat">
                                 ¿Permitir que gane una misma persona siempre?
                             </label>
