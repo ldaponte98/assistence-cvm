@@ -37,6 +37,7 @@
             font-size: 60px !important;
         }
     </style>
+	<script src="{{ asset('animation-congratulations.js') }}?v=5"></script>
 </head>
 <body>
 	<div class="limiter">
@@ -47,7 +48,7 @@
 		</div>
 	</div>
 	<div id="dropDownSelect1"></div>
-	<script src="{{ asset('general.js') }}?v=4"></script>
+	<script src="{{ asset('general.js') }}?v=5"></script>
 	<script>
 		if ('serviceWorker' in navigator) {
 			navigator.serviceWorker.register("/sw.js")
