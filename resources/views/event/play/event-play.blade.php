@@ -1,5 +1,6 @@
 @extends('layout.large-external')
 @section('content')
+
 	<form id="form" class="login100-form validate-form">
         <div class="row">
             <div class="col-6">
@@ -10,7 +11,6 @@
             </div>
         </div>
 		<center>
-			<img src="{{asset('images/logo.png')}}" alt="cvm">
             <p>{{ $event->title }}</p><br>
             <span class="login100-form-title p-b-10" id="text-winner">
                 ¿Quién ganará?

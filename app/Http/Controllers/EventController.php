@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use App\Models\People;
 use App\Models\Event;
 use App\Models\EventAssistance;
+use App\Models\EventDesign;
 use App\Models\EventAssistanceQuestion;
 use App\Models\ConectionGroupAssistant;
 use App\Models\ConectionGroupSegmentLeader;
@@ -391,7 +392,8 @@ class EventController extends Controller
         try{
             $event = Event::find($id);
             if($event == null) throw new Exception("El evento no existe");
-            return view("event.play.event-play", compact(['event']));
+            $design = EventDesign::where('event_id', $event->id)->first();
+            return view("event.play.event-play", compact(['event', 'design']));
         } catch (Exception $e) {
             echo "Acceso no valido";
         }
