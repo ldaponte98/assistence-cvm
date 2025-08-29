@@ -26,7 +26,7 @@
 	<script src="{{ asset('template/login/vendor/daterangepicker/daterangepicker.js')}}"></script>
 	<script src="{{ asset('template/login/vendor/countdowntime/countdowntime.js')}}"></script>
 	<script src="{{ asset('template/login/js/main.js')}}"></script>
-	<link rel="stylesheet" href="{{ asset('style.css') }}">
+	<link rel="stylesheet" href="{{ asset('style.css') }}?v=1">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script src="{{ asset('blockUI.js') }}"></script>
     <style>
@@ -47,7 +47,7 @@
 		</div>
 	</div>
 	<div id="dropDownSelect1"></div>
-	<script src="{{ asset('general.js') }}?v=2"></script>
+	<script src="{{ asset('general.js') }}?v=3"></script>
 	<script>
 		if ('serviceWorker' in navigator) {
 			navigator.serviceWorker.register("/sw.js")

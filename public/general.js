@@ -374,11 +374,5 @@ confettifull.prototype._renderConfetti = function (){
     },25);
 };
 
+window.confettifull = new confettifull(document.querySelector(".active-congratulations"));
 
-function congratulationsAnimation(selector) {
-  window.confettifull = new confettifull(document.querySelector(selector));
-}
-
-function resetCongratulationsAnimation() {
-   window.confettifull = new confettifull("");
-}
