@@ -22,7 +22,6 @@
             </div>
         </div>
 		<center>
-			<img src="{{$design != null ? $design->logo : asset('images/logo.png')}}" alt="cvm">
             <p>{{ $event->title }}</p><br>
             <span class="login100-form-title p-b-10" id="text-winner">
                 ¿Quién ganará?
