@@ -316,23 +316,6 @@ function generateQR(link, idDiv, width = 100, height = 100, title = null) {
   $("#"+idDiv).attr("title", title != null ? title : link)
 }
 
-//CONFETIS FELICITACIONES
-function activeCongratulations(selector, enable) {
-    const element = document.querySelector(selector);
-    if (!element) return;
-
-    // Si no existe aún, guardamos el confetti en dataset del elemento
-    if (!element._confettiInstance) {
-        element._confettiInstance = new ConfettiFull(element);
-    }
-
-    if (enable) {
-        element._confettiInstance.start();
-    } else {
-        element._confettiInstance.stop();
-    }
-}
-
 class ConfettiFull {
     constructor(el) {
         this.el = el;
@@ -402,3 +385,19 @@ class ConfettiFull {
     }
 }
 
+//CONFETIS FELICITACIONES
+function activeCongratulations(selector, enable) {
+    const element = document.querySelector(selector);
+    if (!element) return;
+
+    // Si no existe aún, guardamos el confetti en dataset del elemento
+    if (!element._confettiInstance) {
+        element._confettiInstance = new ConfettiFull(element);
+    }
+
+    if (enable) {
+        element._confettiInstance.start();
+    } else {
+        element._confettiInstance.stop();
+    }
+}
