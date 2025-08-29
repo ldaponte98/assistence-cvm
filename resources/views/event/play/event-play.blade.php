@@ -4,7 +4,8 @@
     @if($design != null)
         .limiter{
             background-image: url("{{ $design != null ? $design->background_url : '' }}");
-            background-size: cover;
+            background-size: contain;
+            background-repeat: round;
         }
         .container-login100 {
             align-items: end !important;
@@ -13,6 +14,9 @@
         }
         .login100-form-btn{
             background-color: {{ $design->primary_color }} !important;
+        }
+        .p-t-65 {
+            padding-top: 40px !important;
         }
         .p-t-65 {
             padding-top: 40px !important;
