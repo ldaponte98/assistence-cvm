@@ -11,8 +11,9 @@
             background-color: transparent !important;
             align-items: end !important;
         }
-
-        
+        .login100-form-btn{
+            background-color: {{ $design->primary_color }} !important;
+        }
         
     @else
         .container-login100{
