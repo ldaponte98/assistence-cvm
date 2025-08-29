@@ -1,6 +1,17 @@
 @extends('layout.large-external')
 @section('content')
-
+<style>
+    @if($design != null)
+        .limiter{
+            background-image: url("{{ $design != null ? $design->background_url != null : '' }}") no-repeat center center;
+            background-size: cover;
+        }
+    @else
+        .container-login100{
+            background-color: #f8f9fa;
+        }
+    @endif
+</style>
 	<form id="form" class="login100-form validate-form">
         <div class="row">
             <div class="col-6">
@@ -11,6 +22,7 @@
             </div>
         </div>
 		<center>
+			<img src="{{$design != null ? $design->logo : asset('images/logo.png')}}" alt="cvm">
             <p>{{ $event->title }}</p><br>
             <span class="login100-form-title p-b-10" id="text-winner">
                 ¿Quién ganará?
