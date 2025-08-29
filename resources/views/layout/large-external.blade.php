@@ -47,7 +47,7 @@
 		</div>
 	</div>
 	<div id="dropDownSelect1"></div>
-	<script src="{{ asset('general.js') }}?v=3"></script>
+	<script src="{{ asset('general.js') }}?v=4"></script>
 	<script>
 		if ('serviceWorker' in navigator) {
 			navigator.serviceWorker.register("/sw.js")
