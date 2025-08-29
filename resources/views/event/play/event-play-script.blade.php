@@ -35,7 +35,7 @@
             try{
                 let validation = await $.get(urlFindAssistants)
                 if(validation.error) throw validation.message
-                assistantsOriginal = validation.data
+                assistantsOriginal = validation.data.result
                 refreshAssistants()
                 setTimeout(() => {
                     findAssistants()
