@@ -3,7 +3,7 @@
     var configuration = {
         onlyNews: false,
         onlyAttend: false,
-        winnerNotRepeat: true,
+        winnerNotRepeat: false,
         countdown: 10
     }
 

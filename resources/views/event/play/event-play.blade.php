@@ -14,6 +14,13 @@
         .login100-form-btn{
             background-color: {{ $design->primary_color }} !important;
         }
+        .p-t-65 {
+            padding-top: 40px !important;
+        }
+        .wrap-login100-l {
+            width: 130vh !important;
+            height: 47vh !important;
+        }
         
     @else
         .container-login100{
