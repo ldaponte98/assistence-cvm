@@ -3,9 +3,17 @@
 <style>
     @if($design != null)
         .limiter{
-            background-image: url("{{ $design != null ? $design->background_url != null : '' }}") no-repeat center center;
+            background-image: url("{{ $design != null ? $design->background_url : '' }}");
             background-size: cover;
         }
+        .container-login100 {
+            align-items: end !important;
+            background-color: transparent !important;
+            align-items: end !important;
+        }
+
+        
+        
     @else
         .container-login100{
             background-color: #f8f9fa;
@@ -22,7 +30,6 @@
             </div>
         </div>
 		<center>
-            <p>{{ $event->title }}</p><br>
             <span class="login100-form-title p-b-10" id="text-winner">
                 ¿Quién ganará?
             </span>
